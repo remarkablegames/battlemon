@@ -25,6 +25,7 @@ export function addButton({
     color(r, g, b),
     area(),
     anchor('center'),
+    scale(1),
     ...(isFixed ? [fixed()] : []),
   ])
 
@@ -35,11 +36,13 @@ export function addButton({
       Math.min(g + 30, 255),
       Math.min(b + 30, 255),
     )
+    button.scale = vec2(1.05)
   })
 
   button.onHoverEnd(() => {
     setCursor('default')
     button.color = rgb(r, g, b)
+    button.scale = vec2(1)
   })
 
   button.onDestroy(() => {
