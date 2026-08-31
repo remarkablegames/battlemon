@@ -1,7 +1,6 @@
 {
   "name": "battle-monster",
   "version": "1.0.0-alpha",
-  "description": "Battle Monster",
   "author": "Mark <mark@remarkablemark.org>",
   "scripts": {
     "build": "npm run clean && vite build",

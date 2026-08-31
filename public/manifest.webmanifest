@@ -1,13 +1,13 @@
 {
   "name": "Battle Monster",
   "short_name": "Battle Monster",
-  "description": "Battle Monster",
+  "description": "⚔️ Battle Monster is an autobattler where you collect, evolve, and command a team of monsters.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
-  "orientation": "landscape",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "favicon.png",

@@ -7,9 +7,9 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/battle-monster)](https://github.com/remarkablegames/battle-monster/releases)
 [![build](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml)
 
-<kbd>battle-monster</kbd> is a template for making [KAPLAY](https://kaplayjs.com/) games.
+⚔️ **Battle Monster** is an autobattler where you collect, evolve, and command a team of monsters.
 
-Play in the browser:
+Play in your browser:
 
 - [remarkablegames](https://remarkablegames.org/battle-monster/)
 
@@ -36,21 +36,8 @@ Install the dependencies:
 npm install
 ```
 
-Rename the project:
-
-```sh
-git grep -l battle-monster | xargs sed -i '' -e 's/battle-monster/my-game/g'
-```
-
-```sh
-git grep -l 'Battle Monster' | xargs sed -i '' -e 's/Battle Monster/My Game/g'
-```
-
 Update the files:
 
-- [ ] `README.md`
-- [ ] `index.html`
-- [ ] `package.json`
 - [ ] `public/app-icon.png`
 - [ ] `public/favicon.png`
 - [ ] `public/manifest.webmanifest`
