@@ -38,6 +38,6 @@ scene(SCENE.GAME_OVER, () => {
   })
 
   restartButton.onClick(() => {
-    go(SCENE.START)
+    go(SCENE.TITLE)
   })
 })

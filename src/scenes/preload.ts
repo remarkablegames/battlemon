@@ -14,5 +14,5 @@ scene(SCENE.PRELOAD, () => {
     loadSprite(id, `sprites/${id}.png`)
   }
 
-  go(SCENE.START)
+  go(SCENE.TITLE)
 })
