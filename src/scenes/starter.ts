@@ -14,10 +14,10 @@ scene(SCENE.STARTER, () => {
 
   starters.forEach((monster, i) => {
     const x = center().x
-    const y = 180 + i * 220
+    const y = 240 + i * 220
 
     const card = add([
-      rect(360, 180),
+      rect(480, 180),
       pos(x, y),
       color(40, 40, 60),
       area(),
@@ -52,10 +52,23 @@ scene(SCENE.STARTER, () => {
 
     add([
       text(
-        `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}  DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
-        { size: 20 },
+        `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
+        {
+          size: 20,
+        },
       ),
       pos(x + 40, y + 25),
+      color(180, 180, 180),
+    ])
+
+    add([
+      text(
+        `DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
+        {
+          size: 20,
+        },
+      ),
+      pos(x + 40, y + 50),
       color(180, 180, 180),
     ])
 
