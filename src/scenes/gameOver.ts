@@ -31,7 +31,7 @@ scene(SCENE.GAME_OVER, () => {
     x: center().x,
     y: center().y + 60,
     width: 140,
-    height: 64,
+    height: 50,
     color: [60, 180, 80],
     label: 'Restart',
     labelSize: 20,

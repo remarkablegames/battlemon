@@ -24,7 +24,7 @@ scene(SCENE.TITLE, () => {
     x: center().x,
     y: center().y + 50,
     width: 100,
-    height: 64,
+    height: 50,
     color: [60, 180, 80],
     label: 'Start',
     labelSize: 20,
