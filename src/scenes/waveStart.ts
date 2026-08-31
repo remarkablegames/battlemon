@@ -23,12 +23,12 @@ scene(SCENE.WAVE_START, () => {
     if (!monster.isAlive) return
 
     const x = center().x
-    const y = 200 + i * 200
+    const y = 240 + i * 200
 
     const card = addCard({
       x,
       y,
-      width: 360,
+      width: 480,
       height: 160,
       color: [40, 40, 60],
     })
