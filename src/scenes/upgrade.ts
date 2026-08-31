@@ -1,6 +1,5 @@
 import { SCENE, UPGRADE } from '../constants'
-import { randomMonster } from '../gameobjects/monster'
-import { addToTeam, fullHealTeam } from '../gameobjects/team'
+import { addCard, addToTeam, fullHealTeam, randomMonster } from '../gameobjects'
 import { runState } from '../state'
 import type { UpgradeDef } from '../types'
 
@@ -30,13 +29,13 @@ scene(SCENE.UPGRADE, () => {
     const x = width() / 2
     const y = 180 + i * 200
 
-    const card = add([
-      rect(360, 160),
-      pos(x, y),
-      color(50, 50, 80),
-      area(),
-      anchor('center'),
-    ])
+    const card = addCard({
+      x,
+      y,
+      width: 360,
+      height: 160,
+      color: [50, 50, 80],
+    })
 
     add([
       text(upgrade.label, { size: 20 }),

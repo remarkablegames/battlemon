@@ -1,4 +1,5 @@
 import { SCENE, TYPE } from '../constants'
+import { addCard } from '../gameobjects'
 import { runState } from '../state'
 
 scene(SCENE.WAVE_START, () => {
@@ -24,13 +25,13 @@ scene(SCENE.WAVE_START, () => {
     const x = center().x
     const y = 200 + i * 200
 
-    const card = add([
-      rect(360, 160),
-      pos(x, y),
-      color(40, 40, 60),
-      area(),
-      anchor('center'),
-    ])
+    const card = addCard({
+      x,
+      y,
+      width: 360,
+      height: 160,
+      color: [40, 40, 60],
+    })
 
     add([
       sprite(monster.spriteId),

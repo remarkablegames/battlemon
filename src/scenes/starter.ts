@@ -1,5 +1,5 @@
 import { PERSONALITY, SCENE, TYPE } from '../constants'
-import { randomMonsterPool } from '../gameobjects/monster'
+import { addCard, randomMonsterPool } from '../gameobjects'
 import { runState } from '../state'
 
 scene(SCENE.STARTER, () => {
@@ -16,13 +16,13 @@ scene(SCENE.STARTER, () => {
     const x = center().x
     const y = 240 + i * 220
 
-    const card = add([
-      rect(480, 180),
-      pos(x, y),
-      color(40, 40, 60),
-      area(),
-      anchor('center'),
-    ])
+    const card = addCard({
+      x,
+      y,
+      width: 480,
+      height: 180,
+      color: [40, 40, 60],
+    })
 
     // monster sprite
     add([

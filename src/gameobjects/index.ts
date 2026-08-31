@@ -1,5 +1,6 @@
 export * from './background'
 export * from './button'
+export * from './card'
 export * from './enemyWave'
 export * from './hud'
 export * from './monster'
