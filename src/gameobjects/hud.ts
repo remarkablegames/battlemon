@@ -11,11 +11,11 @@ function addHpBar(x: number, y: number) {
 }
 
 function addHpText(x: number, y: number) {
-  return add([text('100/100', { size: 14 }), pos(x, y), color(WHITE), fixed()])
+  return add([text('100/100', { size: 20 }), pos(x, y), color(WHITE), fixed()])
 }
 
 function addNameText(x: number, y: number) {
-  return add([text('Player', { size: 16 }), pos(x, y), color(WHITE), fixed()])
+  return add([text('Player', { size: 20 }), pos(x, y), color(WHITE), fixed()])
 }
 
 function addWaveText() {
@@ -29,7 +29,7 @@ function addWaveText() {
 
 function addBenchText() {
   return add([
-    text('Bench', { size: 14 }),
+    text('Bench', { size: 20 }),
     pos(width() - 60, height() - 200),
     anchor('top'),
     fixed(),

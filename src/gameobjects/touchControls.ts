@@ -2,7 +2,7 @@ import { addButton } from './button'
 
 function createSwapCooldownText() {
   return add([
-    text('', { size: 14 }),
+    text('', { size: 20 }),
     pos(30, height() - 130),
     color(100, 255, 100),
     anchor('center'),

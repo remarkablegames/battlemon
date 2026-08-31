@@ -21,7 +21,7 @@ scene(SCENE.GAME_OVER, () => {
   ])
 
   add([
-    text(`Best: Wave ${String(bestWave)}`, { size: 18 }),
+    text(`Best: Wave ${String(bestWave)}`, { size: 20 }),
     pos(center().add(0, -15)),
     anchor('center'),
     color(200, 200, 100),

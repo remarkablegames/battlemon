@@ -12,7 +12,7 @@ scene(SCENE.WAVE_START, () => {
   ])
 
   add([
-    text('Select your monster', { size: 18 }),
+    text('Select your monster', { size: 20 }),
     pos(center().x, 120),
     anchor('center'),
     color(200, 200, 200),
@@ -41,14 +41,14 @@ scene(SCENE.WAVE_START, () => {
     ])
 
     add([
-      text(monster.name, { size: 16 }),
+      text(monster.name, { size: 20 }),
       pos(x + 40, y - 40),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
     add([
       text(`${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}`, {
-        size: 14,
+        size: 20,
       }),
       pos(x + 40, y - 15),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
@@ -58,7 +58,7 @@ scene(SCENE.WAVE_START, () => {
       text(
         `HP: ${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`,
         {
-          size: 14,
+          size: 20,
         },
       ),
       pos(x + 40, y + 10),

@@ -34,17 +34,17 @@ scene(SCENE.STARTER, () => {
     ])
 
     // name and type
-    add([text(monster.name, { size: 16 }), pos(x + 40, y - 50), color(WHITE)])
+    add([text(monster.name, { size: 20 }), pos(x + 40, y - 50), color(WHITE)])
 
     add([
-      text(`Type: ${TYPE.TYPE_LABELS[monster.type]}`, { size: 14 }),
+      text(`Type: ${TYPE.TYPE_LABELS[monster.type]}`, { size: 20 }),
       pos(x + 40, y - 25),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
     add([
       text(`Nature: ${PERSONALITY.PERSONALITY_LABELS[monster.personality]}`, {
-        size: 14,
+        size: 20,
       }),
       pos(x + 40, y),
       color(200, 200, 200),
@@ -53,7 +53,7 @@ scene(SCENE.STARTER, () => {
     add([
       text(
         `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}  DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
-        { size: 12 },
+        { size: 20 },
       ),
       pos(x + 40, y + 25),
       color(180, 180, 180),

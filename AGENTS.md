@@ -42,6 +42,10 @@ Follow these rules for all code you write:
 
 - Asset paths must not start with a slash `/`
 
+**UI:**
+
+- Minimum text size: 20 — anything smaller is hard to read on mobile
+
 **Code style:**
 
 - [Prettier](./.prettierrc.json) for formatting

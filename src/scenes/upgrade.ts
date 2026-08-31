@@ -39,14 +39,14 @@ scene(SCENE.UPGRADE, () => {
     ])
 
     add([
-      text(upgrade.label, { size: 18 }),
+      text(upgrade.label, { size: 20 }),
       pos(x, y - 30),
       anchor('center'),
       color(WHITE),
     ])
 
     add([
-      text(upgrade.description, { size: 14 }),
+      text(upgrade.description, { size: 20 }),
       pos(x, y + 10),
       anchor('center'),
       color(200, 200, 200),
