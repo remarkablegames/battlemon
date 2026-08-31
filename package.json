@@ -1,5 +1,5 @@
 {
-  "name": "battle-monster",
+  "name": "battlemon",
   "version": "1.0.0-alpha",
   "author": "Mark <mark@remarkablemark.org>",
   "scripts": {
@@ -13,7 +13,7 @@
     "preview": "vite preview",
     "start": "vite --open"
   },
-  "homepage": "https://remarkablegames.org/battle-monster/",
+  "homepage": "https://remarkablegames.org/battlemon/",
   "dependencies": {
     "kaplay": "3001.0.19"
   },

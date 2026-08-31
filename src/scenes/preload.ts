@@ -1,9 +1,18 @@
-import { SCENE, SPRITE } from '../constants'
+import { SCENE, TYPE } from '../constants'
 
 scene(SCENE.PRELOAD, () => {
-  Object.values(SPRITE).forEach(
-    (sprite) => void loadSprite(sprite.id, sprite.src),
-  )
+  // collect all unique sprite ids from the type chart
+  const spriteIds = new Set<string>()
+  for (const sprites of Object.values(TYPE.TYPE_SPRITES)) {
+    for (const id of sprites) {
+      spriteIds.add(id)
+    }
+  }
 
-  go(SCENE.GAME)
+  // load all monster sprites
+  for (const id of spriteIds) {
+    loadSprite(id, `sprites/${id}.png`)
+  }
+
+  go(SCENE.START)
 })

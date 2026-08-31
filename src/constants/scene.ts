@@ -1,2 +1,7 @@
-export const GAME = 'game'
+export const ARENA = 'arena'
+export const GAME_OVER = 'gameOver'
 export const PRELOAD = 'preload'
+export const START = 'start'
+export const STARTER = 'starter'
+export const UPGRADE = 'upgrade'
+export const WAVE_START = 'waveStart'

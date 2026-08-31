@@ -1,17 +1,17 @@
 <p align="center">
-  <img src="public/favicon.png" width="200" alt="Battle Monster">
+  <img src="public/favicon.png" width="200" alt="Battlemon">
 </p>
 
-# Battle Monster
+# Battlemon
 
-[![release](https://img.shields.io/github/v/release/remarkablegames/battle-monster)](https://github.com/remarkablegames/battle-monster/releases)
-[![build](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml)
+[![release](https://img.shields.io/github/v/release/remarkablegames/battlemon)](https://github.com/remarkablegames/battlemon/releases)
+[![build](https://github.com/remarkablegames/battlemon/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/battlemon/actions/workflows/build.yml)
 
-⚔️ **Battle Monster** is an autobattler where you collect, evolve, and command a team of monsters.
+⚔️ **Battlemon** is an autobattler where you collect, evolve, and command a team of monsters.
 
 Play in your browser:
 
-- [remarkablegames](https://remarkablegames.org/battle-monster/)
+- [remarkablegames](https://remarkablegames.org/battlemon/)
 
 ## Prerequisites
 
@@ -26,8 +26,8 @@ brew install nvm
 Clone the repository:
 
 ```sh
-git clone https://github.com/remarkablegames/battle-monster.git
-cd battle-monster
+git clone https://github.com/remarkablegames/battlemon.git
+cd battlemon
 ```
 
 Install the dependencies:

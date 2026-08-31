@@ -1,0 +1,73 @@
+import { SCENE, TYPE } from '../constants'
+import { runState } from '../state'
+
+scene(SCENE.WAVE_START, () => {
+  const { playerTeam, wave } = runState
+
+  add([
+    text(`Wave ${String(wave)}`, { size: 28 }),
+    pos(center().x, 80),
+    anchor('center'),
+    color(255, 220, 100),
+  ])
+
+  add([
+    text('Select your monster', { size: 18 }),
+    pos(center().x, 120),
+    anchor('center'),
+    color(200, 200, 200),
+  ])
+
+  playerTeam.forEach((monster, i) => {
+    if (!monster.isAlive) return
+
+    const x = center().x
+    const y = 200 + i * 200
+
+    const card = add([
+      rect(360, 160),
+      pos(x, y),
+      color(40, 40, 60),
+      area(),
+      anchor('center'),
+    ])
+
+    add([
+      sprite(monster.spriteId),
+      pos(x - 110, y),
+      anchor('center'),
+      scale(3),
+      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+    ])
+
+    add([
+      text(monster.name, { size: 16 }),
+      pos(x + 40, y - 40),
+      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+    ])
+
+    add([
+      text(`${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}`, {
+        size: 14,
+      }),
+      pos(x + 40, y - 15),
+      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+    ])
+
+    add([
+      text(
+        `HP: ${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`,
+        {
+          size: 14,
+        },
+      ),
+      pos(x + 40, y + 10),
+      color(100, 255, 100),
+    ])
+
+    card.onClick(() => {
+      runState.activePlayerIndex = i
+      go(SCENE.ARENA)
+    })
+  })
+})
