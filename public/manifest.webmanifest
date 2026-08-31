@@ -1,7 +1,7 @@
 {
-  "name": "Kaplay Template",
-  "short_name": "Kaplay Template",
-  "description": "Kaplay Template",
+  "name": "Battle Monster",
+  "short_name": "Battle Monster",
+  "description": "Battle Monster",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

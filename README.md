@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/favicon.png" width="200" alt="Kaplay Template">
+  <img src="public/favicon.png" width="200" alt="Battle Monster">
 </p>
 
-# Kaplay Template
+# Battle Monster
 
 [![release](https://img.shields.io/github/v/release/remarkablegames/battle-monster)](https://github.com/remarkablegames/battle-monster/releases)
 [![build](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/battle-monster/actions/workflows/build.yml)
@@ -43,7 +43,7 @@ git grep -l battle-monster | xargs sed -i '' -e 's/battle-monster/my-game/g'
 ```
 
 ```sh
-git grep -l 'Kaplay Template' | xargs sed -i '' -e 's/Kaplay Template/My Game/g'
+git grep -l 'Battle Monster' | xargs sed -i '' -e 's/Battle Monster/My Game/g'
 ```
 
 Update the files:
