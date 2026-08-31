@@ -5,6 +5,7 @@ kaplay({
   height: 960,
   letterbox: true,
   stretch: true,
+  background: [20, 24, 36],
 })
 
 const { start } = await import('./scenes')

@@ -1,3 +1,4 @@
+export * from './background'
 export * from './button'
 export * from './enemyWave'
 export * from './hud'

@@ -1,16 +1,21 @@
 import { MOVE, SCENE, STAT, TYPE } from '../constants'
-import { spawnWave } from '../gameobjects/enemyWave'
-import { createHud, destroyHud, updateHud } from '../gameobjects/hud'
-import { isTeamDefeated } from '../gameobjects/team'
 import {
+  addBattleBackground,
+  createHud,
   createTouchControls,
+  destroyHud,
   destroyTouchControls,
+  isTeamDefeated,
+  spawnWave,
+  updateHud,
   updateSwapCooldown,
-} from '../gameobjects/touchControls'
+} from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
 
 scene(SCENE.ARENA, () => {
+  addBattleBackground()
+
   const { playerTeam, wave, activePlayerIndex } = runState
   const enemyTeam = spawnWave(wave)
 
