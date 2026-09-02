@@ -2,7 +2,7 @@ import type { Monster } from '../types'
 
 const HP_BOX_WIDTH = 240
 const HP_BOX_HEIGHT = 56
-const HP_BAR_WIDTH = 140
+const HP_BAR_WIDTH = 216
 const HP_BAR_HEIGHT = 12
 const BENCH_SLOT_SIZE = 72
 const BENCH_SLOT_GAP = 12
@@ -91,26 +91,26 @@ function addHpBox(x: number, y: number) {
   ])
 
   // HP label
-  box.add([text('HP', { size: 20 }), pos(12, 24), color(255, 50, 50)])
+  box.add([text('HP', { size: 20 }), pos(12, 6), color(255, 50, 50)])
 
   // bar track
   box.add([
     rect(HP_BAR_WIDTH, HP_BAR_HEIGHT, { radius: 4 }),
-    pos(48, 28),
+    pos(12, 32),
     color(120, 120, 120),
   ])
 
   // bar fill
   const fill = box.add([
     rect(HP_BAR_WIDTH, HP_BAR_HEIGHT, { radius: 4 }),
-    pos(48, 28),
+    pos(12, 32),
     color(0, 200, 0),
   ])
 
   // current/max hp
   const hpText = box.add([
     text('100/100', { size: 20 }),
-    pos(HP_BOX_WIDTH - 15, 14),
+    pos(HP_BOX_WIDTH - 15, 16),
     anchor('right'),
     color(0, 0, 0),
   ])
