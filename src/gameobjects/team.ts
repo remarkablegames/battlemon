@@ -1,6 +1,7 @@
 import type { Monster } from '../types'
 
-export const MAX_TEAM_SIZE = 3
+export const MAX_TEAM_SIZE = 6
+export const BATTLE_TEAM_SIZE = 3
 
 export function createTeam(): Monster[] {
   return []

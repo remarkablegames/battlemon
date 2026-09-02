@@ -16,7 +16,8 @@ import type { ItemDef, Monster } from '../types'
 scene(SCENE.ARENA, () => {
   addBattleBackground()
 
-  const { playerTeam, wave, activePlayerIndex } = runState
+  const { playerTeam, wave, activePlayerIndex, battleRoster } = runState
+  const battleTeam = battleRoster.map((i) => playerTeam[i])
   const enemyTeam = spawnWave(wave)
   runState.defeatedEnemies = []
 
@@ -70,8 +71,8 @@ scene(SCENE.ARENA, () => {
 
   type Sprite = ReturnType<typeof spawnSprite>
 
-  // create visual sprites for player team
-  const playerSprites: (Sprite | null)[] = playerTeam.map((monster, i) => {
+  // create visual sprites for battle team
+  const playerSprites: (Sprite | null)[] = battleTeam.map((monster, i) => {
     if (i === activePlayerIdx) {
       return spawnSprite(
         monster.spriteId,
@@ -105,7 +106,7 @@ scene(SCENE.ARENA, () => {
   const controls = createTouchControls()
 
   function getActivePlayer(): Monster | null {
-    const monster = playerTeam[activePlayerIdx]
+    const monster = battleTeam[activePlayerIdx]
     return monster.isAlive ? monster : null
   }
 
@@ -279,7 +280,7 @@ scene(SCENE.ARENA, () => {
           break
         case 'heal':
           for (const monster of attacker === getActivePlayer()
-            ? playerTeam
+            ? battleTeam
             : enemyTeam) {
             if (monster.isAlive) {
               monster.currentHp = Math.min(
@@ -331,8 +332,8 @@ scene(SCENE.ARENA, () => {
   }
 
   function swapPlayerMonster(toIndex: number): void {
-    if (toIndex < 0 || toIndex >= playerTeam.length) return
-    if (!playerTeam[toIndex].isAlive) return
+    if (toIndex < 0 || toIndex >= battleTeam.length) return
+    if (!battleTeam[toIndex].isAlive) return
     if (toIndex === activePlayerIdx) return
     if (swapCd > 0) return
 
@@ -344,7 +345,7 @@ scene(SCENE.ARENA, () => {
     }
 
     activePlayerIdx = toIndex
-    const monster = playerTeam[activePlayerIdx]
+    const monster = battleTeam[activePlayerIdx]
 
     // create new sprite with entry animation
     const newSprite = spawnSprite(
@@ -390,7 +391,7 @@ scene(SCENE.ARENA, () => {
     }
 
     // check if all player monsters defeated
-    if (isTeamDefeated(playerTeam)) {
+    if (isTeamDefeated(battleTeam)) {
       battleOver = true
       wait(0.5, () => {
         destroyHud(hud)
@@ -418,8 +419,8 @@ scene(SCENE.ARENA, () => {
     }
 
     // auto-swap if active player is dead
-    if (!playerTeam[activePlayerIdx]?.isAlive) {
-      const nextAlive = playerTeam.findIndex((monster) => monster.isAlive)
+    if (!battleTeam[activePlayerIdx]?.isAlive) {
+      const nextAlive = battleTeam.findIndex((monster) => monster.isAlive)
       if (nextAlive >= 0) {
         swapPlayerMonster(nextAlive)
         swapCd = 0 // free swap on death
@@ -431,7 +432,7 @@ scene(SCENE.ARENA, () => {
   controls.swapButton.onClick(() => {
     if (swapCd > 0) return
     // find next alive benched monster
-    const aliveIndices = playerTeam
+    const aliveIndices = battleTeam
       .map((monster, i) => ({ monster, i }))
       .filter(({ monster, i }) => monster.isAlive && i !== activePlayerIdx)
     if (aliveIndices.length > 0) {
@@ -573,7 +574,7 @@ scene(SCENE.ARENA, () => {
         }
         break
       case 'revive': {
-        const fainted = playerTeam.find((m) => !m.isAlive)
+        const fainted = battleTeam.find(({ isAlive }) => !isAlive)
         if (fainted) {
           fainted.isAlive = true
           fainted.currentHp = Math.floor(fainted.maxHp * 0.5)
@@ -608,8 +609,9 @@ scene(SCENE.ARENA, () => {
     }
 
     // bench regen
+    const activeTeamIdx = battleRoster[activePlayerIdx]
     for (let i = 0; i < playerTeam.length; i++) {
-      if (i !== activePlayerIdx && playerTeam[i].isAlive) {
+      if (i !== activeTeamIdx && playerTeam[i].isAlive) {
         playerTeam[i].currentHp = Math.min(
           playerTeam[i].maxHp,
           playerTeam[i].currentHp + STAT.BENCH_REGEN_RATE * dt(),

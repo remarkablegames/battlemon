@@ -14,6 +14,7 @@ export const runState: RunState = {
   coins: 0,
   defeatedEnemies: [],
   inventory: [],
+  battleRoster: [],
 }
 
 export function resetRunState(): void {
@@ -23,6 +24,7 @@ export function resetRunState(): void {
   runState.coins = 0
   runState.defeatedEnemies = []
   runState.inventory = []
+  runState.battleRoster = []
 }
 
 export function loadBestWave(): number {

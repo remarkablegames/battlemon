@@ -1,5 +1,11 @@
 import { SCENE, UPGRADE } from '../constants'
-import { addCard, addToTeam, fullHealTeam, randomMonster } from '../gameobjects'
+import {
+  addCard,
+  addToTeam,
+  fullHealTeam,
+  MAX_TEAM_SIZE,
+  randomMonster,
+} from '../gameobjects'
 import { runState } from '../state'
 import type { UpgradeDef } from '../types'
 
@@ -81,7 +87,7 @@ scene(SCENE.UPGRADE, () => {
         break
 
       case 'add_monster':
-        if (playerTeam.length < 3) {
+        if (playerTeam.length < MAX_TEAM_SIZE) {
           const newMonster = randomMonster(runState.wave)
           addToTeam(playerTeam, newMonster)
         } else {
