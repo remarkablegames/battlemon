@@ -1,6 +1,8 @@
 export const ARENA = 'arena'
 export const GAME_OVER = 'gameOver'
 export const PRELOAD = 'preload'
+export const TAME = 'tame'
+export const SHOP = 'shop'
 export const STARTER = 'starter'
 export const TITLE = 'title'
 export const UPGRADE = 'upgrade'

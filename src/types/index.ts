@@ -1,5 +1,6 @@
 export * from './battle'
 export * from './gameState'
+export * from './item'
 export * from './monster'
 export * from './move'
 export * from './personality'

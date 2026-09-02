@@ -1,3 +1,4 @@
+import type { ItemDef } from './item'
 import type { Monster } from './monster'
 
 export interface RunState {
@@ -5,4 +6,7 @@ export interface RunState {
   wave: number
   activePlayerIndex: number
   bestWave: number
+  coins: number
+  defeatedEnemies: Monster[]
+  inventory: ItemDef[]
 }

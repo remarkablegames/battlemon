@@ -19,6 +19,7 @@ type CooldownText = ReturnType<typeof createSwapCooldownText>
 export interface TouchControls {
   swapButton: Button
   abilityButton: Button
+  itemsButton: Button
   swapCooldownText: CooldownText
 }
 
@@ -48,10 +49,21 @@ export function createTouchControls(): TouchControls {
     isFixed: true,
   })
 
+  // items button (bottom-center)
+  const itemsButton = addButton({
+    x: center().x,
+    y: height() - 90,
+    width: BUTTON_WIDTH,
+    height: BUTTON_HEIGHT,
+    color: [80, 160, 80],
+    label: 'Items',
+    isFixed: true,
+  })
+
   // swap cooldown indicator
   const swapCooldownText = createSwapCooldownText()
 
-  return { swapButton, abilityButton, swapCooldownText }
+  return { swapButton, abilityButton, itemsButton, swapCooldownText }
 }
 
 export function updateSwapCooldown(
@@ -67,5 +79,6 @@ export function updateSwapCooldown(
 export function destroyTouchControls(controls: TouchControls): void {
   destroy(controls.swapButton)
   destroy(controls.abilityButton)
+  destroy(controls.itemsButton)
   destroy(controls.swapCooldownText)
 }

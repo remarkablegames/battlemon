@@ -5,7 +5,7 @@ export const BASIC_ATTACK: MoveDef = {
   name: 'Tackle',
   kind: 'basic',
   power: 1,
-  cooldown: 1.5,
+  cooldown: 1,
   description: 'A quick basic attack.',
 }
 
@@ -16,7 +16,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Fire Blast',
     kind: 'nuke',
     power: 2.5,
-    cooldown: 6,
+    cooldown: 4,
     description: 'A powerful fire attack.',
   },
   water: {
@@ -24,7 +24,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Water Surge',
     kind: 'nuke',
     power: 2.2,
-    cooldown: 5.5,
+    cooldown: 4,
     description: 'A surging water attack.',
   },
   plant: {
@@ -32,7 +32,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Leaf Storm',
     kind: 'nuke',
     power: 2,
-    cooldown: 5,
+    cooldown: 3.5,
     description: 'A storm of sharp leaves.',
   },
   electric: {
@@ -40,7 +40,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Thunderbolt',
     kind: 'debuff',
     power: 1.8,
-    cooldown: 5,
+    cooldown: 3.5,
     description: 'Damages and slows the enemy.',
   },
   earth: {
@@ -48,15 +48,15 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Rock Armor',
     kind: 'buff',
     power: 1.5,
-    cooldown: 6,
+    cooldown: 4,
     description: 'Boosts own defense.',
   },
   air: {
     id: 'gust_heal',
     name: 'Healing Gust',
     kind: 'heal',
-    power: 0.5,
-    cooldown: 7,
+    power: 0.25,
+    cooldown: 5,
     description: 'Heals the team.',
   },
 }
