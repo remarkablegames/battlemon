@@ -1,6 +1,8 @@
 import './arena'
 import './gameOver'
 import './preload'
+import './tame'
+import './shop'
 import './starter'
 import './title'
 import './upgrade'

@@ -1,3 +1,4 @@
+import { runState } from '../state'
 import type { Monster } from '../types'
 
 const HP_BOX_WIDTH = 240
@@ -118,6 +119,21 @@ function addHpBox(x: number, y: number) {
   return { box, fill, hpText }
 }
 
+function addCoinText() {
+  return add([
+    styledText('0', {
+      size: 20,
+      fill: rgb(255, 220, 80),
+      outline: { color: BLACK, width: 2 },
+    }),
+    pos(width() - 15, 20),
+    anchor('topright'),
+    fixed(),
+  ])
+}
+
+type CoinText = ReturnType<typeof addCoinText>
+
 type HpBox = ReturnType<typeof addHpBox>
 type NameText = ReturnType<typeof addNameText>
 type WaveText = ReturnType<typeof addWaveText>
@@ -130,6 +146,7 @@ export interface HudElements {
   enemyNameText: NameText
   waveText: WaveText
   bench: Bench
+  coinText: CoinText
 }
 
 export function createHud(): HudElements {
@@ -147,6 +164,9 @@ export function createHud(): HudElements {
   // bench slots
   const bench = addBench()
 
+  // coin counter (top-right)
+  const coinText = addCoinText()
+
   return {
     playerHp,
     playerNameText,
@@ -154,6 +174,7 @@ export function createHud(): HudElements {
     enemyNameText,
     waveText,
     bench,
+    coinText,
   }
 }
 
@@ -194,6 +215,7 @@ export function updateHud(
   }
 
   hud.waveText.text = `Wave ${String(wave)}`
+  hud.coinText.text = `${String(runState.coins)} coins`
 }
 
 export function destroyHud(hud: HudElements): void {
@@ -203,4 +225,5 @@ export function destroyHud(hud: HudElements): void {
   destroy(hud.enemyNameText)
   destroy(hud.waveText)
   destroy(hud.bench)
+  destroy(hud.coinText)
 }
