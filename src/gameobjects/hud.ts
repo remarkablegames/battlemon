@@ -4,6 +4,9 @@ const HP_BOX_WIDTH = 240
 const HP_BOX_HEIGHT = 56
 const HP_BAR_WIDTH = 140
 const HP_BAR_HEIGHT = 12
+const BENCH_SLOT_SIZE = 72
+const BENCH_SLOT_GAP = 12
+const BENCH_SLOTS = 2
 
 function addNameText(x: number, y: number) {
   return add([
@@ -30,17 +33,46 @@ function addWaveText() {
   ])
 }
 
-function addBenchText() {
-  return add([
+function addBench() {
+  const bench = add([pos(0, 0), fixed()])
+
+  // label above the slots
+  const slotsHeight =
+    BENCH_SLOTS * BENCH_SLOT_SIZE + (BENCH_SLOTS - 1) * BENCH_SLOT_GAP
+  const slotsTop = height() - 90 - 32 - slotsHeight
+
+  bench.add([
     styledText('Bench', {
       size: 20,
       fill: WHITE,
       outline: { color: BLACK, width: 2 },
     }),
-    pos(width() - 80, height() - 200),
+    pos(width() - 80, slotsTop - 30),
     anchor('top'),
-    fixed(),
   ])
+
+  // vertical stack of rounded slots
+  for (let i = 0; i < BENCH_SLOTS; i++) {
+    const slotY = slotsTop + i * (BENCH_SLOT_SIZE + BENCH_SLOT_GAP)
+
+    // border
+    bench.add([
+      rect(BENCH_SLOT_SIZE + 8, BENCH_SLOT_SIZE + 8, { radius: 12 }),
+      pos(width() - 80, slotY),
+      anchor('center'),
+      color(0, 0, 0),
+    ])
+
+    // fill
+    bench.add([
+      rect(BENCH_SLOT_SIZE, BENCH_SLOT_SIZE, { radius: 10 }),
+      pos(width() - 80, slotY),
+      anchor('center'),
+      color(40, 40, 60),
+    ])
+  }
+
+  return bench
 }
 
 function addHpBox(x: number, y: number) {
@@ -59,7 +91,7 @@ function addHpBox(x: number, y: number) {
   ])
 
   // HP label
-  box.add([text('HP', { size: 14 }), pos(12, 24), color(255, 50, 50)])
+  box.add([text('HP', { size: 20 }), pos(12, 24), color(255, 50, 50)])
 
   // bar track
   box.add([
@@ -89,7 +121,7 @@ function addHpBox(x: number, y: number) {
 type HpBox = ReturnType<typeof addHpBox>
 type NameText = ReturnType<typeof addNameText>
 type WaveText = ReturnType<typeof addWaveText>
-type BenchText = ReturnType<typeof addBenchText>
+type Bench = ReturnType<typeof addBench>
 
 export interface HudElements {
   playerHp: HpBox
@@ -97,7 +129,7 @@ export interface HudElements {
   enemyHp: HpBox
   enemyNameText: NameText
   waveText: WaveText
-  benchText: BenchText
+  bench: Bench
 }
 
 export function createHud(): HudElements {
@@ -112,8 +144,8 @@ export function createHud(): HudElements {
   // wave counter (top-center)
   const waveText = addWaveText()
 
-  // bench label
-  const benchText = addBenchText()
+  // bench slots
+  const bench = addBench()
 
   return {
     playerHp,
@@ -121,7 +153,7 @@ export function createHud(): HudElements {
     enemyHp,
     enemyNameText,
     waveText,
-    benchText,
+    bench,
   }
 }
 
@@ -170,5 +202,5 @@ export function destroyHud(hud: HudElements): void {
   destroy(hud.enemyHp.box)
   destroy(hud.enemyNameText)
   destroy(hud.waveText)
-  destroy(hud.benchText)
+  destroy(hud.bench)
 }
