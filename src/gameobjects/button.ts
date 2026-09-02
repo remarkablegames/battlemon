@@ -73,7 +73,10 @@ export function addButton({
   ])
 
   button.onHover(() => {
-    if (button.disabled) return
+    if (button.disabled) {
+      setCursor('not-allowed')
+      return
+    }
     setCursor('pointer')
     button.color = rgb(
       Math.min(button.enabledColor[0] + 30, 255),
