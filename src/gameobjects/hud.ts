@@ -1,26 +1,29 @@
-import { TYPE } from '../constants'
 import type { Monster } from '../types'
 
-function addHpBar(x: number, y: number) {
+const HP_BOX_WIDTH = 240
+const HP_BOX_HEIGHT = 56
+const HP_BAR_WIDTH = 140
+const HP_BAR_HEIGHT = 12
+
+function addNameText(x: number, y: number) {
   return add([
-    rect(HP_BAR_WIDTH, HP_BAR_HEIGHT),
+    styledText('Player', {
+      size: 20,
+      fill: WHITE,
+      outline: { color: BLACK, width: 2 },
+    }),
     pos(x, y),
-    color(0, 200, 0),
     fixed(),
   ])
 }
 
-function addHpText(x: number, y: number) {
-  return add([text('100/100', { size: 20 }), pos(x, y), color(WHITE), fixed()])
-}
-
-function addNameText(x: number, y: number) {
-  return add([text('Player', { size: 20 }), pos(x, y), color(WHITE), fixed()])
-}
-
 function addWaveText() {
   return add([
-    text('Wave 1', { size: 20 }),
+    styledText('Wave 1', {
+      size: 20,
+      fill: WHITE,
+      outline: { color: BLACK, width: 2 },
+    }),
     pos(center().x, 20),
     anchor('top'),
     fixed(),
@@ -29,43 +32,82 @@ function addWaveText() {
 
 function addBenchText() {
   return add([
-    text('Bench', { size: 20 }),
-    pos(width() - 60, height() - 200),
+    styledText('Bench', {
+      size: 20,
+      fill: WHITE,
+      outline: { color: BLACK, width: 2 },
+    }),
+    pos(width() - 80, height() - 200),
     anchor('top'),
     fixed(),
   ])
 }
 
-type HpBar = ReturnType<typeof addHpBar>
-type HpText = ReturnType<typeof addHpText>
+function addHpBox(x: number, y: number) {
+  const box = add([pos(x, y), fixed()])
+
+  // border and background
+  box.add([
+    rect(HP_BOX_WIDTH, HP_BOX_HEIGHT, { radius: 14 }),
+    pos(0, 0),
+    color(0, 0, 0),
+  ])
+  box.add([
+    rect(HP_BOX_WIDTH - 8, HP_BOX_HEIGHT - 8, { radius: 12 }),
+    pos(4, 4),
+    color(255, 255, 255),
+  ])
+
+  // HP label
+  box.add([text('HP', { size: 14 }), pos(12, 24), color(255, 50, 50)])
+
+  // bar track
+  box.add([
+    rect(HP_BAR_WIDTH, HP_BAR_HEIGHT, { radius: 4 }),
+    pos(48, 28),
+    color(120, 120, 120),
+  ])
+
+  // bar fill
+  const fill = box.add([
+    rect(HP_BAR_WIDTH, HP_BAR_HEIGHT, { radius: 4 }),
+    pos(48, 28),
+    color(0, 200, 0),
+  ])
+
+  // current/max hp
+  const hpText = box.add([
+    text('100/100', { size: 20 }),
+    pos(HP_BOX_WIDTH - 15, 14),
+    anchor('right'),
+    color(0, 0, 0),
+  ])
+
+  return { box, fill, hpText }
+}
+
+type HpBox = ReturnType<typeof addHpBox>
 type NameText = ReturnType<typeof addNameText>
 type WaveText = ReturnType<typeof addWaveText>
 type BenchText = ReturnType<typeof addBenchText>
 
 export interface HudElements {
-  playerHpBar: HpBar
-  playerHpText: HpText
+  playerHp: HpBox
   playerNameText: NameText
-  enemyHpBar: HpBar
-  enemyHpText: HpText
+  enemyHp: HpBox
   enemyNameText: NameText
   waveText: WaveText
   benchText: BenchText
 }
 
-const HP_BAR_WIDTH = 180
-const HP_BAR_HEIGHT = 14
-
 export function createHud(): HudElements {
-  // player HP bar (bottom-left area)
-  const playerHpBar = addHpBar(50, height() - 280)
-  const playerHpText = addHpText(50, height() - 260)
-  const playerNameText = addNameText(50, height() - 300)
+  // player HP (above player sprite)
+  const playerHp = addHpBox(50, 460)
+  const playerNameText = addNameText(50, 435)
 
-  // enemy HP bar (top-right area)
-  const enemyHpBar = addHpBar(width() - 50 - HP_BAR_WIDTH, 180)
-  const enemyHpText = addHpText(width() - 50 - HP_BAR_WIDTH, 200)
-  const enemyNameText = addNameText(width() - 50 - HP_BAR_WIDTH, 160)
+  // enemy HP (above enemy sprite)
+  const enemyHp = addHpBox(width() - 50 - HP_BOX_WIDTH, 125)
+  const enemyNameText = addNameText(width() - 50 - HP_BOX_WIDTH, 100)
 
   // wave counter (top-center)
   const waveText = addWaveText()
@@ -74,11 +116,9 @@ export function createHud(): HudElements {
   const benchText = addBenchText()
 
   return {
-    playerHpBar,
-    playerHpText,
+    playerHp,
     playerNameText,
-    enemyHpBar,
-    enemyHpText,
+    enemyHp,
     enemyNameText,
     waveText,
     benchText,
@@ -93,29 +133,41 @@ export function updateHud(
 ): void {
   if (player) {
     const hpRatio = player.currentHp / player.maxHp
-    hud.playerHpBar.width = HP_BAR_WIDTH * hpRatio
-    hud.playerHpText.text = `${String(Math.ceil(player.currentHp))}/${String(player.maxHp)}`
-    hud.playerNameText.text = `${player.name} Lv${String(player.level)} ${TYPE.TYPE_LABELS[player.type]}`
-    hud.playerNameText.color = rgb(TYPE.TYPE_COLORS[player.type])
+    hud.playerHp.fill.width = Math.max(0, HP_BAR_WIDTH * hpRatio)
+    hud.playerHp.hpText.text = `${String(Math.ceil(player.currentHp))} / ${String(player.maxHp)}`
+    hud.playerNameText.text = `${player.name} Lv${String(player.level)}`
+
+    if (hpRatio <= 0.25) {
+      hud.playerHp.fill.color = rgb(255, 50, 50)
+    } else if (hpRatio <= 0.5) {
+      hud.playerHp.fill.color = rgb(255, 200, 0)
+    } else {
+      hud.playerHp.fill.color = rgb(0, 200, 0)
+    }
   }
 
   if (enemy) {
     const hpRatio = enemy.currentHp / enemy.maxHp
-    hud.enemyHpBar.width = HP_BAR_WIDTH * hpRatio
-    hud.enemyHpText.text = `${String(Math.ceil(enemy.currentHp))}/${String(enemy.maxHp)}`
-    hud.enemyNameText.text = `${enemy.name} Lv${String(enemy.level)} ${TYPE.TYPE_LABELS[enemy.type]}`
-    hud.enemyNameText.color = rgb(TYPE.TYPE_COLORS[enemy.type])
+    hud.enemyHp.fill.width = Math.max(0, HP_BAR_WIDTH * hpRatio)
+    hud.enemyHp.hpText.text = `${String(Math.ceil(enemy.currentHp))} / ${String(enemy.maxHp)}`
+    hud.enemyNameText.text = `${enemy.name} Lv${String(enemy.level)}`
+
+    if (hpRatio <= 0.25) {
+      hud.enemyHp.fill.color = rgb(255, 50, 50)
+    } else if (hpRatio <= 0.5) {
+      hud.enemyHp.fill.color = rgb(255, 200, 0)
+    } else {
+      hud.enemyHp.fill.color = rgb(0, 200, 0)
+    }
   }
 
   hud.waveText.text = `Wave ${String(wave)}`
 }
 
 export function destroyHud(hud: HudElements): void {
-  destroy(hud.playerHpBar)
-  destroy(hud.playerHpText)
+  destroy(hud.playerHp.box)
   destroy(hud.playerNameText)
-  destroy(hud.enemyHpBar)
-  destroy(hud.enemyHpText)
+  destroy(hud.enemyHp.box)
   destroy(hud.enemyNameText)
   destroy(hud.waveText)
   destroy(hud.benchText)
