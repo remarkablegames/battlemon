@@ -14,7 +14,7 @@ scene(SCENE.TITLE, () => {
   ])
 
   add([
-    text('Build. Battle. Evolve.', { size: 20 }),
+    text('Tame. Battle. Evolve.', { size: 20 }),
     pos(center().add(0, -30)),
     anchor('center'),
     color(200, 200, 200),
