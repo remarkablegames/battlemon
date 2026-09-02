@@ -1,7 +1,7 @@
 {
   "name": "Battlemon",
   "short_name": "Battlemon",
-  "description": "⚔️ Battlemon is an autobattler where you collect, evolve, and command a team of monsters.",
+  "description": "⚔️ Battlemon is an autobattler where you tame, battle, and evolve a team of monsters.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

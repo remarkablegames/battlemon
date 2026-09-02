@@ -7,7 +7,7 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/battlemon)](https://github.com/remarkablegames/battlemon/releases)
 [![build](https://github.com/remarkablegames/battlemon/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/battlemon/actions/workflows/build.yml)
 
-⚔️ **Battlemon** is an autobattler where you collect, evolve, and command a team of monsters.
+⚔️ **Battlemon** is an autobattler where you tame, battle, and evolve a team of monsters.
 
 Play in your browser:
 
