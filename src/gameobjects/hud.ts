@@ -135,11 +135,11 @@ export interface HudElements {
 export function createHud(): HudElements {
   // player HP (above player sprite)
   const playerHp = addHpBox(50, 460)
-  const playerNameText = addNameText(50, 435)
+  const playerNameText = addNameText(58, 435)
 
   // enemy HP (above enemy sprite)
   const enemyHp = addHpBox(width() - 50 - HP_BOX_WIDTH, 125)
-  const enemyNameText = addNameText(width() - 50 - HP_BOX_WIDTH, 100)
+  const enemyNameText = addNameText(width() - 50 - HP_BOX_WIDTH + 8, 100)
 
   // wave counter (top-center)
   const waveText = addWaveText()
