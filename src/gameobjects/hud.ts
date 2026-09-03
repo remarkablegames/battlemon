@@ -95,7 +95,7 @@ export function createBench(
         area(),
       ])
 
-      root.add([
+      const monsterSprite = root.add([
         sprite(monster.spriteId),
         pos(width() - 80, slotY - 8),
         anchor('center'),
@@ -103,6 +103,30 @@ export function createBench(
         color(rgb(TYPE.TYPE_COLORS[monster.type])),
         opacity(monster.isAlive ? 1 : 0.3),
       ])
+
+      // cooldown clock overlay (pie sweep, drains clockwise)
+      const clockOverlay = root.add([
+        pos(width() - 80, slotY - 8),
+        anchor('center'),
+        z(10),
+      ])
+
+      clockOverlay.onDraw(() => {
+        if (!monster.isAlive || cooldownRatio <= 0) return
+        const radius = BENCH_SLOT_SIZE / 2 - 6
+        const sweep = cooldownRatio * Math.PI * 2
+        const segments = 32
+        const pts = [vec2(0, 0)]
+        for (let i = 0; i <= segments; i++) {
+          const angle = -Math.PI / 2 + (i / segments) * sweep
+          pts.push(vec2(Math.cos(angle) * radius, Math.sin(angle) * radius))
+        }
+        drawPolygon({
+          pts,
+          color: rgb(255, 220, 80),
+          opacity: 0.6,
+        })
+      })
 
       // hp bar
       root.add([
@@ -131,7 +155,9 @@ export function createBench(
       })
 
       fill.onUpdate(() => {
-        fill.opacity = !monster.isAlive ? 0.4 : cooldownRatio > 0 ? 0.5 : 1
+        const dimmed = !monster.isAlive || cooldownRatio > 0
+        fill.opacity = dimmed ? 0.4 : 1
+        monsterSprite.opacity = !monster.isAlive ? 0.3 : 1
       })
 
       if (monster.isAlive) {
