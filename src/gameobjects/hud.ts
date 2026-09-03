@@ -1,3 +1,4 @@
+import { STAT, TYPE } from '../constants'
 import { runState } from '../state'
 import type { Monster } from '../types'
 
@@ -7,7 +8,8 @@ const HP_BAR_WIDTH = 216
 const HP_BAR_HEIGHT = 12
 const BENCH_SLOT_SIZE = 72
 const BENCH_SLOT_GAP = 12
-const BENCH_SLOTS = 2
+const BENCH_HP_BAR_WIDTH = 56
+const BENCH_HP_BAR_HEIGHT = 6
 
 function addNameText(x: number, y: number) {
   return add([
@@ -34,46 +36,127 @@ function addWaveText() {
   ])
 }
 
-function addBench() {
-  const bench = add([pos(0, 0), fixed()])
+export interface Bench {
+  refresh: (activeIdx: number) => void
+  setCooldown: (ratio: number) => void
+  destroy: () => void
+}
 
-  // label above the slots
-  const slotsHeight =
-    BENCH_SLOTS * BENCH_SLOT_SIZE + (BENCH_SLOTS - 1) * BENCH_SLOT_GAP
-  const slotsTop = height() - 90 - 32 - slotsHeight
+export function createBench(
+  battleTeam: Monster[],
+  onSwap: (battleTeamIdx: number) => void,
+): Bench {
+  const root = add([pos(0, 0), fixed()])
+  let cooldownRatio = 0
 
-  bench.add([
-    styledText('Bench', {
-      size: 20,
-      fill: WHITE,
-      outline: { color: BLACK, width: 2 },
-    }),
-    pos(width() - 80, slotsTop - 30),
-    anchor('top'),
-  ])
+  function refresh(activeIdx: number): void {
+    root.removeAll()
 
-  // vertical stack of rounded slots
-  for (let i = 0; i < BENCH_SLOTS; i++) {
-    const slotY = slotsTop + i * (BENCH_SLOT_SIZE + BENCH_SLOT_GAP)
+    const benchedIndices = battleTeam
+      .map((_monster, i) => i)
+      .filter((i) => i !== activeIdx)
 
-    // border
-    bench.add([
-      rect(BENCH_SLOT_SIZE + 8, BENCH_SLOT_SIZE + 8, { radius: 12 }),
-      pos(width() - 80, slotY),
-      anchor('center'),
-      color(0, 0, 0),
+    if (benchedIndices.length === 0) return
+
+    const slotsHeight =
+      benchedIndices.length * BENCH_SLOT_SIZE +
+      Math.max(0, benchedIndices.length - 1) * BENCH_SLOT_GAP
+    const slotsTop = height() - 90 - 32 - slotsHeight
+
+    root.add([
+      styledText('Bench', {
+        size: 20,
+        fill: WHITE,
+        outline: { color: BLACK, width: 2 },
+      }),
+      pos(width() - 80, slotsTop - 30),
+      anchor('top'),
     ])
 
-    // fill
-    bench.add([
-      rect(BENCH_SLOT_SIZE, BENCH_SLOT_SIZE, { radius: 10 }),
-      pos(width() - 80, slotY),
-      anchor('center'),
-      color(40, 40, 60),
-    ])
+    benchedIndices.forEach((teamIdx, slotIdx) => {
+      const monster = battleTeam[teamIdx]
+      const slotY = slotsTop + slotIdx * (BENCH_SLOT_SIZE + BENCH_SLOT_GAP)
+
+      // border
+      root.add([
+        rect(BENCH_SLOT_SIZE + 8, BENCH_SLOT_SIZE + 8, { radius: 12 }),
+        pos(width() - 80, slotY),
+        anchor('center'),
+        color(0, 0, 0),
+      ])
+
+      // fill (tap target)
+      const fill = root.add([
+        rect(BENCH_SLOT_SIZE, BENCH_SLOT_SIZE, { radius: 10 }),
+        pos(width() - 80, slotY),
+        anchor('center'),
+        color(40, 40, 60),
+        opacity(1),
+        area(),
+      ])
+
+      root.add([
+        sprite(monster.spriteId),
+        pos(width() - 80, slotY - 8),
+        anchor('center'),
+        scale(STAT.BENCH_SCALE),
+        color(rgb(TYPE.TYPE_COLORS[monster.type])),
+        opacity(monster.isAlive ? 1 : 0.3),
+      ])
+
+      // hp bar
+      root.add([
+        rect(BENCH_HP_BAR_WIDTH, BENCH_HP_BAR_HEIGHT, { radius: 3 }),
+        pos(width() - 80, slotY + 26),
+        anchor('center'),
+        color(120, 120, 120),
+      ])
+
+      const hpFill = root.add([
+        rect(BENCH_HP_BAR_WIDTH, BENCH_HP_BAR_HEIGHT, { radius: 3 }),
+        pos(width() - 80 - BENCH_HP_BAR_WIDTH / 2, slotY + 26),
+        anchor('left'),
+        color(0, 200, 0),
+      ])
+
+      hpFill.onUpdate(() => {
+        const ratio = Math.max(0, monster.currentHp / monster.maxHp)
+        hpFill.width = BENCH_HP_BAR_WIDTH * ratio
+        hpFill.color =
+          ratio <= 0.25
+            ? rgb(255, 50, 50)
+            : ratio <= 0.5
+              ? rgb(255, 200, 0)
+              : rgb(0, 200, 0)
+      })
+
+      fill.onUpdate(() => {
+        fill.opacity = !monster.isAlive ? 0.4 : cooldownRatio > 0 ? 0.5 : 1
+      })
+
+      if (monster.isAlive) {
+        fill.onHover(() => {
+          setCursor('pointer')
+        })
+        fill.onHoverEnd(() => {
+          setCursor('default')
+        })
+        fill.onClick(() => {
+          onSwap(teamIdx)
+        })
+      }
+    })
   }
 
-  return bench
+  return {
+    refresh,
+    setCooldown: (ratio: number) => {
+      cooldownRatio = ratio
+    },
+    destroy: () => {
+      destroy(root)
+    },
+  }
 }
 
 function addHpBox(x: number, y: number) {
@@ -137,7 +220,6 @@ type CoinText = ReturnType<typeof addCoinText>
 type HpBox = ReturnType<typeof addHpBox>
 type NameText = ReturnType<typeof addNameText>
 type WaveText = ReturnType<typeof addWaveText>
-type Bench = ReturnType<typeof addBench>
 
 export interface HudElements {
   playerHp: HpBox
@@ -147,9 +229,14 @@ export interface HudElements {
   waveText: WaveText
   bench: Bench
   coinText: CoinText
+  destroy: () => void
 }
 
-export function createHud(): HudElements {
+export function addHud(
+  battleTeam: Monster[],
+  activeIdx: number,
+  onSwap: (battleTeamIdx: number) => void,
+): HudElements {
   // player HP (above player sprite)
   const playerHp = addHpBox(50, 460)
   const playerNameText = addNameText(58, 435)
@@ -162,7 +249,8 @@ export function createHud(): HudElements {
   const waveText = addWaveText()
 
   // bench slots
-  const bench = addBench()
+  const bench = createBench(battleTeam, onSwap)
+  bench.refresh(activeIdx)
 
   // coin counter (top-right)
   const coinText = addCoinText()
@@ -175,6 +263,15 @@ export function createHud(): HudElements {
     waveText,
     bench,
     coinText,
+    destroy: () => {
+      destroy(playerHp.box)
+      destroy(playerNameText)
+      destroy(enemyHp.box)
+      destroy(enemyNameText)
+      destroy(waveText)
+      bench.destroy()
+      destroy(coinText)
+    },
   }
 }
 
@@ -216,14 +313,4 @@ export function updateHud(
 
   hud.waveText.text = `Wave ${String(wave)}`
   hud.coinText.text = `${String(runState.coins)} coins`
-}
-
-export function destroyHud(hud: HudElements): void {
-  destroy(hud.playerHp.box)
-  destroy(hud.playerNameText)
-  destroy(hud.enemyHp.box)
-  destroy(hud.enemyNameText)
-  destroy(hud.waveText)
-  destroy(hud.bench)
-  destroy(hud.coinText)
 }

@@ -1,14 +1,11 @@
 import { MOVE, SCENE, STAT, TYPE } from '../constants'
 import {
   addBattleBackground,
-  createHud,
-  createTouchControls,
-  destroyHud,
-  destroyTouchControls,
+  addHud,
+  addTouchControls,
   isTeamDefeated,
   spawnWave,
   updateHud,
-  updateSwapCooldown,
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
@@ -102,8 +99,11 @@ scene(SCENE.ARENA, () => {
 
   spawnEnemySprite()
 
-  const hud = createHud()
-  const controls = createTouchControls()
+  const hud = addHud(battleTeam, activePlayerIdx, (teamIdx) => {
+    if (itemsOverlay) return
+    swapPlayerMonster(teamIdx)
+  })
+  const controls = addTouchControls()
 
   function getActivePlayer(): Monster | null {
     const monster = battleTeam[activePlayerIdx]
@@ -381,6 +381,7 @@ scene(SCENE.ARENA, () => {
     })
 
     swapCd = STAT.SWAP_COOLDOWN
+    hud.bench.refresh(activePlayerIdx)
   }
 
   function checkWaveEnd(): void {
@@ -392,8 +393,8 @@ scene(SCENE.ARENA, () => {
       // wave clear coin bonus
       runState.coins += 10 + wave * 5
       wait(0.5, () => {
-        destroyHud(hud)
-        destroyTouchControls(controls)
+        hud.destroy()
+        controls.destroy()
         if (enemySprite) destroy(enemySprite)
         for (const s of playerSprites) {
           if (s) destroy(s)
@@ -407,8 +408,8 @@ scene(SCENE.ARENA, () => {
     if (isTeamDefeated(battleTeam)) {
       battleOver = true
       wait(0.5, () => {
-        destroyHud(hud)
-        destroyTouchControls(controls)
+        hud.destroy()
+        controls.destroy()
         if (enemySprite) destroy(enemySprite)
         for (const s of playerSprites) {
           if (s) destroy(s)
@@ -440,18 +441,6 @@ scene(SCENE.ARENA, () => {
       }
     }
   }
-
-  // swap button
-  controls.swapButton.onClick(() => {
-    if (swapCd > 0) return
-    // find next alive benched monster
-    const aliveIndices = battleTeam
-      .map((monster, i) => ({ monster, i }))
-      .filter(({ monster, i }) => monster.isAlive && i !== activePlayerIdx)
-    if (aliveIndices.length > 0) {
-      swapPlayerMonster(aliveIndices[0].i)
-    }
-  })
 
   // ability button - force special move
   controls.abilityButton.onClick(() => {
@@ -610,10 +599,9 @@ scene(SCENE.ARENA, () => {
     if (swapCd > 0) {
       swapCd = Math.max(0, swapCd - dt())
     }
-    updateSwapCooldown(controls.swapCooldownText, swapCd)
+    hud.bench.setCooldown(swapCd / STAT.SWAP_COOLDOWN)
 
     // update cooldown overlays
-    controls.swapButton.setCooldownRatio(swapCd / STAT.SWAP_COOLDOWN)
     if (player) {
       const special = MOVE.SPECIAL_MOVES[player.type]
       controls.abilityButton.setCooldownRatio(
