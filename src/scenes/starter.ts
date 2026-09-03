@@ -84,7 +84,8 @@ scene(SCENE.STARTER, () => {
       runState.playerTeam = [monster]
       runState.wave = 1
       runState.activePlayerIndex = 0
-      go(SCENE.WAVE_START)
+      runState.battleRoster = [0]
+      go(SCENE.ARENA)
     })
   })
 })
