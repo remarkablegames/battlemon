@@ -29,8 +29,7 @@ scene(SCENE.TAME, () => {
       rect(488, 148, { radius: 14, fill: false }),
       pos(x, y),
       anchor('center'),
-      opacity(0),
-      outline(4, rgb(100, 100, 140)),
+      outline(0, rgb(100, 200, 100)),
       z(1),
     ])
   }
@@ -93,10 +92,10 @@ scene(SCENE.TAME, () => {
       selected = monster
       for (let j = 0; j < cards.length; j++) {
         cards[j].color = rgb(40, 40, 60)
-        cardBorders[j].opacity = 0
+        cardBorders[j].outline.width = 0
       }
       card.color = rgb(60, 60, 90)
-      border.opacity = 1
+      border.outline.width = 4
       tameButton.setDisabled(false)
       sellButton.setDisabled(false)
     })

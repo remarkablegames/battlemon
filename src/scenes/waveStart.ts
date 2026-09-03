@@ -41,8 +41,7 @@ scene(SCENE.WAVE_START, () => {
       rect(488, 98, { radius: 14, fill: false }),
       pos(x, y),
       anchor('center'),
-      opacity(0),
-      outline(4, rgb(100, 200, 100)),
+      outline(0, rgb(100, 200, 100)),
       z(1),
     ])
   }
@@ -105,13 +104,13 @@ scene(SCENE.WAVE_START, () => {
       if (selIdx >= 0) {
         // deselect — remove from selected and shift order
         selected.splice(selIdx, 1)
-        border.opacity = 0
+        border.outline.width = 0
         orderLabel.text = ''
         card.color = rgb(40, 40, 60)
       } else if (selected.length < BATTLE_TEAM_SIZE) {
         // select
         selected.push(i)
-        border.opacity = 1
+        border.outline.width = 4
         orderLabel.text = String(selected.length)
         card.color = rgb(60, 60, 90)
       }
