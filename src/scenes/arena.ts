@@ -193,6 +193,25 @@ scene(SCENE.ARENA, () => {
     })
   }
 
+  function shakeSprite(s: Sprite, intensity: number): void {
+    const origX = s.pos.x
+    const origY = s.pos.y
+    let elapsed = 0
+    const duration = 0.3
+    const cancel = s.onUpdate(() => {
+      elapsed += dt()
+      if (elapsed >= duration) {
+        s.pos.x = origX
+        s.pos.y = origY
+        cancel.cancel()
+        return
+      }
+      const decay = 1 - elapsed / duration
+      s.pos.x = origX + rand(-intensity, intensity) * decay
+      s.pos.y = origY + rand(-intensity, intensity) * decay
+    })
+  }
+
   function dealDamage(
     attacker: Monster,
     defender: Monster,
@@ -207,8 +226,15 @@ scene(SCENE.ARENA, () => {
     const damage = Math.max(1, Math.round((baseDamage * typeMult) / defense))
     defender.currentHp = Math.max(0, defender.currentHp - damage)
 
-    // screen shake on hit
-    shake(typeMult > 1 ? 8 : 4)
+    // shake the defender's sprite on hit
+    const defenderSprite =
+      defender === getActivePlayer()
+        ? playerSprites[activePlayerIdx]
+        : enemySprite
+    if (defenderSprite) {
+      const shakeIntensity = Math.min(12, 3 + (damage / defender.maxHp) * 20)
+      shakeSprite(defenderSprite, shakeIntensity)
+    }
 
     // hit flash + particles
     const playerSprite = playerSprites[activePlayerIdx]
