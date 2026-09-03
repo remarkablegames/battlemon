@@ -285,7 +285,7 @@ scene(SCENE.ARENA, () => {
             if (monster.isAlive) {
               monster.currentHp = Math.min(
                 monster.maxHp,
-                monster.currentHp + monster.maxHp * special.power,
+                monster.currentHp + special.power,
               )
             }
           }
@@ -329,7 +329,7 @@ scene(SCENE.ARENA, () => {
       if (special.kind === 'heal') {
         const team = attacker === getActivePlayer() ? battleTeam : enemyTeam
         const needsHeal = team.some(
-          (m) => m.isAlive && m.currentHp < m.maxHp * 0.5,
+          (monster) => monster.isAlive && monster.currentHp < monster.maxHp,
         )
         if (needsHeal) {
           executeMove(attacker, defender, true)
