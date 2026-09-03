@@ -441,16 +441,6 @@ scene(SCENE.ARENA, () => {
     }
   }
 
-  // ability button - force special move
-  controls.abilityButton.onClick(() => {
-    const player = getActivePlayer()
-    const enemy = getActiveEnemy()
-    if (!player || !enemy) return
-    if (player.specialCooldown <= 0) {
-      executeMove(player, enemy, true)
-    }
-  })
-
   // items button - opens inventory overlay
   let itemsOverlay: ReturnType<typeof createItemsOverlay> | null = null
 
@@ -599,14 +589,6 @@ scene(SCENE.ARENA, () => {
       swapCd = Math.max(0, swapCd - dt())
     }
     hud.bench.setCooldown(swapCd / STAT.SWAP_COOLDOWN)
-
-    // update cooldown overlays
-    if (player) {
-      const special = MOVE.SPECIAL_MOVES[player.type]
-      controls.abilityButton.setCooldownRatio(
-        player.specialCooldown / special.cooldown,
-      )
-    }
 
     // bench regen
     const activeTeamIdx = battleRoster[activePlayerIdx]
