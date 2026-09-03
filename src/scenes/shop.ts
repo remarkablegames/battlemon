@@ -245,7 +245,7 @@ scene(SCENE.SHOP, () => {
       if (options.rowRightText) {
         overlay.add([
           text(options.rowRightText(monster), { size: 20 }),
-          pos(panelX + panelWidth - 40, rowY + 35),
+          pos(panelX + panelWidth - 40, rowY + 20),
           anchor('right'),
           color(255, 220, 80),
         ])
