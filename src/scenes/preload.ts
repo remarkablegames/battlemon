@@ -1,4 +1,5 @@
 import { SCENE, TYPE } from '../constants'
+import { applyQuerystringOverrides } from '../utils'
 
 scene(SCENE.PRELOAD, () => {
   // collect all unique sprite ids from the type chart
@@ -14,5 +15,5 @@ scene(SCENE.PRELOAD, () => {
     loadSprite(id, `sprites/${id}.png`)
   }
 
-  go(SCENE.TITLE)
+  go(applyQuerystringOverrides())
 })
