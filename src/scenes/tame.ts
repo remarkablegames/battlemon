@@ -26,11 +26,12 @@ scene(SCENE.TAME, () => {
 
   function createCardBorder(x: number, y: number) {
     return add([
-      rect(488, 148, { radius: 14 }),
+      rect(488, 148, { radius: 14, fill: false }),
       pos(x, y),
       anchor('center'),
-      color(100, 100, 140),
       opacity(0),
+      outline(4, rgb(100, 100, 140)),
+      z(1),
     ])
   }
 

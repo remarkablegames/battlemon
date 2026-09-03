@@ -30,7 +30,7 @@ scene(SCENE.WAVE_START, () => {
   }
 
   const cardSpacing = 110
-  const startY = 150
+  const startY = 170
 
   const cards: ReturnType<typeof addCard>[] = []
   const borders: ReturnType<typeof createBorder>[] = []
@@ -38,11 +38,12 @@ scene(SCENE.WAVE_START, () => {
 
   function createBorder(x: number, y: number) {
     return add([
-      rect(488, 98, { radius: 14 }),
+      rect(488, 98, { radius: 14, fill: false }),
       pos(x, y),
       anchor('center'),
-      color(100, 200, 100),
       opacity(0),
+      outline(4, rgb(100, 200, 100)),
+      z(1),
     ])
   }
 
