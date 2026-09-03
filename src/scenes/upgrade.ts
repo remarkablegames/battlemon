@@ -1,13 +1,8 @@
-import { SCENE, UPGRADE } from '../constants'
-import {
-  addCard,
-  addToTeam,
-  fullHealTeam,
-  MAX_TEAM_SIZE,
-  randomMonster,
-} from '../gameobjects'
+import { SCENE, STAT, UPGRADE } from '../constants'
+import { addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { UpgradeDef } from '../types'
+import { addToTeam, fullHealTeam, randomMonster } from '../utils'
 
 function pickRandomUpgrades(count: number): UpgradeDef[] {
   const pool = [...UPGRADE.UPGRADE_DEFS]
@@ -87,7 +82,7 @@ scene(SCENE.UPGRADE, () => {
         break
 
       case 'add_monster':
-        if (playerTeam.length < MAX_TEAM_SIZE) {
+        if (playerTeam.length < STAT.MAX_TEAM_SIZE) {
           const newMonster = randomMonster(runState.wave)
           addToTeam(playerTeam, newMonster)
         } else {

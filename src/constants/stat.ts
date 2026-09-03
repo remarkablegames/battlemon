@@ -7,6 +7,10 @@ export const BENCH_POS = [
   { x: 480, y: 680 },
 ]
 
+// team sizes
+export const MAX_TEAM_SIZE = 6
+export const BATTLE_TEAM_SIZE = 3
+
 // monster sprite scale on screen
 export const MONSTER_SCALE = 3
 export const BENCH_SCALE = 1.5

@@ -1,6 +1,7 @@
 import { PERSONALITY, SCENE, TYPE } from '../constants'
-import { addCard, randomMonsterPool } from '../gameobjects'
+import { addCard } from '../gameobjects'
 import { runState } from '../state'
+import { randomMonsterPool } from '../utils'
 
 scene(SCENE.STARTER, () => {
   const starters = randomMonsterPool(3, 1)

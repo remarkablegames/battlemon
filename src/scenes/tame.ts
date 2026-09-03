@@ -1,5 +1,5 @@
-import { SCENE, TYPE } from '../constants'
-import { addButton, addCard, MAX_TEAM_SIZE } from '../gameobjects'
+import { SCENE, STAT, TYPE } from '../constants'
+import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
 
@@ -114,7 +114,7 @@ scene(SCENE.TAME, () => {
 
   tameButton.onClick(() => {
     if (!selected) return
-    if (playerTeam.length < MAX_TEAM_SIZE) {
+    if (playerTeam.length < STAT.MAX_TEAM_SIZE) {
       // revive tamed monster at full HP
       selected.isAlive = true
       selected.currentHp = selected.maxHp

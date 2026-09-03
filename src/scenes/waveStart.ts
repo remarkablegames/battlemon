@@ -1,5 +1,5 @@
-import { SCENE, TYPE } from '../constants'
-import { addButton, addCard, BATTLE_TEAM_SIZE } from '../gameobjects'
+import { SCENE, STAT, TYPE } from '../constants'
+import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 
 scene(SCENE.WAVE_START, () => {
@@ -19,14 +19,16 @@ scene(SCENE.WAVE_START, () => {
   ])
 
   const subtitle = add([
-    text(`Select up to ${String(BATTLE_TEAM_SIZE)} monsters`, { size: 20 }),
+    text(`Select up to ${String(STAT.BATTLE_TEAM_SIZE)} monsters`, {
+      size: 20,
+    }),
     pos(center().x, 95),
     anchor('center'),
     color(200, 200, 200),
   ])
 
   function updateSubtitle() {
-    subtitle.text = `Select up to ${String(BATTLE_TEAM_SIZE)} monsters (${String(selected.length)}/${String(BATTLE_TEAM_SIZE)})`
+    subtitle.text = `Select up to ${String(STAT.BATTLE_TEAM_SIZE)} monsters (${String(selected.length)}/${String(STAT.BATTLE_TEAM_SIZE)})`
   }
 
   const cardSpacing = 110
@@ -107,7 +109,7 @@ scene(SCENE.WAVE_START, () => {
         border.outline.width = 0
         orderLabel.text = ''
         card.color = rgb(40, 40, 60)
-      } else if (selected.length < BATTLE_TEAM_SIZE) {
+      } else if (selected.length < STAT.BATTLE_TEAM_SIZE) {
         // select
         selected.push(i)
         border.outline.width = 4

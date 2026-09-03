@@ -1,13 +1,8 @@
 import { MOVE, SCENE, TYPE } from '../constants'
-import {
-  addButton,
-  addCard,
-  addToTeam,
-  fullHealTeam,
-  randomMonster,
-} from '../gameobjects'
+import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
+import { addToTeam, fullHealTeam, randomMonster } from '../utils'
 
 const SHOP_ITEMS: ItemDef[] = [
   {

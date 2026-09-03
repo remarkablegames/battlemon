@@ -1,14 +1,12 @@
+import { STAT } from '../constants'
 import type { Monster } from '../types'
-
-export const MAX_TEAM_SIZE = 6
-export const BATTLE_TEAM_SIZE = 3
 
 export function createTeam(): Monster[] {
   return []
 }
 
 export function addToTeam(team: Monster[], monster: Monster): boolean {
-  if (team.length >= MAX_TEAM_SIZE) return false
+  if (team.length >= STAT.MAX_TEAM_SIZE) return false
   team.push(monster)
   return true
 }

@@ -3,12 +3,11 @@ import {
   addBattleBackground,
   addHud,
   addTouchControls,
-  isTeamDefeated,
-  spawnWave,
   updateHud,
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
+import { isTeamDefeated, spawnWave } from '../utils'
 
 scene(SCENE.ARENA, () => {
   addBattleBackground()
