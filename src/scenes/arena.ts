@@ -325,7 +325,20 @@ scene(SCENE.ARENA, () => {
 
     // special move takes priority if ready
     if (attacker.specialCooldown <= 0) {
-      executeMove(attacker, defender, true)
+      const special = MOVE.SPECIAL_MOVES[attacker.type]
+      if (special.kind === 'heal') {
+        const team = attacker === getActivePlayer() ? battleTeam : enemyTeam
+        const needsHeal = team.some(
+          (m) => m.isAlive && m.currentHp < m.maxHp * 0.5,
+        )
+        if (needsHeal) {
+          executeMove(attacker, defender, true)
+        } else if (attacker.basicCooldown <= 0) {
+          executeMove(attacker, defender, false)
+        }
+      } else {
+        executeMove(attacker, defender, true)
+      }
     } else if (attacker.basicCooldown <= 0) {
       executeMove(attacker, defender, false)
     }
