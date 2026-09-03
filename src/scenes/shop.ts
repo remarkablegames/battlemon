@@ -419,23 +419,19 @@ scene(SCENE.SHOP, () => {
     })
   }
 
-  function openSellMonster() {
+  function openTeamView() {
     if (selectOverlay) return
     addTeamOverlay({
-      title: 'Sell Monster',
-      subtitle: 'Select a monster to sell',
+      title: 'Your Team',
+      subtitle: 'Tap a monster to sell',
       rowRightText: (monster) => `${String(monster.level * 10)} coins`,
       onSelect: (monster, i) => {
+        if (playerTeam.length <= 1) return
         playerTeam.splice(i, 1)
         runState.coins += monster.level * 10
         refreshCoins()
       },
     })
-  }
-
-  function openTeamView() {
-    if (selectOverlay) return
-    addTeamOverlay({ title: 'Your Team' })
   }
 
   function openItemsView() {
@@ -483,29 +479,13 @@ scene(SCENE.SHOP, () => {
     }
   }
 
-  // bottom bar: Sell, Team, Items, Continue
-  const sellButton = addButton({
-    x: center().x - 195,
+  // bottom bar: Team, Items, Continue
+  const teamButton = addButton({
+    x: center().x - 130,
     y: height() - 60,
     width: 120,
     height: 56,
     color: [200, 160, 60],
-    label: 'Sell',
-    labelSize: 20,
-    isFixed: true,
-    disabled: playerTeam.length <= 1,
-  })
-
-  sellButton.onClick(() => {
-    openSellMonster()
-  })
-
-  const teamButton = addButton({
-    x: center().x - 65,
-    y: height() - 60,
-    width: 120,
-    height: 56,
-    color: [80, 80, 120],
     label: 'Team',
     labelSize: 20,
     isFixed: true,
@@ -516,7 +496,7 @@ scene(SCENE.SHOP, () => {
   })
 
   const itemsButton = addButton({
-    x: center().x + 65,
+    x: center().x,
     y: height() - 60,
     width: 120,
     height: 56,
@@ -531,7 +511,7 @@ scene(SCENE.SHOP, () => {
   })
 
   const continueButton = addButton({
-    x: center().x + 195,
+    x: center().x + 130,
     y: height() - 60,
     width: 120,
     height: 56,
