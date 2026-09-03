@@ -82,6 +82,14 @@ Builds the game and compresses the contents into a ZIP archive in the `dist` fol
 
 Your game can be uploaded to your server, [itch.io](https://itch.io/), etc.
 
+## Testing
+
+For testing, you can use querystring parameters to jump directly to specific scenes and override game state:
+
+- `?scene=shop` — jump directly to the shop scene
+- `?scene=shop&coins=100` — shop with 100 coins
+- `?scene=waveStart&wave=5` — wave start at wave 5
+
 ## License
 
 [MIT](LICENSE)
