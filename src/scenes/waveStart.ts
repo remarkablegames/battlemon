@@ -1,9 +1,15 @@
 import { SCENE, STAT, TYPE } from '../constants'
-import { addButton, addCard } from '../gameobjects'
+import { addButton, addCard, addEnemyPreview } from '../gameobjects'
 import { runState } from '../state'
+import { spawnWave } from '../utils'
 
 scene(SCENE.WAVE_START, () => {
   const { playerTeam, wave } = runState
+
+  // generate enemy team for this wave if not already set
+  if (runState.enemyTeam.length === 0) {
+    runState.enemyTeam = spawnWave(wave)
+  }
 
   const aliveIndices = playerTeam
     .map((monster, i) => ({ monster, i }))
@@ -31,8 +37,10 @@ scene(SCENE.WAVE_START, () => {
     subtitle.text = `Select up to ${String(STAT.BATTLE_TEAM_SIZE)} monsters (${String(selected.length)}/${String(STAT.BATTLE_TEAM_SIZE)})`
   }
 
-  const cardSpacing = 110
-  const startY = 170
+  addEnemyPreview(runState.enemyTeam, { label: 'Enemies', y: 175 })
+
+  const cardSpacing = 95
+  const startY = 280
 
   const cards: ReturnType<typeof addCard>[] = []
   const borders: ReturnType<typeof createBorder>[] = []
@@ -74,10 +82,9 @@ scene(SCENE.WAVE_START, () => {
     cards.push(card)
 
     add([
-      sprite(monster.spriteId),
+      sprite(monster.spriteId, { height: 64 }),
       pos(x - 160, y),
       anchor('center'),
-      scale(2),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 

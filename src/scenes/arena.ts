@@ -7,14 +7,14 @@ import {
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { isTeamDefeated, spawnWave } from '../utils'
+import { isTeamDefeated } from '../utils'
 
 scene(SCENE.ARENA, () => {
   addBattleBackground()
 
   const { playerTeam, wave, activePlayerIndex, battleRoster } = runState
   const battleTeam = battleRoster.map((i) => playerTeam[i])
-  const enemyTeam = spawnWave(wave)
+  const enemyTeam = runState.enemyTeam
   runState.defeatedEnemies = []
 
   let activePlayerIdx = activePlayerIndex
@@ -33,10 +33,10 @@ scene(SCENE.ARENA, () => {
     monster: Monster,
   ) {
     const monsterSprite = add([
-      sprite(spriteId),
+      sprite(spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x, y),
       anchor('center'),
-      scale(STAT.MONSTER_SCALE),
+      scale(1),
       color(rgb(typeColor)),
       opacity(1),
     ])

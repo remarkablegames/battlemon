@@ -11,9 +11,9 @@ export const BENCH_POS = [
 export const MAX_TEAM_SIZE = 6
 export const BATTLE_TEAM_SIZE = 3
 
-// monster sprite scale on screen
-export const MONSTER_SCALE = 3
-export const BENCH_SCALE = 1.5
+// monster sprite size on screen (height in px, width scales proportionally)
+export const MONSTER_HEIGHT = 96
+export const MONSTER_ICON_HEIGHT = 48
 
 // battle timing
 export const BASIC_ATTACK_COOLDOWN = 1 // seconds

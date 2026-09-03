@@ -7,7 +7,7 @@ scene(SCENE.TAME, () => {
   const { defeatedEnemies, playerTeam } = runState
 
   add([
-    text('Tame or Sell', { size: 28 }),
+    text('Tame', { size: 28 }),
     pos(center().x, 80),
     anchor('center'),
     color(255, 220, 100),
@@ -53,10 +53,9 @@ scene(SCENE.TAME, () => {
     cards.push(card)
 
     add([
-      sprite(monster.spriteId),
+      sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      scale(3),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
@@ -97,7 +96,6 @@ scene(SCENE.TAME, () => {
       card.color = rgb(60, 60, 90)
       border.outline.width = 4
       tameButton.setDisabled(false)
-      sellButton.setDisabled(false)
     })
   })
 
@@ -133,29 +131,11 @@ scene(SCENE.TAME, () => {
     }
   })
 
-  const sellButton = addButton({
+  const skipButton = addButton({
     x: center().x + 100,
     y: height() - 80,
     width: 160,
     height: 56,
-    color: [200, 160, 60],
-    label: 'Sell',
-    isFixed: true,
-    disabled: true,
-  })
-
-  sellButton.onClick(() => {
-    if (!selected) return
-    const sellPrice = selected.level * 10
-    runState.coins += sellPrice
-    go(SCENE.SHOP)
-  })
-
-  const skipButton = addButton({
-    x: center().x,
-    y: height() - 140,
-    width: 120,
-    height: 48,
     color: [80, 80, 80],
     label: 'Skip',
     labelSize: 20,

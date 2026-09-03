@@ -10,4 +10,5 @@ export interface RunState {
   defeatedEnemies: Monster[]
   inventory: ItemDef[]
   battleRoster: number[]
+  enemyTeam: Monster[]
 }

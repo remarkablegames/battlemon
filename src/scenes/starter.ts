@@ -1,21 +1,29 @@
-import { PERSONALITY, SCENE, TYPE } from '../constants'
-import { addCard } from '../gameobjects'
+import { PERSONALITY, SCENE, STAT, TYPE } from '../constants'
+import { addCard, addEnemyPreview } from '../gameobjects'
 import { runState } from '../state'
-import { randomMonsterPool } from '../utils'
+import { randomMonsterPool, spawnWave } from '../utils'
 
 scene(SCENE.STARTER, () => {
   const starters = randomMonsterPool(3, 1)
 
+  // generate wave 1 enemies for preview
+  runState.enemyTeam = spawnWave(1)
+
   add([
     text('Choose your starter!', { size: 24 }),
-    pos(center().x, 80),
+    pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
   ])
 
+  addEnemyPreview(runState.enemyTeam, {
+    label: 'Upcoming Enemies',
+    y: 145,
+  })
+
   starters.forEach((monster, i) => {
     const x = center().x
-    const y = 240 + i * 220
+    const y = 280 + i * 220
 
     const card = addCard({
       x,
@@ -27,10 +35,9 @@ scene(SCENE.STARTER, () => {
 
     // monster sprite
     add([
-      sprite(monster.spriteId),
+      sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      scale(3),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 

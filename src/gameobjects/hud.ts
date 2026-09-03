@@ -96,10 +96,9 @@ export function createBench(
       ])
 
       const monsterSprite = root.add([
-        sprite(monster.spriteId),
+        sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
         pos(width() - 80, slotY - 8),
         anchor('center'),
-        scale(STAT.BENCH_SCALE),
         color(rgb(TYPE.TYPE_COLORS[monster.type])),
         opacity(monster.isAlive ? 1 : 0.3),
       ])
