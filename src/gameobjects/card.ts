@@ -23,6 +23,7 @@ export function addCard({
   ])
 
   card.onHover(() => {
+    if (card.is('disabled')) return
     setCursor('pointer')
     card.color = rgb(
       Math.min(r + 30, 255),

@@ -1,4 +1,4 @@
-import { MOVE, SCENE } from '../constants'
+import { MOVE, SCENE, TYPE } from '../constants'
 import {
   addButton,
   addCard,
@@ -7,7 +7,7 @@ import {
   randomMonster,
 } from '../gameobjects'
 import { runState } from '../state'
-import type { ItemDef } from '../types'
+import type { ItemDef, Monster } from '../types'
 
 const SHOP_ITEMS: ItemDef[] = [
   {
@@ -132,38 +132,192 @@ scene(SCENE.SHOP, () => {
     ])
 
     card.onClick(() => {
+      if (selectOverlay) return
       if (runState.coins < item.price) return
-      runState.coins -= item.price
-      applyPurchase(item)
-      refreshCoins()
+      if (NEEDS_SELECTION.has(item.kind)) {
+        openMonsterSelect(item)
+      } else {
+        runState.coins -= item.price
+        applyPurchase(item)
+        refreshCoins()
+      }
     })
   })
 
-  function applyPurchase(item: ItemDef) {
-    const active = playerTeam[runState.activePlayerIndex]
+  const NEEDS_SELECTION = new Set([
+    'stat_boost_attack',
+    'stat_boost_defense',
+    'stat_boost_hp',
+    'stat_boost_speed',
+    'learn_move',
+  ])
+
+  let selectOverlay: ReturnType<typeof addMonsterSelect> | null = null
+
+  function addMonsterSelect(item: ItemDef) {
+    const overlay = add([pos(0, 0), fixed(), z(100)])
+    cards.forEach((card) => {
+      card.tag('disabled')
+    })
+
+    function close() {
+      cards.forEach((card) => {
+        card.untag('disabled')
+      })
+      destroy(overlay)
+      selectOverlay = null
+    }
+
+    overlay.add([
+      rect(width(), height()),
+      pos(0, 0),
+      color(0, 0, 0),
+      opacity(0.7),
+    ])
+
+    const panelWidth = 440
+    const panelHeight = 150 + playerTeam.length * 80
+    const panelX = (width() - panelWidth) / 2
+    const panelY = (height() - panelHeight) / 2
+
+    overlay.add([
+      rect(panelWidth, panelHeight, { radius: 16 }),
+      pos(panelX, panelY),
+      color(30, 30, 50),
+    ])
+
+    overlay.add([
+      text(item.label, { size: 24 }),
+      pos(width() / 2, panelY + 30),
+      anchor('center'),
+      color(255, 220, 100),
+    ])
+
+    overlay.add([
+      text('Select a monster', { size: 20 }),
+      pos(width() / 2, panelY + 60),
+      anchor('center'),
+      color(200, 200, 200),
+    ])
+
+    const listStartY = panelY + 100
+    const rowHeight = 80
+
+    playerTeam.forEach((monster, i) => {
+      const rowY = listStartY + i * rowHeight
+
+      const row = overlay.add([
+        rect(panelWidth - 40, 70, { radius: 10 }),
+        pos(panelX + 20, rowY),
+        color(50, 50, 80),
+        area(),
+      ])
+
+      overlay.add([
+        sprite(monster.spriteId),
+        pos(panelX + 60, rowY + 35),
+        anchor('center'),
+        scale(1.5),
+        color(rgb(TYPE.TYPE_COLORS[monster.type])),
+      ])
+
+      overlay.add([
+        text(monster.name, { size: 20 }),
+        pos(panelX + 110, rowY + 20),
+        anchor('left'),
+        color(WHITE),
+      ])
+
+      overlay.add([
+        text(
+          `${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}  HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
+          { size: 20 },
+        ),
+        pos(panelX + 110, rowY + 48),
+        anchor('left'),
+        color(180, 180, 180),
+      ])
+
+      row.onHover(() => {
+        setCursor('pointer')
+        row.color = rgb(70, 70, 100)
+      })
+
+      row.onHoverEnd(() => {
+        setCursor('default')
+        row.color = rgb(50, 50, 80)
+      })
+
+      row.onClick(() => {
+        runState.coins -= item.price
+        applyPurchase(item, monster)
+        refreshCoins()
+        close()
+      })
+    })
+
+    const cancelButton = overlay.add([
+      rect(120, 44, { radius: 8 }),
+      pos(width() / 2, panelY + panelHeight - 35),
+      anchor('center'),
+      color(80, 80, 80),
+      area(),
+    ])
+
+    overlay.add([
+      text('Cancel', { size: 20 }),
+      pos(width() / 2, panelY + panelHeight - 35),
+      anchor('center'),
+      color(WHITE),
+    ])
+
+    cancelButton.onHover(() => {
+      setCursor('pointer')
+      cancelButton.color = rgb(100, 100, 100)
+    })
+
+    cancelButton.onHoverEnd(() => {
+      setCursor('default')
+      cancelButton.color = rgb(80, 80, 80)
+    })
+
+    cancelButton.onClick(() => {
+      close()
+    })
+
+    return overlay
+  }
+
+  function openMonsterSelect(item: ItemDef) {
+    if (selectOverlay) return
+    selectOverlay = addMonsterSelect(item)
+  }
+
+  function applyPurchase(item: ItemDef, target?: Monster) {
+    const monster = target ?? playerTeam[runState.activePlayerIndex]
 
     switch (item.kind) {
       case 'stat_boost_attack':
-        active.baseStats.attack = Math.round(active.baseStats.attack * 1.2)
+        monster.baseStats.attack = Math.round(monster.baseStats.attack * 1.2)
         break
       case 'stat_boost_defense':
-        active.baseStats.defense = Math.round(active.baseStats.defense * 1.2)
+        monster.baseStats.defense = Math.round(monster.baseStats.defense * 1.2)
         break
       case 'stat_boost_hp':
-        active.baseStats.hp = Math.round(active.baseStats.hp * 1.3)
-        active.maxHp = active.baseStats.hp
-        active.currentHp = active.maxHp
+        monster.baseStats.hp = Math.round(monster.baseStats.hp * 1.3)
+        monster.maxHp = monster.baseStats.hp
+        monster.currentHp = monster.maxHp
         break
       case 'stat_boost_speed':
-        active.baseStats.speed = Math.round(active.baseStats.speed * 1.2)
+        monster.baseStats.speed = Math.round(monster.baseStats.speed * 1.2)
         break
       case 'full_heal':
         fullHealTeam(playerTeam)
         break
       case 'learn_move': {
         const move = choose(MOVE.LEARNABLE_MOVES)
-        if (!active.moves.includes(move)) {
-          active.moves.push(move)
+        if (!monster.moves.includes(move)) {
+          monster.moves.push(move)
         }
         break
       }
