@@ -1,8 +1,8 @@
-import { MOVE, SCENE, STAT, TYPE } from '../constants'
+import { SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { addToTeam, fullHealTeam, gainXp, randomMonster } from '../utils'
+import { fullHealTeam, gainXp } from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -46,20 +46,6 @@ const SHOP_ITEMS: ItemDef[] = [
     label: 'Full Restore',
     description: 'Heal entire team',
     price: 20,
-  },
-  {
-    id: 'learn_move',
-    kind: 'learn_move',
-    label: 'Learn Move',
-    description: 'Learn 1 random move',
-    price: 40,
-  },
-  {
-    id: 'buy_monster',
-    kind: 'buy_monster',
-    label: 'Recruit Monster',
-    description: 'Add 1 random monster',
-    price: 50,
   },
   {
     id: 'heal_potion',
@@ -108,7 +94,7 @@ scene(SCENE.SHOP, () => {
   const cards: ReturnType<typeof addCard>[] = []
 
   SHOP_ITEMS.forEach((item, i) => {
-    const y = 145 + i * 80
+    const y = 160 + i * 80
 
     const card = addCard({
       x: center().x,
@@ -158,7 +144,6 @@ scene(SCENE.SHOP, () => {
     'stat_boost_defense',
     'stat_boost_hp',
     'stat_boost_speed',
-    'learn_move',
     'level_up',
   ])
 
@@ -468,18 +453,6 @@ scene(SCENE.SHOP, () => {
       case 'full_heal':
         fullHealTeam(playerTeam)
         break
-      case 'learn_move': {
-        const move = choose(MOVE.LEARNABLE_MOVES)
-        if (!monster.moves.includes(move)) {
-          monster.moves.push(move)
-        }
-        break
-      }
-      case 'buy_monster': {
-        const newMonster = randomMonster(runState.wave)
-        addToTeam(playerTeam, newMonster)
-        break
-      }
       case 'heal_potion':
       case 'revive':
         runState.inventory.push(item)
