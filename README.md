@@ -89,6 +89,8 @@ For testing, you can use querystring parameters to jump directly to specific sce
 - `?scene=shop` — jump directly to the shop scene
 - `?scene=shop&coins=100` — shop with 100 coins
 - `?scene=waveStart&wave=5` — wave start at wave 5
+- `?team=3` — generate a random team of 3 monsters (1-6 supported)
+- `?team=3&scene=battle&wave=5` — battle with 3 random monsters at wave 5
 
 ## License
 

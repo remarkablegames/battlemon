@@ -1,5 +1,6 @@
 import { SCENE } from '../constants'
 import { runState } from '../state'
+import { randomMonsterPool } from './monster'
 
 const VALID_SCENES = new Set(Object.values(SCENE) as string[])
 
@@ -8,6 +9,17 @@ export function applyQuerystringOverrides(): string {
   const sceneParam = params.get('scene')
   const coinsParam = params.get('coins')
   const waveParam = params.get('wave')
+  const teamParam = params.get('team')
+
+  // Apply team=N override if present (N = number of random monsters)
+  if (teamParam !== null) {
+    const teamSize = Number.parseInt(teamParam, 10)
+    if (!Number.isNaN(teamSize) && teamSize > 0 && teamSize <= 6) {
+      runState.playerTeam = randomMonsterPool(teamSize, 1)
+      runState.activePlayerIndex = 0
+      runState.battleRoster = Array.from({ length: teamSize }, (_, i) => i)
+    }
+  }
 
   // Apply coins override if present
   if (coinsParam !== null) {
