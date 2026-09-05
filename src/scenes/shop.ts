@@ -7,7 +7,7 @@ import { fullHealTeam, gainXp } from '../utils'
 interface TeamOverlayOptions {
   title: string
   subtitle?: string
-  onSelect?: (monster: Monster, i: number) => void
+  onSelect?: (monster: Monster, index: number) => void
   rowRightText?: (monster: Monster) => string
 }
 
@@ -93,8 +93,8 @@ scene(SCENE.SHOP, () => {
 
   const cards: ReturnType<typeof addCard>[] = []
 
-  SHOP_ITEMS.forEach((item, i) => {
-    const y = 160 + i * 80
+  SHOP_ITEMS.forEach((item, index) => {
+    const y = 160 + index * 80
 
     const card = addCard({
       x: center().x,
@@ -167,7 +167,7 @@ scene(SCENE.SHOP, () => {
     overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     const panelWidth = 440
-    const panelHeight = 150 + playerTeam.length * 80
+    const panelHeight = 170 + playerTeam.length * 80
     const panelX = (width() - panelWidth) / 2
     const panelY = (height() - panelHeight) / 2
 
@@ -193,11 +193,11 @@ scene(SCENE.SHOP, () => {
       ])
     }
 
-    const listStartY = panelY + 100
+    const listStartY = panelY + 95
     const rowHeight = 80
 
-    playerTeam.forEach((monster, i) => {
-      const rowY = listStartY + i * rowHeight
+    playerTeam.forEach((monster, index) => {
+      const rowY = listStartY + index * rowHeight
 
       const row = overlay.add([
         rect(panelWidth - 40, 70, { radius: 10 }),
@@ -230,6 +230,7 @@ scene(SCENE.SHOP, () => {
         color(180, 180, 180),
       ])
 
+      // sell price
       if (options.rowRightText) {
         overlay.add([
           text(options.rowRightText(monster), { size: 20 }),
@@ -253,7 +254,7 @@ scene(SCENE.SHOP, () => {
         })
 
         row.onClick(() => {
-          onSelect(monster, i)
+          onSelect(monster, index)
           close()
         })
       }
@@ -338,8 +339,8 @@ scene(SCENE.SHOP, () => {
       const listStartY = panelY + 70
       const rowHeight = 60
 
-      items.forEach((item, i) => {
-        const rowY = listStartY + i * rowHeight
+      items.forEach((item, index) => {
+        const rowY = listStartY + index * rowHeight
 
         overlay.add([
           text(item.label, { size: 20 }),
@@ -408,9 +409,9 @@ scene(SCENE.SHOP, () => {
       title: 'Your Team',
       subtitle: 'Tap a monster to sell',
       rowRightText: (monster) => `${String(monster.level * 10)} coins`,
-      onSelect: (monster, i) => {
+      onSelect: (monster, index) => {
         if (playerTeam.length <= 1) return
-        playerTeam.splice(i, 1)
+        playerTeam.splice(index, 1)
         runState.coins += monster.level * 10
         refreshCoins()
       },
