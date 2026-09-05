@@ -167,7 +167,7 @@ scene(SCENE.SHOP, () => {
     overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     const panelWidth = 440
-    const panelHeight = 170 + playerTeam.length * 80
+    const panelHeight = 170 + playerTeam.length * 100
     const panelX = (width() - panelWidth) / 2
     const panelY = (height() - panelHeight) / 2
 
@@ -194,13 +194,13 @@ scene(SCENE.SHOP, () => {
     }
 
     const listStartY = panelY + 95
-    const rowHeight = 80
+    const rowHeight = 100
 
     playerTeam.forEach((monster, index) => {
       const rowY = listStartY + index * rowHeight
 
       const row = overlay.add([
-        rect(panelWidth - 40, 70, { radius: 10 }),
+        rect(panelWidth - 40, 90, { radius: 10 }),
         pos(panelX + 20, rowY),
         color(50, 50, 80),
         area(),
@@ -208,7 +208,7 @@ scene(SCENE.SHOP, () => {
 
       overlay.add([
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
-        pos(panelX + 60, rowY + 35),
+        pos(panelX + 60, rowY + 45),
         anchor('center'),
         color(rgb(TYPE.TYPE_COLORS[monster.type])),
       ])
@@ -220,12 +220,26 @@ scene(SCENE.SHOP, () => {
         color(WHITE),
       ])
 
+      // Line 1: Level, HP, ATK
       overlay.add([
         text(
-          `${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}  HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
-          { size: 20 },
+          `Lv${String(monster.level)} • HP ${String(monster.maxHp)} • ATK ${String(monster.baseStats.attack)}`,
+          {
+            size: 20,
+          },
         ),
         pos(panelX + 110, rowY + 48),
+        anchor('left'),
+        color(180, 180, 180),
+      ])
+
+      // Line 2: DEF, SPD
+      overlay.add([
+        text(
+          `DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
+          { size: 20 },
+        ),
+        pos(panelX + 110, rowY + 70),
         anchor('left'),
         color(180, 180, 180),
       ])
