@@ -2,7 +2,7 @@ import { SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { fullHealTeam, gainXp } from '../utils'
+import { gainXp } from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -442,8 +442,6 @@ scene(SCENE.SHOP, () => {
         monster.baseStats.speed = Math.round(monster.baseStats.speed * 1.2)
         break
       case 'full_heal':
-        fullHealTeam(playerTeam)
-        break
       case 'heal_potion':
       case 'revive':
         runState.inventory.push(item)
