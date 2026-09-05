@@ -310,8 +310,21 @@ scene(SCENE.SHOP, () => {
     overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     const items = runState.inventory
+
+    // Group items by id
+    const groupedItems = new Map<string, { item: ItemDef; count: number }>()
+    for (const item of items) {
+      const existing = groupedItems.get(item.id)
+      if (existing) {
+        existing.count++
+      } else {
+        groupedItems.set(item.id, { item, count: 1 })
+      }
+    }
+
+    const groupedArray = Array.from(groupedItems.values())
     const panelWidth = 440
-    const panelHeight = 120 + Math.max(1, items.length) * 60
+    const panelHeight = 120 + Math.max(1, groupedArray.length) * 60
     const panelX = (width() - panelWidth) / 2
     const panelY = (height() - panelHeight) / 2
 
@@ -328,7 +341,7 @@ scene(SCENE.SHOP, () => {
       color(255, 220, 100),
     ])
 
-    if (items.length === 0) {
+    if (groupedArray.length === 0) {
       overlay.add([
         text('No items', { size: 20 }),
         pos(width() / 2, panelY + 80),
@@ -339,7 +352,7 @@ scene(SCENE.SHOP, () => {
       const listStartY = panelY + 70
       const rowHeight = 60
 
-      items.forEach((item, index) => {
+      groupedArray.forEach(({ item, count }, index) => {
         const rowY = listStartY + index * rowHeight
 
         overlay.add([
@@ -355,6 +368,15 @@ scene(SCENE.SHOP, () => {
           anchor('left'),
           color(200, 200, 200),
         ])
+
+        if (count > 0) {
+          overlay.add([
+            text(`x${String(count)}`, { size: 20 }),
+            pos(panelX + panelWidth - 30, rowY),
+            anchor('right'),
+            color(255, 220, 80),
+          ])
+        }
       })
     }
 
