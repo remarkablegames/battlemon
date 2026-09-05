@@ -7,7 +7,7 @@ import { gainXp } from '../utils'
 interface TeamOverlayOptions {
   title: string
   subtitle?: string
-  onSelect?: (monster: Monster, index: number) => void
+  onSelect?: (monster: Monster) => void
   rowRightText?: (monster: Monster) => string
 }
 
@@ -206,49 +206,49 @@ scene(SCENE.SHOP, () => {
         area(),
       ])
 
-      overlay.add([
+      row.add([
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
-        pos(panelX + 60, rowY + 45),
+        pos(40, 45),
         anchor('center'),
         color(rgb(TYPE.TYPE_COLORS[monster.type])),
       ])
 
-      overlay.add([
+      row.add([
         text(monster.name, { size: 20 }),
-        pos(panelX + 110, rowY + 20),
+        pos(90, 20),
         anchor('left'),
         color(WHITE),
       ])
 
       // Line 1: Level, HP, ATK
-      overlay.add([
+      row.add([
         text(
           `Lv${String(monster.level)} • HP ${String(monster.maxHp)} • ATK ${String(monster.baseStats.attack)}`,
           {
             size: 20,
           },
         ),
-        pos(panelX + 110, rowY + 48),
+        pos(90, 48),
         anchor('left'),
         color(180, 180, 180),
       ])
 
       // Line 2: DEF, SPD
-      overlay.add([
+      row.add([
         text(
           `DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
           { size: 20 },
         ),
-        pos(panelX + 110, rowY + 70),
+        pos(90, 70),
         anchor('left'),
         color(180, 180, 180),
       ])
 
       // sell price
       if (options.rowRightText) {
-        overlay.add([
+        row.add([
           text(options.rowRightText(monster), { size: 20 }),
-          pos(panelX + panelWidth - 40, rowY + 20),
+          pos(panelWidth - 60, 20),
           anchor('right'),
           color(255, 220, 80),
         ])
@@ -268,8 +268,12 @@ scene(SCENE.SHOP, () => {
         })
 
         row.onClick(() => {
-          onSelect(monster, index)
-          close()
+          // disable sell if this is the last monster
+          if (playerTeam.length < 2) {
+            return
+          }
+          onSelect(monster)
+          row.destroy()
         })
       }
     })
@@ -445,8 +449,10 @@ scene(SCENE.SHOP, () => {
       title: 'Your Team',
       subtitle: 'Tap a monster to sell',
       rowRightText: (monster) => `${String(monster.level * 10)} coins`,
-      onSelect: (monster, index) => {
+      onSelect: (monster) => {
         if (playerTeam.length <= 1) return
+        const index = playerTeam.findIndex(({ id }) => id === monster.id)
+        if (index === -1) return
         playerTeam.splice(index, 1)
         runState.coins += monster.level * 10
         refreshCoins()
