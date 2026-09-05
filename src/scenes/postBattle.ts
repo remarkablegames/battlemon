@@ -51,7 +51,7 @@ scene(SCENE.POST_BATTLE, () => {
     // name and level
     add([
       text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
-      pos(center().x - 140, rowY - 20),
+      pos(center().x - 140, rowY - 10),
       anchor('left'),
       color(255, 255, 255),
     ])
@@ -59,7 +59,7 @@ scene(SCENE.POST_BATTLE, () => {
     // XP text
     add([
       text(`+${String(xpGained)} XP`, { size: 18 }),
-      pos(center().x - 140, rowY + 5),
+      pos(center().x - 140, rowY + 15),
       anchor('left'),
       color(180, 180, 180),
     ])
@@ -67,9 +67,11 @@ scene(SCENE.POST_BATTLE, () => {
     // XP bar background
     const xpBarWidth = 200
     const xpBarHeight = 12
+    const xpBarPos = vec2(center().x + 20, rowY + 15)
+
     add([
       rect(xpBarWidth, xpBarHeight, { radius: 4 }),
-      pos(center().x + 40, rowY + 10),
+      pos(xpBarPos),
       anchor('left'),
       color(60, 60, 80),
     ])
@@ -81,7 +83,7 @@ scene(SCENE.POST_BATTLE, () => {
 
     const xpFill = add([
       rect(0, xpBarHeight, { radius: 4 }),
-      pos(center().x + 40, rowY + 10),
+      pos(xpBarPos),
       anchor('left'),
       color(100, 200, 100),
     ])
@@ -114,20 +116,12 @@ scene(SCENE.POST_BATTLE, () => {
       }
     })
 
-    // XP text
-    add([
-      text(`+${String(xpGained)} XP`, { size: 18 }),
-      pos(center().x - 140, rowY + 5),
-      anchor('left'),
-      color(180, 180, 180),
-    ])
-
     // level up notification
     const leveledUp = monster.level > oldLevel
     if (leveledUp) {
       add([
         text('LEVEL UP!', { size: 20 }),
-        pos(center().x + 180, rowY - 10),
+        pos(center().x + 170, rowY - 10),
         anchor('center'),
         color(255, 220, 80),
       ])
