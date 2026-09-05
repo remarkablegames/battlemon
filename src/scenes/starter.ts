@@ -85,7 +85,7 @@ scene(SCENE.STARTER, () => {
       runState.wave = 1
       runState.activePlayerIndex = 0
       runState.battleRoster = [0]
-      go(SCENE.ARENA)
+      go(SCENE.BATTLE)
     })
   })
 })

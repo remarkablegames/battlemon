@@ -152,6 +152,6 @@ scene(SCENE.WAVE_START, () => {
   startButton.onClick(() => {
     runState.battleRoster = [...selected]
     runState.activePlayerIndex = 0
-    go(SCENE.ARENA)
+    go(SCENE.BATTLE)
   })
 })

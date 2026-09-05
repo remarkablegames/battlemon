@@ -2,7 +2,7 @@ import { MOVE, SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { addToTeam, fullHealTeam, randomMonster } from '../utils'
+import { addToTeam, fullHealTeam, gainXp, randomMonster } from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -74,6 +74,13 @@ const SHOP_ITEMS: ItemDef[] = [
     label: 'Revive',
     description: 'Revive at 50% HP',
     price: 25,
+  },
+  {
+    id: 'level_up',
+    kind: 'level_up',
+    label: 'Level Up',
+    description: '+1 Level',
+    price: 50,
   },
 ]
 
@@ -152,6 +159,7 @@ scene(SCENE.SHOP, () => {
     'stat_boost_hp',
     'stat_boost_speed',
     'learn_move',
+    'level_up',
   ])
 
   let selectOverlay: ReturnType<typeof addTeamOverlay> | null = null
@@ -475,6 +483,9 @@ scene(SCENE.SHOP, () => {
       case 'heal_potion':
       case 'revive':
         runState.inventory.push(item)
+        break
+      case 'level_up':
+        gainXp(monster, monster.xpToNextLevel)
         break
     }
   }

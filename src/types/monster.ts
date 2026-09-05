@@ -18,6 +18,9 @@ export interface Monster {
   level: number
   baseStats: MonsterStats
   moves: MoveDef[]
+  // progression
+  xp: number
+  xpToNextLevel: number
   // runtime battle state
   currentHp: number
   maxHp: number

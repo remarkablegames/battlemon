@@ -11,4 +11,7 @@ export interface RunState {
   inventory: ItemDef[]
   battleRoster: number[]
   enemyTeam: Monster[]
+  // post-battle rewards
+  battleXpGains: Map<string, { xpGained: number; oldLevel: number }> // monster id -> XP gained and old level
+  battleCoinReward: number
 }

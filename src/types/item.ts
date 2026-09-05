@@ -9,6 +9,7 @@ export type ItemKind =
   | 'single_heal'
   | 'learn_move'
   | 'buy_monster'
+  | 'level_up'
 
 export interface ItemDef {
   id: string

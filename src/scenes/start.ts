@@ -1,5 +1,6 @@
-import './arena'
+import './battle'
 import './gameOver'
+import './postBattle'
 import './preload'
 import './tame'
 import './shop'

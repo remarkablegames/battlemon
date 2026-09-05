@@ -45,3 +45,12 @@ export const TYPE_MULTIPLIER_NEUTRAL = 1
 // critical hit
 export const CRIT_CHANCE = 0.15
 export const CRIT_MULTIPLIER = 1.5
+
+// XP curve
+export const XP_BASE = 100 // XP needed for level 1→2
+export const XP_MULTIPLIER = 1.5 // exponential growth factor
+
+export function xpForLevel(level: number): number {
+  if (level <= 1) return 0
+  return Math.round(XP_BASE * Math.pow(XP_MULTIPLIER, level - 2))
+}

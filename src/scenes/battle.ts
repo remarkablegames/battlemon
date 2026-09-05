@@ -7,15 +7,20 @@ import {
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { isTeamDefeated } from '../utils'
+import { gainXp, isTeamDefeated } from '../utils'
 
-scene(SCENE.ARENA, () => {
+scene(SCENE.BATTLE, () => {
   addBattleBackground()
 
   const { playerTeam, wave, activePlayerIndex, battleRoster } = runState
   const battleTeam = battleRoster.map((i) => playerTeam[i])
   const enemyTeam = runState.enemyTeam
   runState.defeatedEnemies = []
+  runState.battleXpGains = new Map()
+  runState.battleCoinReward = 0
+
+  // track participating monsters
+  const participatingMonsterIds = new Set<string>()
 
   let activePlayerIdx = activePlayerIndex
   let activeEnemyIdx = 0
@@ -226,6 +231,14 @@ scene(SCENE.ARENA, () => {
     const damage = Math.max(1, Math.round((baseDamage * typeMult) / defense))
     defender.currentHp = Math.max(0, defender.currentHp - damage)
 
+    // track participation (attacker dealt damage, defender took damage)
+    if (battleTeam.includes(attacker)) {
+      participatingMonsterIds.add(attacker.id)
+    }
+    if (battleTeam.includes(defender)) {
+      participatingMonsterIds.add(defender.id)
+    }
+
     // shake the defender's sprite on hit
     const defenderSprite =
       defender === getActivePlayer()
@@ -415,8 +428,35 @@ scene(SCENE.ARENA, () => {
     // check if all enemies defeated
     if (isTeamDefeated(enemyTeam)) {
       battleOver = true
-      // wave clear coin bonus
-      runState.coins += 10 + wave * 5
+
+      // calculate XP and coin rewards
+      const totalXp = enemyTeam.reduce(
+        (sum, enemy) => sum + enemy.level * STAT.XP_BASE,
+        0,
+      )
+      runState.battleCoinReward = enemyTeam.length * 10 + wave * 5
+
+      // distribute XP to participating monsters
+      const participantCount = participatingMonsterIds.size
+      if (participantCount > 0) {
+        const xpPerMonster = Math.floor(totalXp / participantCount)
+        for (const monsterId of participatingMonsterIds) {
+          const monster = playerTeam.find((m) => m.id === monsterId)
+          if (monster) {
+            const oldXp = monster.xp
+            const oldLevel = monster.level
+            gainXp(monster, xpPerMonster)
+            runState.battleXpGains.set(monsterId, {
+              xpGained: monster.xp - oldXp,
+              oldLevel,
+            })
+          }
+        }
+      }
+
+      // add coins
+      runState.coins += runState.battleCoinReward
+
       wait(0.5, () => {
         hud.destroy()
         controls.destroy()
@@ -424,7 +464,7 @@ scene(SCENE.ARENA, () => {
         for (const s of playerSprites) {
           if (s) destroy(s)
         }
-        go(SCENE.TAME)
+        go(SCENE.POST_BATTLE)
       })
       return
     }
@@ -436,8 +476,8 @@ scene(SCENE.ARENA, () => {
         hud.destroy()
         controls.destroy()
         if (enemySprite) destroy(enemySprite)
-        for (const s of playerSprites) {
-          if (s) destroy(s)
+        for (const sprite of playerSprites) {
+          if (sprite) destroy(sprite)
         }
         go(SCENE.GAME_OVER)
       })

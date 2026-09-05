@@ -1,5 +1,6 @@
-export const ARENA = 'arena'
+export const BATTLE = 'battle'
 export const GAME_OVER = 'gameOver'
+export const POST_BATTLE = 'postBattle'
 export const PRELOAD = 'preload'
 export const TAME = 'tame'
 export const SHOP = 'shop'
