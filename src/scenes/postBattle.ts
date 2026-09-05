@@ -53,7 +53,7 @@ scene(SCENE.POST_BATTLE, () => {
       text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
       pos(center().x - 140, rowY - 10),
       anchor('left'),
-      color(255, 255, 255),
+      color(WHITE),
     ])
 
     // XP text

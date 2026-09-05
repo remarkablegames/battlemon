@@ -46,7 +46,7 @@ export function createBench(
   battleTeam: Monster[],
   onSwap: (battleTeamIdx: number) => void,
 ): Bench {
-  const root = add([pos(0, 0), fixed()])
+  const root = add([pos(), fixed()])
   let cooldownRatio = 0
 
   function refresh(activeIdx: number): void {
@@ -82,7 +82,7 @@ export function createBench(
         rect(BENCH_SLOT_SIZE + 8, BENCH_SLOT_SIZE + 8, { radius: 12 }),
         pos(width() - 80, slotY),
         anchor('center'),
-        color(0, 0, 0),
+        color(BLACK),
       ])
 
       // fill (tap target)
@@ -115,7 +115,7 @@ export function createBench(
         const radius = BENCH_SLOT_SIZE / 2 - 6
         const sweep = cooldownRatio * Math.PI * 2
         const segments = 32
-        const pts = [vec2(0, 0)]
+        const pts = [vec2()]
         for (let i = 0; i <= segments; i++) {
           const angle = -Math.PI / 2 + (i / segments) * sweep
           pts.push(vec2(Math.cos(angle) * radius, Math.sin(angle) * radius))
@@ -190,13 +190,14 @@ function addHpBox(x: number, y: number) {
   // border and background
   box.add([
     rect(HP_BOX_WIDTH, HP_BOX_HEIGHT, { radius: 14 }),
-    pos(0, 0),
-    color(0, 0, 0),
+    pos(),
+    color(BLACK),
   ])
+
   box.add([
     rect(HP_BOX_WIDTH - 8, HP_BOX_HEIGHT - 8, { radius: 12 }),
-    pos(4, 4),
-    color(255, 255, 255),
+    pos(4),
+    color(WHITE),
   ])
 
   // HP label
@@ -221,7 +222,7 @@ function addHpBox(x: number, y: number) {
     text('100/100', { size: 20 }),
     pos(HP_BOX_WIDTH - 15, 16),
     anchor('right'),
-    color(0, 0, 0),
+    color(BLACK),
   ])
 
   return { box, fill, hpText }

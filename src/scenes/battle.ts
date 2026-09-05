@@ -519,15 +519,10 @@ scene(SCENE.BATTLE, () => {
   })
 
   function createItemsOverlay() {
-    const overlay = add([pos(0, 0), fixed(), z(100)])
+    const overlay = add([pos(), fixed(), z(100)])
 
     // dim background
-    overlay.add([
-      rect(width(), height()),
-      pos(0, 0),
-      color(0, 0, 0),
-      opacity(0.7),
-    ])
+    overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     // panel
     const panelWidth = 400

@@ -150,7 +150,7 @@ scene(SCENE.SHOP, () => {
   let selectOverlay: ReturnType<typeof addTeamOverlay> | null = null
 
   function addTeamOverlay(options: TeamOverlayOptions) {
-    const overlay = add([pos(0, 0), fixed(), z(100)])
+    const overlay = add([pos(), fixed(), z(100)])
     selectOverlay = overlay
     cards.forEach((card) => {
       card.tag('disabled')
@@ -164,12 +164,7 @@ scene(SCENE.SHOP, () => {
       selectOverlay = null
     }
 
-    overlay.add([
-      rect(width(), height()),
-      pos(0, 0),
-      color(0, 0, 0),
-      opacity(0.7),
-    ])
+    overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     const panelWidth = 440
     const panelHeight = 150 + playerTeam.length * 80
@@ -297,7 +292,7 @@ scene(SCENE.SHOP, () => {
   }
 
   function addItemsOverlay() {
-    const overlay = add([pos(0, 0), fixed(), z(100)])
+    const overlay = add([pos(), fixed(), z(100)])
     selectOverlay = overlay
     cards.forEach((card) => {
       card.tag('disabled')
@@ -311,12 +306,7 @@ scene(SCENE.SHOP, () => {
       selectOverlay = null
     }
 
-    overlay.add([
-      rect(width(), height()),
-      pos(0, 0),
-      color(0, 0, 0),
-      opacity(0.7),
-    ])
+    overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
     const items = runState.inventory
     const panelWidth = 440
