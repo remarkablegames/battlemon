@@ -12,6 +12,9 @@ export interface RunState {
   battleRoster: number[]
   enemyTeam: Monster[]
   // post-battle rewards
-  battleXpGains: Map<string, { xpGained: number; oldLevel: number }> // monster id -> XP gained and old level
+  battleXpGains: Map<
+    string,
+    { xpGained: number; oldLevel: number; oldXpToNextLevel: number }
+  > // monster id -> XP gained, old level, and old XP requirement
   battleCoinReward: number
 }

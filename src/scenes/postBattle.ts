@@ -28,7 +28,7 @@ scene(SCENE.POST_BATTLE, () => {
     const monster = playerTeam.find(({ id }) => id === monsterId)
     if (!monster) return
 
-    const { xpGained, oldLevel } = gainData
+    const { xpGained, oldLevel, oldXpToNextLevel } = gainData
 
     const rowY = startY
 
@@ -76,7 +76,7 @@ scene(SCENE.POST_BATTLE, () => {
 
     // XP bar fill (animated)
     const oldXp = monster.xp - xpGained
-    const oldXpRatio = oldXp / monster.xpToNextLevel
+    const oldXpRatio = oldXp / oldXpToNextLevel
     const newXpRatio = monster.xp / monster.xpToNextLevel
 
     const xpFill = add([
@@ -91,9 +91,26 @@ scene(SCENE.POST_BATTLE, () => {
       if (animProgress < 1) {
         animProgress += dt() * 2
         if (animProgress > 1) animProgress = 1
-        const currentRatio =
-          oldXpRatio + (newXpRatio - oldXpRatio) * animProgress
-        xpFill.width = xpBarWidth * Math.min(1, currentRatio)
+
+        if (leveledUp) {
+          // Two-stage animation: fill to 100%, then show new level progress
+          const halfPoint = 0.5
+          if (animProgress < halfPoint) {
+            // Stage 1: fill from old ratio to 100%
+            const stageProgress = animProgress / halfPoint
+            xpFill.width =
+              xpBarWidth * (oldXpRatio + (1 - oldXpRatio) * stageProgress)
+          } else {
+            // Stage 2: show new level progress
+            const stageProgress = (animProgress - halfPoint) / halfPoint
+            xpFill.width = xpBarWidth * newXpRatio * stageProgress
+          }
+        } else {
+          // Normal animation: interpolate from old to new ratio
+          const currentRatio =
+            oldXpRatio + (newXpRatio - oldXpRatio) * animProgress
+          xpFill.width = xpBarWidth * Math.min(1, currentRatio)
+        }
       }
     })
 
