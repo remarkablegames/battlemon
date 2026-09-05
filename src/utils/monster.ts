@@ -106,6 +106,11 @@ function levelUp(monster: Monster): void {
     5: MOVE.LEARNABLE_MOVES,
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (!moveLearningLevels[monster.level]) {
+    return
+  }
+
   const availableMoves = moveLearningLevels[monster.level].filter(
     (move) => !monster.moves.some(({ id }) => id === move.id),
   )

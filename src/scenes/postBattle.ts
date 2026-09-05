@@ -14,7 +14,7 @@ scene(SCENE.POST_BATTLE, () => {
   ])
 
   // coin reward
-  const coinY = 140
+  const coinY = 120
   add([
     text(`+${String(battleCoinReward)} coins`, { size: 24 }),
     pos(center().x, coinY),
