@@ -268,12 +268,8 @@ scene(SCENE.SHOP, () => {
         })
 
         row.onClick(() => {
-          // disable sell if this is the last monster
-          if (playerTeam.length < 2) {
-            return
-          }
           onSelect(monster)
-          row.destroy()
+          close()
         })
       }
     })
@@ -431,15 +427,17 @@ scene(SCENE.SHOP, () => {
   }
 
   function openMonsterSelect(item: ItemDef) {
-    if (selectOverlay) return
-    addTeamOverlay({
-      title: item.label,
-      subtitle: 'Select a monster',
-      onSelect: (monster) => {
-        runState.coins -= item.price
-        applyPurchase(item, monster)
-        refreshCoins()
-      },
+    // add delay to prevent monster from being clicked immediately
+    wait(0, () => {
+      addTeamOverlay({
+        title: item.label,
+        subtitle: 'Select a monster',
+        onSelect: (monster) => {
+          runState.coins -= item.price
+          applyPurchase(item, monster)
+          refreshCoins()
+        },
+      })
     })
   }
 
