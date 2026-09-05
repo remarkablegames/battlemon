@@ -1,0 +1,18 @@
+{
+  "name": "Battlemon",
+  "short_name": "Battlemon",
+  "description": "⚔️ Battlemon is an autobattler where you tame, battle, and evolve a team of monsters.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    }
+  ]
+}
