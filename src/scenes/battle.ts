@@ -33,6 +33,7 @@ scene(SCENE.BATTLE, () => {
   let activeEnemyIdx = 0
   let swapCd = 0
   let battleOver = false
+  const pendingDeathAnims: Promise<void>[] = []
 
   const COOLDOWN_BAR_WIDTH = 60
   const COOLDOWN_BAR_HEIGHT = 4
@@ -282,11 +283,11 @@ scene(SCENE.BATTLE, () => {
       // play death animation on the defender's sprite
       if (defender === battleTeam[activePlayerIdx] && playerSprite) {
         setSpriteState(playerSprite, defender, 'death')
-        playDeathAnimation(playerSprite)
+        pendingDeathAnims.push(playDeathAnimation(playerSprite))
         playerSprites[activePlayerIdx] = null
       } else if (defender === enemyTeam[activeEnemyIdx] && enemySprite) {
         setSpriteState(enemySprite, defender, 'death')
-        playDeathAnimation(enemySprite)
+        pendingDeathAnims.push(playDeathAnimation(enemySprite))
         enemySprite = null
       }
     }
@@ -423,6 +424,24 @@ scene(SCENE.BATTLE, () => {
     hud.bench.refresh(activePlayerIdx)
   }
 
+  async function finishBattle(toScene: string) {
+    await Promise.all(pendingDeathAnims)
+    hud.destroy()
+    controls.destroy()
+
+    if (enemySprite) {
+      enemySprite.destroy()
+    }
+
+    for (const playerSprite of playerSprites) {
+      if (playerSprite) {
+        playerSprite.destroy()
+      }
+    }
+
+    go(toScene)
+  }
+
   function checkWaveEnd(): void {
     if (battleOver) return
 
@@ -460,30 +479,14 @@ scene(SCENE.BATTLE, () => {
       // add coins
       runState.coins += runState.battleCoinReward
 
-      wait(0.5, () => {
-        hud.destroy()
-        controls.destroy()
-        if (enemySprite) destroy(enemySprite)
-        for (const s of playerSprites) {
-          if (s) destroy(s)
-        }
-        go(SCENE.POST_BATTLE)
-      })
+      void finishBattle(SCENE.POST_BATTLE)
       return
     }
 
     // check if all player monsters defeated
     if (isTeamDefeated(battleTeam)) {
       battleOver = true
-      wait(0.5, () => {
-        hud.destroy()
-        controls.destroy()
-        if (enemySprite) destroy(enemySprite)
-        for (const sprite of playerSprites) {
-          if (sprite) destroy(sprite)
-        }
-        go(SCENE.GAME_OVER)
-      })
+      void finishBattle(SCENE.GAME_OVER)
       return
     }
 

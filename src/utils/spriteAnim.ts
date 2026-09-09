@@ -57,11 +57,14 @@ export function setSpriteState(
   })
 }
 
-export function playDeathAnimation(sprite: BattleSprite): void {
-  sprite.onAnimEnd((name) => {
-    if (name !== 'death') return
-    if (spriteStates.get(sprite) !== 'death') return
-    if (sprite.exists()) sprite.destroy()
+export function playDeathAnimation(sprite: BattleSprite): Promise<void> {
+  return new Promise((resolve) => {
+    sprite.onAnimEnd((name) => {
+      if (name !== 'death') return
+      if (spriteStates.get(sprite) !== 'death') return
+      if (sprite.exists()) sprite.destroy()
+      resolve()
+    })
   })
 }
 
