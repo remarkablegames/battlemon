@@ -118,34 +118,43 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
     fire: 9,
     green: 10,
   }
-  const attackEnd = attackFrames[color] * 4 - 1
+
+  // attack anim uses the last row (sliceY 4) of the attack sheet
+  const sliceY = 4
+  const attackRowStart = (sliceY - 1) * attackFrames[color]
+
   return [
     {
       id,
       file: `${base}/Idle/Slime_Idle_full.png`,
       sliceX: 6,
-      sliceY: 4,
+      sliceY,
       anims: { idle: { from: 18, to: 23, loop: true } },
     },
     {
       id: `${id}_attack`,
       file: `${base}/Attack/Slime_Attack_full.png`,
       sliceX: attackFrames[color],
-      sliceY: 4,
-      anims: { attack: { from: attackEnd * 4, to: attackEnd * 5 - 1 } },
+      sliceY,
+      anims: {
+        attack: {
+          from: attackRowStart,
+          to: attackRowStart + attackFrames[color] - 1,
+        },
+      },
     },
     {
       id: `${id}_hurt`,
       file: `${base}/Hurt/Slime_Hurt_full.png`,
       sliceX: 5,
-      sliceY: 4,
-      anims: { hurt: { from: 12, to: 16 } },
+      sliceY,
+      anims: { hurt: { from: 15, to: 19 } },
     },
     {
       id: `${id}_death`,
       file: `${base}/Death/Slime_Death_full.png`,
       sliceX: 10,
-      sliceY: 4,
+      sliceY,
       anims: { death: { from: 30, to: 39 } },
     },
   ]
