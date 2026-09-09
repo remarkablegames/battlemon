@@ -1,8 +1,8 @@
-import { SPRITESHEET, STAT } from '../constants'
+import { SPRITE, STAT } from '../constants'
 import type { BattleSprite, Monster, MonsterState } from '../types'
 
 const SPRITE_BY_ID = new Map(
-  SPRITESHEET.SPRITESHEETS.map((config) => [config.id, config]),
+  SPRITE.SPRITES.map((config) => [config.id, config]),
 )
 
 /**

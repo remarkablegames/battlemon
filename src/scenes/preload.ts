@@ -1,8 +1,8 @@
-import { SCENE, SPRITESHEET } from '../constants'
+import { SCENE, SPRITE } from '../constants'
 import { applyQuerystringOverrides } from '../utils'
 
 scene(SCENE.PRELOAD, () => {
-  for (const config of SPRITESHEET.SPRITESHEETS) {
+  for (const config of SPRITE.SPRITES) {
     loadSprite(config.id, config.file, {
       sliceX: config.sliceX,
       sliceY: config.sliceY,

@@ -40,7 +40,7 @@ export const TYPE_LABELS: Record<MonsterType, string> = {
   air: 'Air',
 }
 
-// sprites mapped to each type from public/spritesheets/
+// sprites mapped to each type from public/sprites/
 export const TYPE_SPRITES: Record<MonsterType, string[]> = {
   fire: ['dino_red', 'slime_fire'],
   water: ['dino_blue', 'dude_monster', 'slime_blue'],

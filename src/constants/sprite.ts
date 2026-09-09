@@ -12,7 +12,7 @@ export interface SpriteConfig {
 const DINO_COLORS = ['red', 'blue', 'green', 'yellow'] as const
 
 const dinoSprites = (color: (typeof DINO_COLORS)[number]): SpriteConfig[] => {
-  const base = `spritesheets/Dino/Dino_${color[0].toUpperCase()}${color.slice(1)}.png`
+  const base = `sprites/Dino/Dino_${color[0].toUpperCase()}${color.slice(1)}.png`
   const id = `dino_${color}`
   return [
     {
@@ -40,7 +40,7 @@ const monsterSprites = (
   setup: (typeof MONSTER_SETUPS)[number],
 ): SpriteConfig[] => {
   const id = setup.toLowerCase()
-  const base = `spritesheets/${setup}`
+  const base = `sprites/${setup}`
   return [
     {
       id,
@@ -74,7 +74,7 @@ const PLANT_COLORS = ['blue', 'purple', 'red'] as const
 
 const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
   const id = `plant_${color}`
-  const base = `spritesheets/Plant_${color[0].toUpperCase()}${color.slice(1)}`
+  const base = `sprites/Plant_${color[0].toUpperCase()}${color.slice(1)}`
   return [
     {
       id,
@@ -112,7 +112,7 @@ const SLIME_COLORS = ['blue', 'fire', 'green'] as const
 
 const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
   const id = `slime_${color}`
-  const base = `spritesheets/Slime_${color[0].toUpperCase()}${color.slice(1)}`
+  const base = `sprites/Slime_${color[0].toUpperCase()}${color.slice(1)}`
   const attackFrames: Record<(typeof SLIME_COLORS)[number], number> = {
     blue: 11,
     fire: 9,
@@ -160,7 +160,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
   ]
 }
 
-export const SPRITESHEETS: SpriteConfig[] = [
+export const SPRITES: SpriteConfig[] = [
   ...DINO_COLORS.flatMap(dinoSprites),
   ...MONSTER_SETUPS.flatMap(monsterSprites),
   ...PLANT_COLORS.flatMap(plantSprites),
