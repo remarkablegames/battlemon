@@ -60,7 +60,11 @@ export function randomMonster(level = 1): Monster {
 }
 
 export function randomMonsterPool(count: number, level = 1): Monster[] {
-  return Array.from({ length: count }, () => randomMonster(level))
+  const types = chooseMultiple(TYPE.TYPES, count)
+  return types.map((type) => {
+    const personality = choose(PERSONALITY.PERSONALITIES)
+    return createMonster(type, personality, level)
+  })
 }
 
 export function gainXp(monster: Monster, amount: number): void {
