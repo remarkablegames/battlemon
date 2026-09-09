@@ -99,9 +99,9 @@ export function createBench(
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
         pos(width() - 80, slotY - 8),
         anchor('center'),
-        color(WHITE),
         opacity(monster.isAlive ? 1 : 0.3),
       ])
+      monsterSprite.play('idle')
 
       // cooldown clock overlay (pie sweep, drains clockwise)
       const clockOverlay = root.add([

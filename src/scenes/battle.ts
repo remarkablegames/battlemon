@@ -52,6 +52,7 @@ scene(SCENE.BATTLE, () => {
       opacity(1),
     ])
     monsterSprite.flipX = flipX
+    monsterSprite.play('idle')
 
     // cooldown bar track
     monsterSprite.add([

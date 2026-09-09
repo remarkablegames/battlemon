@@ -35,12 +35,12 @@ export function addEnemyPreview(
       outline(2, rgb(TYPE.TYPE_COLORS[enemy.type])),
     ])
 
-    slot.add([
+    const monsterSprite = slot.add([
       sprite(enemy.spriteId, { height: 42 }),
       pos(-50, 0),
       anchor('center'),
-      color(WHITE),
     ])
+    monsterSprite.play('idle')
 
     slot.add([
       text(TYPE.TYPE_LABELS[enemy.type], { size: 20 }),

@@ -206,12 +206,12 @@ scene(SCENE.SHOP, () => {
         area(),
       ])
 
-      row.add([
+      const monsterSprite = row.add([
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
         pos(40, 45),
         anchor('center'),
-        color(WHITE),
       ])
+      monsterSprite.play('idle')
 
       row.add([
         text(monster.name, { size: 20 }),

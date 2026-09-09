@@ -33,13 +33,12 @@ scene(SCENE.STARTER, () => {
       color: [40, 40, 60],
     })
 
-    // monster sprite
-    add([
+    const monsterSprite = add([
       sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      color(WHITE),
     ])
+    monsterSprite.play('idle')
 
     // name and type
     add([text(monster.name, { size: 20 }), pos(x + 40, y - 50), color(WHITE)])

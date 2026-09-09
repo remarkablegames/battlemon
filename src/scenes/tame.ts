@@ -52,12 +52,12 @@ scene(SCENE.TAME, () => {
     })
     cards.push(card)
 
-    add([
+    const monsterSprite = add([
       sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      color(WHITE),
     ])
+    monsterSprite.play('idle')
 
     add([text(monster.name, { size: 20 }), pos(x + 40, y - 40), color(WHITE)])
 

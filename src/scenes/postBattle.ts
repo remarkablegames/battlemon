@@ -40,13 +40,12 @@ scene(SCENE.POST_BATTLE, () => {
       color(40, 40, 60),
     ])
 
-    // sprite
-    add([
+    const monsterSprite = add([
       sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
       pos(center().x - 200, rowY),
       anchor('center'),
-      color(WHITE),
     ])
+    monsterSprite.play('idle')
 
     // name and level
     add([

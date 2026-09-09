@@ -81,12 +81,12 @@ scene(SCENE.WAVE_START, () => {
     })
     cards.push(card)
 
-    add([
+    const monsterSprite = add([
       sprite(monster.spriteId, { height: 64 }),
       pos(x - 160, y),
       anchor('center'),
-      color(WHITE),
     ])
+    monsterSprite.play('idle')
 
     add([
       text(monster.name, { size: 20 }),
