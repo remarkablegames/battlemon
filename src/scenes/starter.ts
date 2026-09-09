@@ -34,7 +34,10 @@ scene(SCENE.STARTER, () => {
     })
 
     const monsterSprite = add([
-      sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
+      sprite(monster.spriteId, {
+        height: STAT.MONSTER_HEIGHT,
+        animSpeed: STAT.ANIM_SPEED,
+      }),
       pos(x - 120, y),
       anchor('center'),
     ])

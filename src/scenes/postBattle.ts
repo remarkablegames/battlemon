@@ -41,7 +41,10 @@ scene(SCENE.POST_BATTLE, () => {
     ])
 
     const monsterSprite = add([
-      sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
+      sprite(monster.spriteId, {
+        height: STAT.MONSTER_ICON_HEIGHT,
+        animSpeed: STAT.ANIM_SPEED,
+      }),
       pos(center().x - 200, rowY),
       anchor('center'),
     ])

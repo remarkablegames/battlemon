@@ -82,7 +82,7 @@ scene(SCENE.WAVE_START, () => {
     cards.push(card)
 
     const monsterSprite = add([
-      sprite(monster.spriteId, { height: 64 }),
+      sprite(monster.spriteId, { height: 64, animSpeed: STAT.ANIM_SPEED }),
       pos(x - 160, y),
       anchor('center'),
     ])

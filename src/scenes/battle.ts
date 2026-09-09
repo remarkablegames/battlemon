@@ -44,7 +44,10 @@ scene(SCENE.BATTLE, () => {
     flipX?: boolean
   }) {
     const monsterSprite = add([
-      sprite(spriteId, { height: STAT.MONSTER_HEIGHT }),
+      sprite(spriteId, {
+        height: STAT.MONSTER_HEIGHT,
+        animSpeed: STAT.ANIM_SPEED,
+      }),
       pos(x, y),
       anchor('center'),
       scale(1),

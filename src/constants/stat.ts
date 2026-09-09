@@ -15,6 +15,9 @@ export const BATTLE_TEAM_SIZE = 3
 export const MONSTER_HEIGHT = 96
 export const MONSTER_ICON_HEIGHT = 48
 
+// multiplier for all sprite animation speeds (lower = slower)
+export const ANIM_SPEED = 0.7
+
 // battle timing
 export const BASIC_ATTACK_COOLDOWN = 1 // seconds
 export const SPECIAL_COOLDOWN = 4 // seconds

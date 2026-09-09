@@ -96,7 +96,10 @@ export function createBench(
       ])
 
       const monsterSprite = root.add([
-        sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
+        sprite(monster.spriteId, {
+          height: STAT.MONSTER_ICON_HEIGHT,
+          animSpeed: STAT.ANIM_SPEED,
+        }),
         pos(width() - 80, slotY - 8),
         anchor('center'),
         opacity(monster.isAlive ? 1 : 0.3),

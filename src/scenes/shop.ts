@@ -207,7 +207,10 @@ scene(SCENE.SHOP, () => {
       ])
 
       const monsterSprite = row.add([
-        sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
+        sprite(monster.spriteId, {
+          height: STAT.MONSTER_ICON_HEIGHT,
+          animSpeed: STAT.ANIM_SPEED,
+        }),
         pos(40, 45),
         anchor('center'),
       ])

@@ -1,4 +1,4 @@
-import { TYPE } from '../constants'
+import { STAT, TYPE } from '../constants'
 import type { Monster } from '../types'
 
 interface EnemyPreviewOptions {
@@ -36,7 +36,7 @@ export function addEnemyPreview(
     ])
 
     const monsterSprite = slot.add([
-      sprite(enemy.spriteId, { height: 42 }),
+      sprite(enemy.spriteId, { height: 42, animSpeed: STAT.ANIM_SPEED }),
       pos(-50, 0),
       anchor('center'),
     ])
