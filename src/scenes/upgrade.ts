@@ -26,9 +26,9 @@ scene(SCENE.UPGRADE, () => {
 
   const upgrades = pickRandomUpgrades(3)
 
-  upgrades.forEach((upgrade, i) => {
+  upgrades.forEach((upgrade, index) => {
     const x = width() / 2
-    const y = 180 + i * 200
+    const y = 180 + index * 200
 
     const card = addCard({
       x,

@@ -2,6 +2,7 @@ import { MOVE, SCENE, STAT, TYPE } from '../constants'
 import {
   addBattleBackground,
   addHud,
+  addMonster,
   addTouchControls,
   updateHud,
 } from '../gameobjects'
@@ -10,7 +11,6 @@ import type { ItemDef, Monster } from '../types'
 import {
   gainXp,
   isTeamDefeated,
-  markSpriteIdle,
   playDeathAnimation,
   setSpriteState,
   shakeSprite,
@@ -20,7 +20,7 @@ scene(SCENE.BATTLE, () => {
   addBattleBackground()
 
   const { playerTeam, wave, activePlayerIndex, battleRoster } = runState
-  const battleTeam = battleRoster.map((i) => playerTeam[i])
+  const battleTeam = battleRoster.map((index) => playerTeam[index])
   const enemyTeam = runState.enemyTeam
   runState.defeatedEnemies = []
   runState.battleXpGains = new Map()
@@ -35,67 +35,12 @@ scene(SCENE.BATTLE, () => {
   let battleOver = false
   const pendingDeathAnims: Promise<void>[] = []
 
-  const COOLDOWN_BAR_WIDTH = 60
-  const COOLDOWN_BAR_HEIGHT = 4
-
-  function spawnSprite({
-    spriteId,
-    x,
-    y,
-    monster,
-    flipX = false,
-  }: {
-    spriteId: string
-    x: number
-    y: number
-    monster: Monster
-    flipX?: boolean
-  }) {
-    const monsterSprite = add([
-      sprite(spriteId, {
-        height: STAT.MONSTER_HEIGHT,
-        animSpeed: STAT.ANIM_SPEED,
-      }),
-      pos(x, y),
-      anchor('center'),
-      scale(1),
-      color(WHITE),
-      opacity(1),
-    ])
-    monsterSprite.flipX = flipX
-    monsterSprite.play('idle')
-    markSpriteIdle(monsterSprite)
-
-    // cooldown bar track
-    monsterSprite.add([
-      rect(COOLDOWN_BAR_WIDTH, COOLDOWN_BAR_HEIGHT, { radius: 2 }),
-      pos(0, 40),
-      anchor('center'),
-      color(80, 80, 80),
-    ])
-
-    // cooldown bar fill
-    const fill = monsterSprite.add([
-      rect(0, COOLDOWN_BAR_HEIGHT, { radius: 2 }),
-      pos(-COOLDOWN_BAR_WIDTH / 2, 40),
-      anchor('left'),
-      color(rgb(TYPE.TYPE_COLORS[monster.type])),
-    ])
-
-    monsterSprite.onUpdate(() => {
-      const ratio = 1 - monster.basicCooldown / MOVE.BASIC_ATTACK.cooldown
-      fill.width = COOLDOWN_BAR_WIDTH * Math.max(0, Math.min(1, ratio))
-    })
-
-    return monsterSprite
-  }
-
-  type Sprite = ReturnType<typeof spawnSprite>
+  type Sprite = ReturnType<typeof addMonster>
 
   // create visual sprites for battle team
-  const playerSprites: (Sprite | null)[] = battleTeam.map((monster, i) => {
-    if (i === activePlayerIdx) {
-      return spawnSprite({
+  const playerSprites: (Sprite | null)[] = battleTeam.map((monster, index) => {
+    if (index === activePlayerIdx) {
+      return addMonster({
         spriteId: monster.spriteId,
         x: STAT.PLAYER_POS.x,
         y: STAT.PLAYER_POS.y,
@@ -111,7 +56,7 @@ scene(SCENE.BATTLE, () => {
   function spawnEnemySprite() {
     const enemy = enemyTeam[activeEnemyIdx]
     if (enemySprite) destroy(enemySprite)
-    enemySprite = spawnSprite({
+    enemySprite = addMonster({
       spriteId: enemy.spriteId,
       x: STAT.ENEMY_POS.x,
       y: STAT.ENEMY_POS.y,
@@ -402,7 +347,7 @@ scene(SCENE.BATTLE, () => {
     const monster = battleTeam[activePlayerIdx]
 
     // create new sprite with entry animation
-    const newSprite = spawnSprite({
+    const newSprite = addMonster({
       spriteId: monster.spriteId,
       x: STAT.PLAYER_POS.x,
       y: STAT.PLAYER_POS.y - 50,
@@ -548,8 +493,8 @@ scene(SCENE.BATTLE, () => {
     ])
 
     // list items
-    runState.inventory.forEach((item, i) => {
-      const itemY = panelY + 70 + i * 60
+    runState.inventory.forEach((item, index) => {
+      const itemY = panelY + 70 + index * 60
 
       const itemButton = overlay.add([
         rect(panelWidth - 40, 50, { radius: 8 }),
@@ -583,7 +528,7 @@ scene(SCENE.BATTLE, () => {
       })
 
       itemButton.onClick(() => {
-        useItem(item, i)
+        useItem(item, index)
         destroy(overlay)
         itemsOverlay = null
       })

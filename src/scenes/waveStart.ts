@@ -12,7 +12,7 @@ scene(SCENE.WAVE_START, () => {
   }
 
   const aliveIndices = playerTeam
-    .map((monster, i) => ({ monster, i }))
+    .map((monster, index) => ({ monster, i: index }))
     .filter(({ monster }) => monster.isAlive)
 
   const selected: number[] = []

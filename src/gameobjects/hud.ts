@@ -53,8 +53,8 @@ export function createBench(
     root.removeAll()
 
     const benchedIndices = battleTeam
-      .map((_monster, i) => i)
-      .filter((i) => i !== activeIdx)
+      .map((_monster, index) => index)
+      .filter((index) => index !== activeIdx)
 
     if (benchedIndices.length === 0) return
 

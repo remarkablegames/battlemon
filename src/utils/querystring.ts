@@ -17,7 +17,10 @@ export function applyQuerystringOverrides(): string {
     if (!Number.isNaN(teamSize) && teamSize > 0 && teamSize <= 6) {
       runState.playerTeam = randomMonsterPool(teamSize, 1)
       runState.activePlayerIndex = 0
-      runState.battleRoster = Array.from({ length: teamSize }, (_, i) => i)
+      runState.battleRoster = Array.from(
+        { length: teamSize },
+        (_, index) => index,
+      )
     }
   }
 

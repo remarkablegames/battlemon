@@ -36,9 +36,9 @@ scene(SCENE.TAME, () => {
 
   const cards: ReturnType<typeof addCard>[] = []
 
-  defeatedEnemies.forEach((monster, i) => {
+  defeatedEnemies.forEach((monster, index) => {
     const x = center().x
-    const y = 220 + i * 180
+    const y = 220 + index * 180
 
     const border = createCardBorder(x, y)
     cardBorders.push(border)
@@ -124,7 +124,9 @@ scene(SCENE.TAME, () => {
     } else {
       // team full — replace first benched monster
       const activeIdx = runState.activePlayerIndex
-      const benchIdx = playerTeam.findIndex((_m, i) => i !== activeIdx)
+      const benchIdx = playerTeam.findIndex(
+        (_monster, index) => index !== activeIdx,
+      )
       if (benchIdx >= 0) {
         selected.isAlive = true
         selected.currentHp = selected.maxHp
