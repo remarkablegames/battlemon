@@ -40,14 +40,14 @@ export const TYPE_LABELS: Record<MonsterType, string> = {
   air: 'Air',
 }
 
-// sprites mapped to each type from public/sprites/
+// sprites mapped to each type from public/spritesheets/
 export const TYPE_SPRITES: Record<MonsterType, string[]> = {
-  fire: ['dino', 'fire', 'zombean', 'pumpka'],
-  water: ['flowy', 'btfly', 'goldfly', 'ghosty'],
-  plant: ['mushroom', 'onion', 'apple', 'grape', 'pineapple', 'watermelon'],
-  electric: ['spark', 'lightning', 'sparkle', 'star'],
-  earth: ['karat', 'gigagantrum', 'beantle', 'tga', 'sukomi'],
-  air: ['cloud', 'ghostiny', 'bobo', 'jumpy', 'btfly'],
+  fire: ['dino_red', 'slime_fire'],
+  water: ['dino_blue', 'dude_monster', 'slime_blue'],
+  plant: ['plant_blue', 'plant_purple', 'plant_red'],
+  electric: ['dino_yellow'],
+  earth: ['dino_green', 'slime_green'],
+  air: ['owlet_monster', 'pink_monster'],
 }
 
 export function getTypeMultiplier(

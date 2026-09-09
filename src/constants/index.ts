@@ -1,6 +1,7 @@
 export * as MOVE from './move'
 export * as PERSONALITY from './personality'
 export * as SCENE from './scene'
+export * as SPRITESHEET from './spritesheet'
 export * as STAT from './stat'
 export * as TYPE from './type'
 export * as UPGRADE from './upgrade'

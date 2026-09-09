@@ -56,7 +56,7 @@ scene(SCENE.TAME, () => {
       sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+      color(WHITE),
     ])
 
     add([text(monster.name, { size: 20 }), pos(x + 40, y - 40), color(WHITE)])

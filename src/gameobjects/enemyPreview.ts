@@ -39,7 +39,7 @@ export function addEnemyPreview(
       sprite(enemy.spriteId, { height: 42 }),
       pos(-50, 0),
       anchor('center'),
-      color(rgb(TYPE.TYPE_COLORS[enemy.type])),
+      color(WHITE),
     ])
 
     slot.add([

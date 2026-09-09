@@ -1,4 +1,4 @@
-import { STAT, TYPE } from '../constants'
+import { STAT } from '../constants'
 import { runState } from '../state'
 import type { Monster } from '../types'
 
@@ -99,7 +99,7 @@ export function createBench(
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
         pos(width() - 80, slotY - 8),
         anchor('center'),
-        color(rgb(TYPE.TYPE_COLORS[monster.type])),
+        color(WHITE),
         opacity(monster.isAlive ? 1 : 0.3),
       ])
 

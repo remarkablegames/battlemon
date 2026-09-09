@@ -1,4 +1,4 @@
-import { SCENE, STAT, TYPE } from '../constants'
+import { SCENE, STAT } from '../constants'
 import { addButton } from '../gameobjects'
 import { runState } from '../state'
 
@@ -45,7 +45,7 @@ scene(SCENE.POST_BATTLE, () => {
       sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
       pos(center().x - 200, rowY),
       anchor('center'),
-      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+      color(WHITE),
     ])
 
     // name and level

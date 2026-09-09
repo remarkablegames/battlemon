@@ -1,4 +1,4 @@
-import { SCENE, STAT, TYPE } from '../constants'
+import { SCENE, STAT } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
@@ -210,7 +210,7 @@ scene(SCENE.SHOP, () => {
         sprite(monster.spriteId, { height: STAT.MONSTER_ICON_HEIGHT }),
         pos(40, 45),
         anchor('center'),
-        color(rgb(TYPE.TYPE_COLORS[monster.type])),
+        color(WHITE),
       ])
 
       row.add([

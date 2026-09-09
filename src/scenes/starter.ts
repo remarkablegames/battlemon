@@ -38,7 +38,7 @@ scene(SCENE.STARTER, () => {
       sprite(monster.spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x - 120, y),
       anchor('center'),
-      color(rgb(TYPE.TYPE_COLORS[monster.type])),
+      color(WHITE),
     ])
 
     // name and type

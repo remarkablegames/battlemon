@@ -30,21 +30,28 @@ scene(SCENE.BATTLE, () => {
   const COOLDOWN_BAR_WIDTH = 60
   const COOLDOWN_BAR_HEIGHT = 4
 
-  function spawnSprite(
-    spriteId: string,
-    x: number,
-    y: number,
-    typeColor: string,
-    monster: Monster,
-  ) {
+  function spawnSprite({
+    spriteId,
+    x,
+    y,
+    monster,
+    flipX = false,
+  }: {
+    spriteId: string
+    x: number
+    y: number
+    monster: Monster
+    flipX?: boolean
+  }) {
     const monsterSprite = add([
       sprite(spriteId, { height: STAT.MONSTER_HEIGHT }),
       pos(x, y),
       anchor('center'),
       scale(1),
-      color(rgb(typeColor)),
+      color(WHITE),
       opacity(1),
     ])
+    monsterSprite.flipX = flipX
 
     // cooldown bar track
     monsterSprite.add([
@@ -59,7 +66,7 @@ scene(SCENE.BATTLE, () => {
       rect(0, COOLDOWN_BAR_HEIGHT, { radius: 2 }),
       pos(-COOLDOWN_BAR_WIDTH / 2, 40),
       anchor('left'),
-      color(rgb(typeColor)),
+      color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
     monsterSprite.onUpdate(() => {
@@ -75,13 +82,12 @@ scene(SCENE.BATTLE, () => {
   // create visual sprites for battle team
   const playerSprites: (Sprite | null)[] = battleTeam.map((monster, i) => {
     if (i === activePlayerIdx) {
-      return spawnSprite(
-        monster.spriteId,
-        STAT.PLAYER_POS.x,
-        STAT.PLAYER_POS.y,
-        TYPE.TYPE_COLORS[monster.type],
+      return spawnSprite({
+        spriteId: monster.spriteId,
+        x: STAT.PLAYER_POS.x,
+        y: STAT.PLAYER_POS.y,
         monster,
-      )
+      })
     }
     return null
   })
@@ -92,13 +98,13 @@ scene(SCENE.BATTLE, () => {
   function spawnEnemySprite() {
     const enemy = enemyTeam[activeEnemyIdx]
     if (enemySprite) destroy(enemySprite)
-    enemySprite = spawnSprite(
-      enemy.spriteId,
-      STAT.ENEMY_POS.x,
-      STAT.ENEMY_POS.y,
-      TYPE.TYPE_COLORS[enemy.type],
-      enemy,
-    )
+    enemySprite = spawnSprite({
+      spriteId: enemy.spriteId,
+      x: STAT.ENEMY_POS.x,
+      y: STAT.ENEMY_POS.y,
+      monster: enemy,
+      flipX: true,
+    })
   }
 
   spawnEnemySprite()
@@ -254,7 +260,7 @@ scene(SCENE.BATTLE, () => {
     if (defender === getActivePlayer() && playerSprite) {
       playerSprite.color = WHITE
       wait(0.1, () => {
-        playerSprite.color = rgb(TYPE.TYPE_COLORS[defender.type])
+        playerSprite.color = WHITE
       })
       spawnHitParticles(playerSprite.pos, typeMult)
       spawnDamageNumber(
@@ -268,7 +274,7 @@ scene(SCENE.BATTLE, () => {
       enemySprite.color = WHITE
       wait(0.1, () => {
         if (enemySprite) {
-          enemySprite.color = rgb(TYPE.TYPE_COLORS[defender.type])
+          enemySprite.color = WHITE
         }
       })
       spawnHitParticles(enemySprite.pos, typeMult)
@@ -399,13 +405,12 @@ scene(SCENE.BATTLE, () => {
     const monster = battleTeam[activePlayerIdx]
 
     // create new sprite with entry animation
-    const newSprite = spawnSprite(
-      monster.spriteId,
-      STAT.PLAYER_POS.x,
-      STAT.PLAYER_POS.y - 50,
-      TYPE.TYPE_COLORS[monster.type],
+    const newSprite = spawnSprite({
+      spriteId: monster.spriteId,
+      x: STAT.PLAYER_POS.x,
+      y: STAT.PLAYER_POS.y - 50,
       monster,
-    )
+    })
     playerSprites[activePlayerIdx] = newSprite
 
     // slide in animation
