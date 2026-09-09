@@ -7,7 +7,14 @@ import {
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { gainXp, isTeamDefeated } from '../utils'
+import {
+  gainXp,
+  isTeamDefeated,
+  markSpriteIdle,
+  playDeathAnimation,
+  setSpriteState,
+  shakeSprite,
+} from '../utils'
 
 scene(SCENE.BATTLE, () => {
   addBattleBackground()
@@ -56,6 +63,7 @@ scene(SCENE.BATTLE, () => {
     ])
     monsterSprite.flipX = flipX
     monsterSprite.play('idle')
+    markSpriteIdle(monsterSprite)
 
     // cooldown bar track
     monsterSprite.add([
@@ -198,35 +206,6 @@ scene(SCENE.BATTLE, () => {
     }
   }
 
-  function playDeathAnimation(s: Sprite): void {
-    s.onUpdate(() => {
-      s.opacity = Math.max(0, s.opacity - dt() * 2.5)
-      s.scale = vec2(s.scale.x - dt() * 7.5)
-    })
-    wait(0.4, () => {
-      destroy(s)
-    })
-  }
-
-  function shakeSprite(s: Sprite, intensity: number): void {
-    const origX = s.pos.x
-    const origY = s.pos.y
-    let elapsed = 0
-    const duration = 0.3
-    const cancel = s.onUpdate(() => {
-      elapsed += dt()
-      if (elapsed >= duration) {
-        s.pos.x = origX
-        s.pos.y = origY
-        cancel.cancel()
-        return
-      }
-      const decay = 1 - elapsed / duration
-      s.pos.x = origX + rand(-intensity, intensity) * decay
-      s.pos.y = origY + rand(-intensity, intensity) * decay
-    })
-  }
-
   function dealDamage(
     attacker: Monster,
     defender: Monster,
@@ -257,6 +236,9 @@ scene(SCENE.BATTLE, () => {
     if (defenderSprite) {
       const shakeIntensity = Math.min(12, 3 + (damage / defender.maxHp) * 20)
       shakeSprite(defenderSprite, shakeIntensity)
+      if (defender.currentHp > 0) {
+        setSpriteState(defenderSprite, defender, 'hurt')
+      }
     }
 
     // hit flash + particles
@@ -298,10 +280,12 @@ scene(SCENE.BATTLE, () => {
         runState.defeatedEnemies.push(defender)
       }
       // play death animation on the defender's sprite
-      if (defender === getActivePlayer() && playerSprite) {
+      if (defender === battleTeam[activePlayerIdx] && playerSprite) {
+        setSpriteState(playerSprite, defender, 'death')
         playDeathAnimation(playerSprite)
         playerSprites[activePlayerIdx] = null
-      } else if (defender === getActiveEnemy() && enemySprite) {
+      } else if (defender === enemyTeam[activeEnemyIdx] && enemySprite) {
+        setSpriteState(enemySprite, defender, 'death')
         playDeathAnimation(enemySprite)
         enemySprite = null
       }
@@ -313,6 +297,14 @@ scene(SCENE.BATTLE, () => {
     defender: Monster,
     isSpecial: boolean,
   ): void {
+    const attackerSprite =
+      attacker === getActivePlayer()
+        ? playerSprites[activePlayerIdx]
+        : attacker === getActiveEnemy()
+          ? enemySprite
+          : null
+    if (attackerSprite) setSpriteState(attackerSprite, attacker, 'attack')
+
     if (isSpecial) {
       const special = MOVE.SPECIAL_MOVES[attacker.type]
       switch (special.kind) {

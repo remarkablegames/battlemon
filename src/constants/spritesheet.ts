@@ -23,7 +23,7 @@ const dinoSprites = (color: (typeof DINO_COLORS)[number]): SpriteConfig[] => {
         idle: { frames: [0, 1, 2, 1], loop: true },
         attack: { frames: [11, 12, 13, 17] },
         hurt: { from: 14, to: 16 },
-        death: 15,
+        death: { from: 15, to: 15 },
       },
     },
   ]
