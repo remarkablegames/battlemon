@@ -21,9 +21,9 @@ scene(SCENE.STARTER, () => {
     y: 145,
   })
 
-  starters.forEach((monster, i) => {
+  starters.forEach((monster, index) => {
     const x = center().x
-    const y = 280 + i * 220
+    const y = 290 + index * 190
 
     const card = addCard({
       x,

@@ -1,3 +1,4 @@
+export * as FONT from './font'
 export * as MOVE from './move'
 export * as PERSONALITY from './personality'
 export * as SCENE from './scene'

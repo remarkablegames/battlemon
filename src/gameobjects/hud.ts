@@ -1,4 +1,4 @@
-import { STAT } from '../constants'
+import { FONT, STAT } from '../constants'
 import { runState } from '../state'
 import type { Monster } from '../types'
 
@@ -204,7 +204,11 @@ function addHpBox(x: number, y: number) {
   ])
 
   // HP label
-  box.add([text('HP', { size: 20 }), pos(12, 6), color(255, 50, 50)])
+  box.add([
+    text('HP', { size: 20, font: FONT.HP }),
+    pos(12, 6),
+    color(255, 50, 50),
+  ])
 
   // bar track
   box.add([
@@ -222,7 +226,7 @@ function addHpBox(x: number, y: number) {
 
   // current/max hp
   const hpText = box.add([
-    text('100/100', { size: 20 }),
+    text('100/100', { size: 20, font: FONT.HP }),
     pos(HP_BOX_WIDTH - 15, 16),
     anchor('right'),
     color(BLACK),

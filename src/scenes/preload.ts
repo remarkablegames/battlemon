@@ -1,4 +1,4 @@
-import { SCENE, SPRITE } from '../constants'
+import { FONT, SCENE, SPRITE } from '../constants'
 import { applyQuerystringOverrides } from '../utils'
 
 scene(SCENE.PRELOAD, () => {
@@ -10,5 +10,12 @@ scene(SCENE.PRELOAD, () => {
     })
   }
 
-  go(applyQuerystringOverrides())
+  const fonts = [
+    loadFont(FONT.HP, `fonts/${FONT.HP}.ttf`),
+    loadFont(FONT.DEFAULT, `fonts/${FONT.DEFAULT}.ttf`),
+  ]
+
+  void Promise.all(fonts).then(() => {
+    go(applyQuerystringOverrides())
+  })
 })
