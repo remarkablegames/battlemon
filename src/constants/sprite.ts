@@ -78,28 +78,28 @@ const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
   return [
     {
       id,
-      file: `${base}/Idle/Plant_Idle_full.png`,
+      file: `${base}/Plant_Idle_full.png`,
       sliceX: 4,
       sliceY: 4,
       anims: { idle: { from: 12, to: 15, loop: true } },
     },
     {
       id: `${id}_attack`,
-      file: `${base}/Attack/Plant_Attack_full.png`,
+      file: `${base}/Plant_Attack_full.png`,
       sliceX: 7,
       sliceY: 4,
       anims: { attack: { from: 21, to: 27 } },
     },
     {
       id: `${id}_hurt`,
-      file: `${base}/Hurt/Plant_Hurt_full.png`,
+      file: `${base}/Plant_Hurt_full.png`,
       sliceX: 5,
       sliceY: 4,
       anims: { hurt: { from: 15, to: 19 } },
     },
     {
       id: `${id}_death`,
-      file: `${base}/Death/Plant_Death_full.png`,
+      file: `${base}/Plant_Death_full.png`,
       sliceX: 10,
       sliceY: 4,
       anims: { death: { from: 30, to: 39 } },
@@ -126,14 +126,14 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
   return [
     {
       id,
-      file: `${base}/Idle/Slime_Idle_full.png`,
+      file: `${base}/Slime_Idle_full.png`,
       sliceX: 6,
       sliceY,
       anims: { idle: { from: 18, to: 23, loop: true } },
     },
     {
       id: `${id}_attack`,
-      file: `${base}/Attack/Slime_Attack_full.png`,
+      file: `${base}/Slime_Attack_full.png`,
       sliceX: attackFrames[color],
       sliceY,
       anims: {
@@ -145,14 +145,14 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
     },
     {
       id: `${id}_hurt`,
-      file: `${base}/Hurt/Slime_Hurt_full.png`,
+      file: `${base}/Slime_Hurt_full.png`,
       sliceX: 5,
       sliceY,
       anims: { hurt: { from: 15, to: 19 } },
     },
     {
       id: `${id}_death`,
-      file: `${base}/Death/Slime_Death_full.png`,
+      file: `${base}/Slime_Death_full.png`,
       sliceX: 10,
       sliceY,
       anims: { death: { from: 30, to: 39 } },
