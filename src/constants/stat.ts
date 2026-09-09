@@ -26,7 +26,7 @@ export const BENCH_REGEN_RATE = 5 // hp per second while benched
 
 // base stats for a level-1 monster
 export const BASE_STATS = {
-  hp: 70,
+  hp: 35,
   attack: 25,
   defense: 15,
   speed: 10,
