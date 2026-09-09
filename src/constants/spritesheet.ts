@@ -19,25 +19,12 @@ const dinoSprites = (color: (typeof DINO_COLORS)[number]): SpriteConfig[] => {
       id,
       file: base,
       sliceX: 24,
-      anims: { idle: { frames: [0, 1, 2, 1], loop: true } },
-    },
-    {
-      id: `${id}_attack`,
-      file: base,
-      sliceX: 24,
-      anims: { attack: { frames: [11, 12, 13, 17] } },
-    },
-    {
-      id: `${id}_hurt`,
-      file: base,
-      sliceX: 24,
-      anims: { hurt: { from: 14, to: 16 } },
-    },
-    {
-      id: `${id}_death`,
-      file: base,
-      sliceX: 24,
-      anims: { death: 15 },
+      anims: {
+        idle: { frames: [0, 1, 2, 1], loop: true },
+        attack: { frames: [11, 12, 13, 17] },
+        hurt: { from: 14, to: 16 },
+        death: 15,
+      },
     },
   ]
 }
