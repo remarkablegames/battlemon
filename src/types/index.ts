@@ -1,3 +1,4 @@
+export * from './audio'
 export * from './battle'
 export * from './gameState'
 export * from './item'

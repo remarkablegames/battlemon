@@ -1,10 +1,17 @@
 import { PERSONALITY, SCENE, STAT, TYPE } from '../constants'
-import { addCard, addEnemyPreview } from '../gameobjects'
+import { addCard, addEnemyPreview, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
-import { monsterHeight, randomMonsterPool, spawnWave } from '../utils'
+import {
+  monsterHeight,
+  playMusic,
+  randomMonsterPool,
+  spawnWave,
+} from '../utils'
 
 scene(SCENE.STARTER, () => {
   const starters = randomMonsterPool(3, 1)
+  playMusic('journey')
+  addSoundToggle()
 
   // generate wave 1 enemies for preview
   runState.enemyTeam = spawnWave(1)

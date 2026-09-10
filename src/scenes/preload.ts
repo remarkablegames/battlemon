@@ -1,4 +1,4 @@
-import { FONT, SCENE, SPRITE } from '../constants'
+import { AUDIO, FONT, SCENE, SPRITE } from '../constants'
 import { applyQuerystringOverrides } from '../utils'
 
 scene(SCENE.PRELOAD, () => {
@@ -10,12 +10,23 @@ scene(SCENE.PRELOAD, () => {
     })
   }
 
+  const soundAssets = Object.values(AUDIO.SOUND).map((file) =>
+    loadSound(file, file),
+  )
+
+  for (const [name, file] of Object.entries(AUDIO.MUSIC)) {
+    loadMusic(name, file)
+  }
+
+  loadSprite(SPRITE.SOUND_ICONS.ON.id, SPRITE.SOUND_ICONS.ON.file)
+  loadSprite(SPRITE.SOUND_ICONS.MUTED.id, SPRITE.SOUND_ICONS.MUTED.file)
+
   const fonts = [
     loadFont(FONT.HP, `fonts/${FONT.HP}.ttf`),
     loadFont(FONT.DEFAULT, `fonts/${FONT.DEFAULT}.ttf`),
   ]
 
-  void Promise.all(fonts).then(() => {
+  void Promise.all([...fonts, ...soundAssets]).then(() => {
     go(applyQuerystringOverrides())
   })
 })

@@ -1,0 +1,18 @@
+export type MusicTrack = 'title' | 'battle' | 'journey' | 'rest'
+
+export type SoundEvent =
+  | 'click'
+  | 'hover'
+  | 'open'
+  | 'close'
+  | 'cancel'
+  | 'start'
+  | 'continue'
+  | 'levelUp'
+  | 'hit'
+  | 'woosh'
+  | 'splash'
+  | 'cut'
+  | 'spray'
+  | 'bubbles'
+  | 'bushes'

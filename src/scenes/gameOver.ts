@@ -1,10 +1,13 @@
 import { SCENE } from '../constants'
-import { addButton } from '../gameobjects'
+import { addButton, addSoundToggle } from '../gameobjects'
 import { runState, saveBestWave } from '../state'
+import { playMusic } from '../utils'
 
 scene(SCENE.GAME_OVER, () => {
   const { wave, bestWave } = runState
   saveBestWave(wave)
+  playMusic('title')
+  addSoundToggle()
 
   add([
     text('Defeated!', { size: 36 }),

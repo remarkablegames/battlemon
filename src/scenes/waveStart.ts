@@ -1,10 +1,17 @@
 import { SCENE, STAT, TYPE } from '../constants'
-import { addButton, addCard, addEnemyPreview } from '../gameobjects'
+import {
+  addButton,
+  addCard,
+  addEnemyPreview,
+  addSoundToggle,
+} from '../gameobjects'
 import { runState } from '../state'
-import { monsterHeightMultiplier, spawnWave } from '../utils'
+import { monsterHeightMultiplier, playMusic, spawnWave } from '../utils'
 
 scene(SCENE.WAVE_START, () => {
   const { playerTeam, wave } = runState
+  playMusic('journey')
+  addSoundToggle()
 
   // generate enemy team for this wave if not already set
   if (runState.enemyTeam.length === 0) {

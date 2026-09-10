@@ -1,3 +1,4 @@
+export * as AUDIO from './audio'
 export * as FONT from './font'
 export * as MOVE from './move'
 export * as PERSONALITY from './personality'

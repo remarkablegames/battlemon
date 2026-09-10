@@ -1,3 +1,4 @@
+export * from './audio'
 export * from './enemyWave'
 export * from './monster'
 export * from './querystring'

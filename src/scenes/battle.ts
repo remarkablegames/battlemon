@@ -3,6 +3,7 @@ import {
   addBattleBackground,
   addHud,
   addMonster,
+  addSoundToggle,
   addTouchControls,
   updateHud,
 } from '../gameobjects'
@@ -12,12 +13,16 @@ import {
   gainXp,
   isTeamDefeated,
   playDeathAnimation,
+  playMusic,
   setSpriteState,
+  sfx,
   shakeSprite,
 } from '../utils'
 
 scene(SCENE.BATTLE, () => {
+  playMusic('battle')
   addBattleBackground()
+  addSoundToggle()
 
   const { playerTeam, wave, activePlayerIndex, battleRoster } = runState
   const battleTeam = battleRoster.map((index) => playerTeam[index])
@@ -63,6 +68,7 @@ scene(SCENE.BATTLE, () => {
       monster: enemy,
       flipX: true,
     })
+    sfx('bushes')
   }
 
   spawnEnemySprite()
@@ -180,6 +186,8 @@ scene(SCENE.BATTLE, () => {
         ? playerSprites[activePlayerIdx]
         : enemySprite
     if (defenderSprite) {
+      sfx('hit')
+      if (isCrit) sfx('cut')
       const shakeIntensity = Math.min(12, 3 + (damage / defender.maxHp) * 20)
       shakeSprite(defenderSprite, shakeIntensity)
       if (defender.currentHp > 0) {
@@ -221,6 +229,7 @@ scene(SCENE.BATTLE, () => {
 
     if (defender.currentHp <= 0) {
       defender.isAlive = false
+      sfx('splash')
       // track defeated enemies for catch/sell
       if (enemyTeam.includes(defender)) {
         runState.defeatedEnemies.push(defender)
@@ -256,15 +265,18 @@ scene(SCENE.BATTLE, () => {
       switch (special.kind) {
         case 'nuke':
         case 'debuff':
+          sfx('woosh')
           dealDamage(attacker, defender, special.power)
           if (special.kind === 'debuff') {
             defender.speedDebuff = 3 // 3 seconds of slow
           }
           break
         case 'buff':
+          sfx('spray')
           attacker.defenseBuff = 3 // 3 seconds of defense buff
           break
         case 'heal':
+          sfx('spray')
           for (const monster of attacker === getActivePlayer()
             ? battleTeam
             : enemyTeam) {
@@ -367,6 +379,7 @@ scene(SCENE.BATTLE, () => {
 
     swapCd = STAT.SWAP_COOLDOWN
     hud.bench.refresh(activePlayerIdx)
+    sfx('woosh')
   }
 
   async function finishBattle(toScene: string) {
@@ -464,6 +477,7 @@ scene(SCENE.BATTLE, () => {
   controls.itemsButton.onClick(() => {
     if (itemsOverlay) return
     if (runState.inventory.length === 0) return
+    sfx('open')
     itemsOverlay = createItemsOverlay()
   })
 
@@ -529,6 +543,7 @@ scene(SCENE.BATTLE, () => {
 
       itemButton.onClick(() => {
         useItem(item, index)
+        sfx('close')
         destroy(overlay)
         itemsOverlay = null
       })
@@ -561,6 +576,7 @@ scene(SCENE.BATTLE, () => {
     })
 
     closeButton.onClick(() => {
+      sfx('close')
       destroy(overlay)
       itemsOverlay = null
     })
@@ -572,11 +588,13 @@ scene(SCENE.BATTLE, () => {
     const player = getActivePlayer()
     switch (item.kind) {
       case 'heal_potion':
+        sfx('spray')
         if (player) {
           player.currentHp = player.maxHp
         }
         break
       case 'revive': {
+        sfx('spray')
         const fainted = battleTeam.find(({ isAlive }) => !isAlive)
         if (fainted) {
           fainted.isAlive = true

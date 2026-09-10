@@ -1,10 +1,13 @@
 import { SCENE } from '../constants'
-import { addButton } from '../gameobjects'
+import { addButton, addSoundToggle } from '../gameobjects'
 import { loadBestWave, resetRunState } from '../state'
+import { playMusic } from '../utils'
 
 scene(SCENE.TITLE, () => {
   resetRunState()
   loadBestWave()
+  playMusic('title')
+  addSoundToggle()
 
   add([
     text('Battlemon', { size: 36 }),

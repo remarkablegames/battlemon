@@ -1,11 +1,13 @@
 import { SCENE, STAT, TYPE } from '../constants'
-import { addButton, addCard } from '../gameobjects'
+import { addButton, addCard, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
-import { monsterHeight } from '../utils'
+import { monsterHeight, playMusic } from '../utils'
 
 scene(SCENE.TAME, () => {
   const { defeatedEnemies, playerTeam } = runState
+  playMusic('rest')
+  addSoundToggle()
 
   add([
     text('Tame', { size: 28 }),

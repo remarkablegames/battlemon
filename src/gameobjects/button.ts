@@ -1,5 +1,7 @@
 import type { ColorComp, GameObj, RectComp } from 'kaplay'
 
+import { sfx } from '../utils'
+
 interface ButtonOptions {
   x: number
   y: number
@@ -78,6 +80,7 @@ export function addButton({
       return
     }
     setCursor('pointer')
+    sfx('hover')
     button.color = rgb(
       Math.min(button.enabledColor[0] + 30, 255),
       Math.min(button.enabledColor[1] + 30, 255),
@@ -95,6 +98,12 @@ export function addButton({
 
   button.onDestroy(() => {
     setCursor('default')
+  })
+
+  button.onClick(() => {
+    if (!button.disabled) {
+      sfx('click')
+    }
   })
 
   button.add([text(label, { size: labelSize }), anchor('center'), color(WHITE)])

@@ -1,5 +1,4 @@
 import { FONT, STAT } from '../constants'
-import { runState } from '../state'
 import type { Monster } from '../types'
 import { monsterHeightMultiplier } from '../utils'
 
@@ -238,21 +237,6 @@ function addHpBox(x: number, y: number) {
   return { box, fill, hpText }
 }
 
-function addCoinText() {
-  return add([
-    styledText('0', {
-      size: 20,
-      fill: rgb(255, 220, 80),
-      outline: { color: BLACK, width: 2 },
-    }),
-    pos(width() - 15, 20),
-    anchor('topright'),
-    fixed(),
-  ])
-}
-
-type CoinText = ReturnType<typeof addCoinText>
-
 type HpBox = ReturnType<typeof addHpBox>
 type NameText = ReturnType<typeof addNameText>
 type WaveText = ReturnType<typeof addWaveText>
@@ -264,7 +248,6 @@ export interface HudElements {
   enemyNameText: NameText
   waveText: WaveText
   bench: Bench
-  coinText: CoinText
   destroy: () => void
 }
 
@@ -288,9 +271,6 @@ export function addHud(
   const bench = createBench(battleTeam, onSwap)
   bench.refresh(activeIdx)
 
-  // coin counter (top-right)
-  const coinText = addCoinText()
-
   return {
     playerHp,
     playerNameText,
@@ -298,7 +278,6 @@ export function addHud(
     enemyNameText,
     waveText,
     bench,
-    coinText,
     destroy: () => {
       destroy(playerHp.box)
       destroy(playerNameText)
@@ -306,7 +285,6 @@ export function addHud(
       destroy(enemyNameText)
       destroy(waveText)
       bench.destroy()
-      destroy(coinText)
     },
   }
 }
@@ -348,5 +326,4 @@ export function updateHud(
   }
 
   hud.waveText.text = `Wave ${String(wave)}`
-  hud.coinText.text = `${String(runState.coins)} coins`
 }

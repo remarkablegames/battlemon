@@ -60,7 +60,7 @@ No changes needed (audio helpers are self-contained; SFX fire on the user gestur
 
 ### 6. Create src/gameobjects/soundToggle.ts (exported from gameobjects/index.ts)
 
-- `addSoundToggle(x, y)` - fixed, `z(100)`, centered sprite button
+- `addSoundToggle()` - fixed, `z(100)`, centered sprite button hard-coded to `pos(width() - 45, 45)` (top-right, same on every scene; no params needed)
 - Initial icon reflects `getAudioMuted()`
 - On click: `sfx('click')`, `toggleMuted()`, then swap sprite via `unuse('sprite')` + `use(sprite(...))`
 
@@ -80,17 +80,19 @@ No changes needed (audio helpers are self-contained; SFX fire on the user gestur
 
 ### 8. Scene music + mute toggle (all 9 scenes)
 
-| Scene      | Music   | Toggle position |
-| ---------- | ------- | --------------- |
-| title      | title   | width()-45, 45  |
-| gameOver   | title   | width()-45, 45  |
-| battle     | battle  | width()-45, 45  |
-| starter    | journey | width()-45, 45  |
-| waveStart  | journey | width()-45, 45  |
-| upgrade    | journey | width()-45, 45  |
-| shop       | rest    | width()-45, 45  |
-| postBattle | rest    | width()-45, 45  |
-| tame       | rest    | width()-45, 45  |
+All scenes call `addSoundToggle()` (fixed top-right); music per scene:
+
+| Scene      | Music   |
+| ---------- | ------- |
+| title      | title   |
+| gameOver   | title   |
+| battle     | battle  |
+| starter    | journey |
+| waveStart  | journey |
+| upgrade    | journey |
+| shop       | rest    |
+| postBattle | rest    |
+| tame       | rest    |
 
 Because Kaplay destroys all objects on `go()`, the toggle is re-added per scene; same-track transitions (e.g. gameOver -> title) do not restart music.
 

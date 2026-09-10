@@ -1,8 +1,8 @@
 import { SCENE, STAT } from '../constants'
-import { addButton, addCard } from '../gameobjects'
+import { addButton, addCard, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { gainXp, monsterHeightMultiplier } from '../utils'
+import { gainXp, monsterHeightMultiplier, playMusic, sfx } from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -72,6 +72,8 @@ const SHOP_ITEMS: ItemDef[] = [
 
 scene(SCENE.SHOP, () => {
   const { playerTeam, coins } = runState
+  playMusic('rest')
+  addSoundToggle()
 
   add([
     text('Shop', { size: 28 }),
@@ -305,6 +307,7 @@ scene(SCENE.SHOP, () => {
     })
 
     cancelButton.onClick(() => {
+      sfx('cancel')
       close()
     })
 
@@ -425,6 +428,7 @@ scene(SCENE.SHOP, () => {
     })
 
     cancelButton.onClick(() => {
+      sfx('cancel')
       close()
     })
 
@@ -493,6 +497,7 @@ scene(SCENE.SHOP, () => {
         break
       case 'level_up':
         gainXp(monster, monster.xpToNextLevel)
+        sfx('levelUp')
         break
     }
   }

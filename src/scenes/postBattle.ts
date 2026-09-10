@@ -1,11 +1,13 @@
 import { SCENE, STAT } from '../constants'
-import { addButton } from '../gameobjects'
+import { addButton, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
-import { monsterHeightMultiplier } from '../utils'
+import { monsterHeightMultiplier, playMusic, sfx } from '../utils'
 
 scene(SCENE.POST_BATTLE, () => {
   const { playerTeam, battleXpGains, battleCoinReward, defeatedEnemies } =
     runState
+  playMusic('rest')
+  addSoundToggle()
 
   add([
     text('Battle Complete!', { size: 28 }),
@@ -93,6 +95,7 @@ scene(SCENE.POST_BATTLE, () => {
     ])
 
     let animProgress = 0
+    let levelUpSfxPlayed = false
     xpFill.onUpdate(() => {
       if (animProgress < 1) {
         animProgress += dt() * 2
@@ -108,6 +111,10 @@ scene(SCENE.POST_BATTLE, () => {
               xpBarWidth * (oldXpRatio + (1 - oldXpRatio) * stageProgress)
           } else {
             // Stage 2: show new level progress
+            if (!levelUpSfxPlayed) {
+              levelUpSfxPlayed = true
+              sfx('levelUp')
+            }
             const stageProgress = (animProgress - halfPoint) / halfPoint
             xpFill.width = xpBarWidth * newXpRatio * stageProgress
           }

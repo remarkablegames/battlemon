@@ -1,8 +1,8 @@
 import { SCENE, STAT, UPGRADE } from '../constants'
-import { addCard } from '../gameobjects'
+import { addCard, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import type { UpgradeDef } from '../types'
-import { addToTeam, fullHealTeam, randomMonster } from '../utils'
+import { addToTeam, fullHealTeam, playMusic, randomMonster } from '../utils'
 
 function pickRandomUpgrades(count: number): UpgradeDef[] {
   const pool = [...UPGRADE.UPGRADE_DEFS]
@@ -16,6 +16,8 @@ function pickRandomUpgrades(count: number): UpgradeDef[] {
 
 scene(SCENE.UPGRADE, () => {
   const { playerTeam } = runState
+  playMusic('journey')
+  addSoundToggle()
 
   add([
     text('Wave cleared! Choose an upgrade', { size: 22 }),

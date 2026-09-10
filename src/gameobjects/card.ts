@@ -1,3 +1,5 @@
+import { sfx } from '../utils'
+
 interface CardOptions {
   x: number
   y: number
@@ -25,6 +27,7 @@ export function addCard({
   card.onHover(() => {
     if (card.is('disabled')) return
     setCursor('pointer')
+    sfx('hover')
     card.color = rgb(
       Math.min(r + 30, 255),
       Math.min(g + 30, 255),
@@ -41,6 +44,12 @@ export function addCard({
 
   card.onDestroy(() => {
     setCursor('default')
+  })
+
+  card.onClick(() => {
+    if (!card.is('disabled')) {
+      sfx('click')
+    }
   })
 
   return card
