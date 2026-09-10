@@ -10,6 +10,7 @@ import {
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
 import {
+  fullHealTeam,
   gainXp,
   isTeamDefeated,
   playDeathAnimation,
@@ -591,6 +592,7 @@ scene(SCENE.BATTLE, () => {
         if (player) {
           player.currentHp = player.maxHp
         }
+        updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       case 'revive': {
         sfx('heal')
@@ -599,8 +601,14 @@ scene(SCENE.BATTLE, () => {
           fainted.isAlive = true
           fainted.currentHp = Math.floor(fainted.maxHp * 0.5)
         }
+        updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       }
+      case 'full_heal':
+        sfx('heal')
+        fullHealTeam(battleTeam)
+        updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
+        break
     }
     runState.inventory.splice(index, 1)
   }
