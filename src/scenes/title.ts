@@ -6,7 +6,11 @@ import { playMusic } from '../utils'
 scene(SCENE.TITLE, () => {
   resetRunState()
   loadBestWave()
-  playMusic('title')
+  try {
+    playMusic('title')
+  } catch {
+    // Ignore autoplay errors - audio will work after user interaction
+  }
   addSoundToggle()
 
   add([
