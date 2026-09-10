@@ -1,6 +1,7 @@
 import { FONT, STAT } from '../constants'
 import { runState } from '../state'
 import type { Monster } from '../types'
+import { monsterHeightMultiplier } from '../utils'
 
 const HP_BOX_WIDTH = 240
 const HP_BOX_HEIGHT = 56
@@ -97,7 +98,9 @@ export function createBench(
 
       const monsterSprite = root.add([
         sprite(monster.spriteId, {
-          height: STAT.MONSTER_ICON_HEIGHT,
+          height:
+            STAT.MONSTER_ICON_HEIGHT *
+            monsterHeightMultiplier(monster.spriteId),
           animSpeed: STAT.ANIM_SPEED,
         }),
         pos(width() - 80, slotY - 8),

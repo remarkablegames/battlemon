@@ -1,7 +1,7 @@
 import { SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard, addEnemyPreview } from '../gameobjects'
 import { runState } from '../state'
-import { spawnWave } from '../utils'
+import { monsterHeightMultiplier, spawnWave } from '../utils'
 
 scene(SCENE.WAVE_START, () => {
   const { playerTeam, wave } = runState
@@ -82,7 +82,10 @@ scene(SCENE.WAVE_START, () => {
     cards.push(card)
 
     const monsterSprite = add([
-      sprite(monster.spriteId, { height: 64, animSpeed: STAT.ANIM_SPEED }),
+      sprite(monster.spriteId, {
+        height: 64 * monsterHeightMultiplier(monster.spriteId),
+        animSpeed: STAT.ANIM_SPEED,
+      }),
       pos(x - 160, y),
       anchor('center'),
     ])

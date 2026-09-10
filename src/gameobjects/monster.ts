@@ -1,6 +1,6 @@
 import { MOVE, STAT, TYPE } from '../constants'
 import type { Monster } from '../types'
-import { markSpriteIdle } from '../utils'
+import { markSpriteIdle, monsterHeight } from '../utils'
 
 const COOLDOWN_BAR_WIDTH = 60
 const COOLDOWN_BAR_HEIGHT = 4
@@ -20,7 +20,7 @@ export function addMonster({
 }) {
   const monsterSprite = add([
     sprite(spriteId, {
-      height: STAT.MONSTER_HEIGHT,
+      height: monsterHeight(spriteId),
       animSpeed: STAT.ANIM_SPEED,
     }),
     pos(x, y),

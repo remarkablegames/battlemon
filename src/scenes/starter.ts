@@ -1,7 +1,7 @@
 import { PERSONALITY, SCENE, STAT, TYPE } from '../constants'
 import { addCard, addEnemyPreview } from '../gameobjects'
 import { runState } from '../state'
-import { randomMonsterPool, spawnWave } from '../utils'
+import { monsterHeight, randomMonsterPool, spawnWave } from '../utils'
 
 scene(SCENE.STARTER, () => {
   const starters = randomMonsterPool(3, 1)
@@ -35,7 +35,7 @@ scene(SCENE.STARTER, () => {
 
     const monsterSprite = add([
       sprite(monster.spriteId, {
-        height: STAT.MONSTER_HEIGHT,
+        height: monsterHeight(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
       pos(x - 120, y),

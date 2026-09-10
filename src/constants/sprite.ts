@@ -5,6 +5,7 @@ export interface SpriteConfig {
   file: string
   sliceX: number
   sliceY?: number
+  sizeMultiplier?: number
   anims: SpriteAnims
 }
 
@@ -75,12 +76,14 @@ const PLANT_COLORS = ['blue', 'purple', 'red'] as const
 const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
   const id = `plant_${color}`
   const base = `sprites/Plant_${color[0].toUpperCase()}${color.slice(1)}`
+  const sizeMultiplier = 1.5
   return [
     {
       id,
       file: `${base}/Plant_Idle_full.png`,
       sliceX: 4,
       sliceY: 4,
+      sizeMultiplier,
       anims: { idle: { from: 12, to: 15, loop: true } },
     },
     {
@@ -88,6 +91,7 @@ const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Plant_Attack_full.png`,
       sliceX: 7,
       sliceY: 4,
+      sizeMultiplier,
       anims: { attack: { from: 21, to: 27 } },
     },
     {
@@ -95,6 +99,7 @@ const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Plant_Hurt_full.png`,
       sliceX: 5,
       sliceY: 4,
+      sizeMultiplier,
       anims: { hurt: { from: 15, to: 19 } },
     },
     {
@@ -102,6 +107,7 @@ const plantSprites = (color: (typeof PLANT_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Plant_Death_full.png`,
       sliceX: 10,
       sliceY: 4,
+      sizeMultiplier,
       anims: { death: { from: 30, to: 39 } },
     },
   ]
@@ -122,6 +128,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
   // attack anim uses the last row (sliceY 4) of the attack sheet
   const sliceY = 4
   const attackRowStart = (sliceY - 1) * attackFrames[color]
+  const sizeMultiplier = 2
 
   return [
     {
@@ -129,6 +136,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Slime_Idle_full.png`,
       sliceX: 6,
       sliceY,
+      sizeMultiplier,
       anims: { idle: { from: 18, to: 23, loop: true } },
     },
     {
@@ -136,6 +144,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Slime_Attack_full.png`,
       sliceX: attackFrames[color],
       sliceY,
+      sizeMultiplier,
       anims: {
         attack: {
           from: attackRowStart,
@@ -148,6 +157,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Slime_Hurt_full.png`,
       sliceX: 5,
       sliceY,
+      sizeMultiplier,
       anims: { hurt: { from: 15, to: 19 } },
     },
     {
@@ -155,6 +165,7 @@ const slimeSprites = (color: (typeof SLIME_COLORS)[number]): SpriteConfig[] => {
       file: `${base}/Slime_Death_full.png`,
       sliceX: 10,
       sliceY,
+      sizeMultiplier,
       anims: { death: { from: 30, to: 39 } },
     },
   ]

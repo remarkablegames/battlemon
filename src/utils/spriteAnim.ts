@@ -1,5 +1,6 @@
 import { SPRITE, STAT } from '../constants'
 import type { BattleSprite, Monster, MonsterState } from '../types'
+import { monsterHeight } from './spriteSize'
 
 const SPRITE_BY_ID = new Map(
   SPRITE.SPRITES.map((config) => [config.id, config]),
@@ -36,7 +37,7 @@ export function setSpriteState(
   battleSprite.unuse('sprite')
   battleSprite.use(
     sprite(getStateSpriteId(monster.spriteId, state), {
-      height: STAT.MONSTER_HEIGHT,
+      height: monsterHeight(monster.spriteId),
       animSpeed: STAT.ANIM_SPEED,
     }),
   )

@@ -2,6 +2,7 @@ import { SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
+import { monsterHeight } from '../utils'
 
 scene(SCENE.TAME, () => {
   const { defeatedEnemies, playerTeam } = runState
@@ -54,7 +55,7 @@ scene(SCENE.TAME, () => {
 
     const monsterSprite = add([
       sprite(monster.spriteId, {
-        height: STAT.MONSTER_HEIGHT,
+        height: monsterHeight(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
       pos(x - 120, y),

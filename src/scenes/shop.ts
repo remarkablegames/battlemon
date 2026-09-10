@@ -2,7 +2,7 @@ import { SCENE, STAT } from '../constants'
 import { addButton, addCard } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { gainXp } from '../utils'
+import { gainXp, monsterHeightMultiplier } from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -208,7 +208,9 @@ scene(SCENE.SHOP, () => {
 
       const monsterSprite = row.add([
         sprite(monster.spriteId, {
-          height: STAT.MONSTER_ICON_HEIGHT,
+          height:
+            STAT.MONSTER_ICON_HEIGHT *
+            monsterHeightMultiplier(monster.spriteId),
           animSpeed: STAT.ANIM_SPEED,
         }),
         pos(40, 45),

@@ -1,6 +1,7 @@
 import { SCENE, STAT } from '../constants'
 import { addButton } from '../gameobjects'
 import { runState } from '../state'
+import { monsterHeightMultiplier } from '../utils'
 
 scene(SCENE.POST_BATTLE, () => {
   const { playerTeam, battleXpGains, battleCoinReward, defeatedEnemies } =
@@ -42,7 +43,8 @@ scene(SCENE.POST_BATTLE, () => {
 
     const monsterSprite = add([
       sprite(monster.spriteId, {
-        height: STAT.MONSTER_ICON_HEIGHT,
+        height:
+          STAT.MONSTER_ICON_HEIGHT * monsterHeightMultiplier(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
       pos(center().x - 200, rowY),

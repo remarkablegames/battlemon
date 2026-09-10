@@ -1,5 +1,6 @@
 import { STAT, TYPE } from '../constants'
 import type { Monster } from '../types'
+import { monsterHeightMultiplier } from '../utils'
 
 interface EnemyPreviewOptions {
   label?: string
@@ -36,7 +37,10 @@ export function addEnemyPreview(
     ])
 
     const monsterSprite = slot.add([
-      sprite(enemy.spriteId, { height: 42, animSpeed: STAT.ANIM_SPEED }),
+      sprite(enemy.spriteId, {
+        height: 42 * monsterHeightMultiplier(enemy.spriteId),
+        animSpeed: STAT.ANIM_SPEED,
+      }),
       pos(-50, 0),
       anchor('center'),
     ])
