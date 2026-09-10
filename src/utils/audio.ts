@@ -32,7 +32,14 @@ export function sfx(event: SoundEvent): void {
   if (getAudioMuted()) {
     return
   }
-  play(AUDIO.SOUND[event], { volume: AUDIO.SOUND_VOL[event] ?? AUDIO.SFX_VOL })
+
+  try {
+    play(AUDIO.SOUND[event], {
+      volume: AUDIO.SOUND_VOL[event] ?? AUDIO.SFX_VOL,
+    })
+  } catch {
+    return
+  }
 }
 
 export function playMusic(track: MusicTrack): void {
@@ -43,7 +50,13 @@ export function playMusic(track: MusicTrack): void {
   currentTween?.cancel()
   currentTween = null
 
-  const next = play(track, { loop: true })
+  let next: AudioPlay
+  try {
+    next = play(track, { loop: true })
+  } catch {
+    return
+  }
+
   next.volume = 0
   currentTrack = track
 
