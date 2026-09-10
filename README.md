@@ -27,6 +27,7 @@ Play in your browser:
 - [xDeviruchi - 8-bit Fantasy & Adventure Music](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
 - [Pixel UI Sound Effects by Atelier Magicae](https://ateliermagicae.itch.io/pixel-ui-sound-effects)
 - [FilmCow Royalty Free Sound Effects Library](https://filmcow.itch.io/filmcow-sfx)
+- [Sound effects from Pixabay](https://pixabay.com/sound-effects/)
 
 ## Prerequisites
 

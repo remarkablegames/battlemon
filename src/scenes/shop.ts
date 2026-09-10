@@ -135,8 +135,10 @@ scene(SCENE.SHOP, () => {
         openMonsterSelect(item)
       } else {
         runState.coins -= item.price
+        sfx('purchase')
         applyPurchase(item)
         refreshCoins()
+        showPurchaseFeedback(item, y)
       }
     })
   })
@@ -443,8 +445,10 @@ scene(SCENE.SHOP, () => {
         subtitle: 'Select a monster',
         onSelect: (monster) => {
           runState.coins -= item.price
+          sfx('purchase')
           applyPurchase(item, monster)
           refreshCoins()
+          showPurchaseFeedback(item, center().y)
         },
       })
     })
@@ -500,6 +504,39 @@ scene(SCENE.SHOP, () => {
         sfx('levelUp')
         break
     }
+  }
+
+  function showPurchaseFeedback(item: ItemDef, cardY: number) {
+    const feedbackText = add([
+      text(`Purchased ${item.label}!`, { size: 20 }),
+      pos(center().x, cardY),
+      anchor('center'),
+      color(100, 255, 100),
+      opacity(1),
+      z(200),
+    ])
+
+    tween(
+      feedbackText.pos.y,
+      feedbackText.pos.y - 30,
+      1.0,
+      (y) => {
+        feedbackText.pos.y = y
+      },
+      easings.easeOutQuad,
+    )
+
+    tween(
+      1,
+      0,
+      1.0,
+      (opacity) => {
+        feedbackText.opacity = opacity
+      },
+      easings.easeOutQuad,
+    ).onEnd(() => {
+      destroy(feedbackText)
+    })
   }
 
   // bottom bar: Team, Items, Continue

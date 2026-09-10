@@ -9,6 +9,7 @@ export type SoundEvent =
   | 'start'
   | 'continue'
   | 'levelUp'
+  | 'purchase'
   | 'hit'
   | 'woosh'
   | 'splash'
