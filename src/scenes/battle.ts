@@ -421,12 +421,11 @@ scene(SCENE.BATTLE, () => {
         for (const monsterId of participatingMonsterIds) {
           const monster = playerTeam.find((m) => m.id === monsterId)
           if (monster) {
-            const oldXp = monster.xp
             const oldLevel = monster.level
             const oldXpToNextLevel = monster.xpToNextLevel
             gainXp(monster, xpPerMonster)
             runState.battleXpGains.set(monsterId, {
-              xpGained: monster.xp - oldXp,
+              xpGained: xpPerMonster,
               oldLevel,
               oldXpToNextLevel,
             })
