@@ -38,6 +38,7 @@ scene(SCENE.GAME_OVER, () => {
     color: [60, 180, 80],
     label: 'Restart',
     labelSize: 20,
+    sound: 'continue',
   })
 
   restartButton.onClick(() => {

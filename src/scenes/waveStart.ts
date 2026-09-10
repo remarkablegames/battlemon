@@ -157,6 +157,7 @@ scene(SCENE.WAVE_START, () => {
     labelSize: 20,
     isFixed: true,
     disabled: true,
+    sound: 'start',
   })
 
   startButton.onClick(() => {

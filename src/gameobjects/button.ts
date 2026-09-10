@@ -1,5 +1,6 @@
 import type { ColorComp, GameObj, RectComp } from 'kaplay'
 
+import type { SoundEvent } from '../types'
 import { sfx } from '../utils'
 
 interface ButtonOptions {
@@ -12,6 +13,7 @@ interface ButtonOptions {
   labelSize?: number
   isFixed?: boolean
   disabled?: boolean
+  sound?: SoundEvent
 }
 
 const DISABLED_COLOR: [number, number, number] = [60, 60, 60]
@@ -47,6 +49,7 @@ export function addButton({
   labelSize = 18,
   isFixed = false,
   disabled = false,
+  sound = 'click',
 }: ButtonOptions) {
   const [ir, ig, ib] = disabled ? DISABLED_COLOR : [r, g, b]
   let cooldownFill: GameObj<RectComp> | null = null
@@ -102,7 +105,7 @@ export function addButton({
 
   button.onClick(() => {
     if (!button.disabled) {
-      sfx('click')
+      sfx(sound)
     }
   })
 

@@ -542,6 +542,7 @@ scene(SCENE.SHOP, () => {
     label: 'Continue',
     labelSize: 20,
     isFixed: true,
+    sound: 'continue',
   })
 
   continueButton.onClick(() => {

@@ -32,4 +32,7 @@ export const SOUND: Record<SoundEvent, string> = {
   spray: 'sounds/battle/spray.mp3',
   bubbles: 'sounds/battle/bubbles.mp3',
   bushes: 'sounds/battle/bushes.mp3',
+  heal: 'sounds/battle/heal.mp3',
+  powerup: 'sounds/battle/powerup.mp3',
+  punch: 'sounds/battle/punch.mp3',
 }

@@ -151,6 +151,7 @@ scene(SCENE.POST_BATTLE, () => {
     label: 'Continue',
     labelSize: 20,
     isFixed: true,
+    sound: 'continue',
   })
 
   continueButton.onClick(() => {

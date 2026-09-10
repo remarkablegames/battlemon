@@ -16,3 +16,6 @@ export type SoundEvent =
   | 'spray'
   | 'bubbles'
   | 'bushes'
+  | 'heal'
+  | 'powerup'
+  | 'punch'

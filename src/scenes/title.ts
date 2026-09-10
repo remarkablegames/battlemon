@@ -31,6 +31,7 @@ scene(SCENE.TITLE, () => {
     color: [60, 180, 80],
     label: 'Start',
     labelSize: 20,
+    sound: 'start',
   })
 
   startButton.onClick(() => {

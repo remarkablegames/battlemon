@@ -186,7 +186,7 @@ scene(SCENE.BATTLE, () => {
         ? playerSprites[activePlayerIdx]
         : enemySprite
     if (defenderSprite) {
-      sfx('hit')
+      sfx(isCrit ? 'punch' : 'hit')
       if (isCrit) sfx('cut')
       const shakeIntensity = Math.min(12, 3 + (damage / defender.maxHp) * 20)
       shakeSprite(defenderSprite, shakeIntensity)
@@ -265,14 +265,14 @@ scene(SCENE.BATTLE, () => {
       switch (special.kind) {
         case 'nuke':
         case 'debuff':
-          sfx('woosh')
+          sfx(attacker.type === 'water' ? 'bubbles' : 'woosh')
           dealDamage(attacker, defender, special.power)
           if (special.kind === 'debuff') {
             defender.speedDebuff = 3 // 3 seconds of slow
           }
           break
         case 'buff':
-          sfx('spray')
+          sfx('powerup')
           attacker.defenseBuff = 3 // 3 seconds of defense buff
           break
         case 'heal':
@@ -588,13 +588,13 @@ scene(SCENE.BATTLE, () => {
     const player = getActivePlayer()
     switch (item.kind) {
       case 'heal_potion':
-        sfx('spray')
+        sfx('heal')
         if (player) {
           player.currentHp = player.maxHp
         }
         break
       case 'revive': {
-        sfx('spray')
+        sfx('heal')
         const fainted = battleTeam.find(({ isAlive }) => !isAlive)
         if (fainted) {
           fainted.isAlive = true

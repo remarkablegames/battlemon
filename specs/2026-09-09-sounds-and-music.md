@@ -25,7 +25,7 @@ Config-only module (no Kaplay calls):
 - `AUDIO_STORAGE_KEY = 'org.remarkablegames.battlemon.audio'`
 - `SOUND_VOL: Partial<Record<SoundEvent, number>>` = per-event volume overrides (e.g. `levelUp: 0.3`); `sfx()` falls back to `SFX_VOL` when an event has no override
 - `MUSIC: Record<MusicTrack, string>` = `{ title, battle, journey, rest }` -> the 4 mp3 files (relative paths)
-- `SOUND: Record<SoundEvent, string>` = event -> file path (one file per event; paths prefixed with `sounds/`, e.g. `sounds/ui/click.mp3`, `sounds/battle/hit.mp3`)
+- `SOUND: Record<SoundEvent, string>` = event -> file path (one file per event; paths prefixed with `sounds/`, e.g. `sounds/ui/click.mp3`, `sounds/battle/hit.mp3`). Events: `click hover open close cancel start continue levelUp hit woosh splash cut spray bubbles bushes heal powerup punch` — every event has at least one caller (heal = heal items, powerup = buff moves, punch = crit impact, bubbles = water specials, spray = air/healing-gust special, start = title/waveStart buttons, continue = continue/restart buttons)
 - `MusicTrack` / `SoundEvent` hand-written unions live in `src/types/audio.ts` (constants import them), matching the existing pattern (e.g. `MonsterType`, `MoveKind`)
 
 ### 2. Create src/utils/audio.ts (exported from utils/index.ts)
@@ -51,12 +51,14 @@ No changes needed (audio helpers are self-contained; SFX fire on the user gestur
 `src/gameobjects/button.ts`:
 
 - `sfx('hover')` in the enabled hover branch
-- internal `onClick` -> `sfx('click')` (only when not disabled; scene `onClick` handlers still fire independently)
+- optional `sound?: SoundEvent` option (default `'click'`); internal `onClick` plays `sfx(sound)` so per-button sounds (e.g. `start`, `continue`) replace rather than layer over the click — scene `onClick` handlers still fire independently
 
 `src/gameobjects/card.ts`:
 
 - `sfx('hover')` in the enabled hover branch
 - `onClick` -> `sfx('click')` (skipped when tagged `disabled`)
+
+Per-button sounds via `sound?`: title Start -> `start`, waveStart Start Battle -> `start`, postBattle Continue -> `continue`, shop Continue -> `continue`, gameOver Restart -> `continue`.
 
 ### 6. Create src/gameobjects/soundToggle.ts (exported from gameobjects/index.ts)
 
@@ -68,11 +70,11 @@ No changes needed (audio helpers are self-contained; SFX fire on the user gestur
 
 `src/scenes/battle.ts`:
 
-- Scene entry: `playMusic('battle')`, `addSoundToggle(width() - 45, 45)` (top-right, consistent with all other scenes after the battle HUD coin counter was removed)
-- `dealDamage`: `sfx('hit')`, plus `sfx('cut')` on crits; `sfx('splash')` when a defender dies
-- `executeMove` specials: nuke/debuff -> `woosh`; buff/heal -> `spray`
+- Scene entry: `playMusic('battle')`, `addSoundToggle()` (fixed top-right, consistent with all other scenes after the battle HUD coin counter was removed)
+- `dealDamage`: `sfx(isCrit ? 'punch' : 'hit')`, plus `sfx('cut')` on crits; `sfx('splash')` when a defender dies
+- `executeMove` specials: nuke/debuff -> `woosh`, except water-type specials (Water Surge) -> `bubbles`; buff -> `powerup`; heal -> `spray` (air-type Healing Gust)
 - `spawnEnemySprite` -> `bushes`; `swapPlayerMonster` -> `woosh`
-- Items overlay: open -> `open`, close -> `close`, heal/revive use -> `spray`
+- Items overlay: open -> `open`, close -> `close`, heal/revive use -> `heal`
 
 `src/utils/monster.ts` / callers:
 
@@ -118,8 +120,8 @@ Because Kaplay destroys all objects on `go()`, the toggle is re-added per scene;
 - [x] Run `npm run lint` for ESLint/prettier
 - [x] Run `npm run build` to verify the production bundle
 - [ ] Test the game to ensure no sounds crash the preload
-- [ ] Verify hover/click SFX play on buttons and cards
-- [ ] Verify battle SFX (hit, crit, specials, death, spawn, swap, items) play
+- [ ] Verify hover/click SFX play on buttons and cards; Start/Start Battle play `start`, Continue/Restart play `continue` (replacing `click`, not layering)
+- [ ] Verify battle SFX (hit/punch crit, specials incl. water bubbles + air spray, buff powerup, death, spawn, swap, items heal) play
 - [ ] Verify level-up SFX plays in battle XP and the shop level-up purchase
 - [ ] Verify title/gameOver play Title Theme, battle plays Decisive Battle, starter/waveStart/upgrade play "And The Journey Begins", shop/postBattle/tame play "Take some rest and eat some food"
 - [ ] Verify re-entering a scene with the same track does not restart the music
