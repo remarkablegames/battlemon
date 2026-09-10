@@ -22,8 +22,8 @@ scene(SCENE.PRELOAD, () => {
   loadSprite(SPRITE.SOUND_ICONS.MUTED.id, SPRITE.SOUND_ICONS.MUTED.file)
 
   const fonts = [
-    loadFont(FONT.HP, `fonts/${FONT.HP}.ttf`),
-    loadFont(FONT.DEFAULT, `fonts/${FONT.DEFAULT}.ttf`),
+    loadFont(FONT.SECONDARY, `fonts/${FONT.SECONDARY}.ttf`),
+    loadFont(FONT.PRIMARY, `fonts/${FONT.PRIMARY}.ttf`),
   ]
 
   void Promise.all([...fonts, ...soundAssets]).then(() => {

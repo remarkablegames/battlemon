@@ -6,7 +6,7 @@ import { styledTextPlugin } from 'kaplay-plugin-text'
 import { FONT } from './constants'
 
 kaplay({
-  font: FONT.DEFAULT,
+  font: FONT.PRIMARY,
   width: 540,
   height: 960,
   letterbox: true,

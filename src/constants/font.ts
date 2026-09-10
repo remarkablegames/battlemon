@@ -1,3 +1,3 @@
 // font names loaded in the preload scene
-export const DEFAULT = 'PlanesValMore'
-export const HP = 'PixelOperatorHB'
+export const PRIMARY = 'PlanesValMore'
+export const SECONDARY = 'PixelOperatorHB'

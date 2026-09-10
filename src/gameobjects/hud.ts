@@ -27,7 +27,7 @@ function addWaveText() {
   return add([
     styledText('Wave 1', {
       size: 42,
-      font: FONT.HP,
+      font: FONT.SECONDARY,
       fill: WHITE,
       outline: { color: BLACK, width: 2 },
     }),
@@ -208,7 +208,7 @@ function addHpBox(x: number, y: number) {
 
   // HP label
   box.add([
-    text('HP', { size: 20, font: FONT.HP }),
+    text('HP', { size: 20, font: FONT.SECONDARY }),
     pos(12, 6),
     color(255, 50, 50),
   ])
@@ -229,7 +229,7 @@ function addHpBox(x: number, y: number) {
 
   // current/max hp
   const hpText = box.add([
-    text('100/100', { size: 20, font: FONT.HP }),
+    text('100/100', { size: 20, font: FONT.SECONDARY }),
     pos(HP_BOX_WIDTH - 15, 16),
     anchor('right'),
     color(BLACK),
