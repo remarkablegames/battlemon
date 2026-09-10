@@ -1,16 +1,10 @@
 import { SCENE } from '../constants'
 import { addButton, addSoundToggle } from '../gameobjects'
 import { loadBestWave, resetRunState } from '../state'
-import { playMusic } from '../utils'
 
 scene(SCENE.TITLE, () => {
   resetRunState()
   loadBestWave()
-  try {
-    playMusic('title')
-  } catch {
-    // Ignore autoplay errors - audio will work after user interaction
-  }
   addSoundToggle()
 
   add([

@@ -27,6 +27,7 @@ scene(SCENE.POST_BATTLE, () => {
 
   // participating monsters with XP gains
   let startY = 200
+  let levelUpSfxPlayed = false
   battleXpGains.forEach((gainData, monsterId) => {
     const monster = playerTeam.find(({ id }) => id === monsterId)
     if (!monster) return
@@ -95,7 +96,6 @@ scene(SCENE.POST_BATTLE, () => {
     ])
 
     let animProgress = 0
-    let levelUpSfxPlayed = false
     xpFill.onUpdate(() => {
       if (animProgress < 1) {
         animProgress += dt() * 2

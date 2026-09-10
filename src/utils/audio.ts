@@ -33,13 +33,9 @@ export function sfx(event: SoundEvent): void {
     return
   }
 
-  try {
-    play(AUDIO.SOUND[event], {
-      volume: AUDIO.SOUND_VOL[event] ?? AUDIO.SFX_VOL,
-    })
-  } catch {
-    return
-  }
+  play(AUDIO.SOUND[event], {
+    volume: AUDIO.SOUND_VOL[event] ?? AUDIO.SFX_VOL,
+  })
 }
 
 export function playMusic(track: MusicTrack): void {
@@ -50,13 +46,7 @@ export function playMusic(track: MusicTrack): void {
   currentTween?.cancel()
   currentTween = null
 
-  let next: AudioPlay
-  try {
-    next = play(track, { loop: true })
-  } catch {
-    return
-  }
-
+  const next = play(track, { loop: true })
   next.volume = 0
   currentTrack = track
 
