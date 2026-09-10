@@ -26,7 +26,8 @@ function addNameText(x: number, y: number) {
 function addWaveText() {
   return add([
     styledText('Wave 1', {
-      size: 20,
+      size: 42,
+      font: FONT.HP,
       fill: WHITE,
       outline: { color: BLACK, width: 2 },
     }),
