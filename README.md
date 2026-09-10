@@ -15,10 +15,18 @@ Play in your browser:
 
 ## Credits
 
+### Art
+
 - [Dino Characters](https://arks.itch.io/dino-characters) by [@ArksDigital](https://twitter.com/ArksDigital)
 - [Free Tiny Hero Sprites Pixel Art](https://free-game-assets.itch.io/free-tiny-hero-sprites-pixel-art)
 - [Free Pixel Predator Plant Mob Sprites](https://free-game-assets.itch.io/free-predator-plant-mobs-pixel-art-pack)
 - [Free Slime Mobs Pixel Art](https://free-game-assets.itch.io/free-slime-mobs-pixel-art-top-down-sprite-pack)
+
+### Audio
+
+- [xDeviruchi - 8-bit Fantasy & Adventure Music](https://xdeviruchi.itch.io/8-bit-fantasy-adventure-music-pack)
+- [Pixel UI Sound Effects by Atelier Magicae](https://ateliermagicae.itch.io/pixel-ui-sound-effects)
+- [FilmCow Royalty Free Sound Effects Library](https://filmcow.itch.io/filmcow-sfx)
 
 ## Prerequisites
 
