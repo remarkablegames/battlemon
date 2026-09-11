@@ -317,12 +317,12 @@ scene(SCENE.BATTLE, () => {
           sfx(attacker.type === 'water' ? 'bubbles' : 'woosh')
           dealDamage(attacker, defender, special.power)
           if (special.kind === 'debuff') {
-            defender.speedDebuff = 3 // 3 seconds of slow
+            defender.speedDebuff = 2 // 2 seconds of slow
           }
           break
         case 'buff':
           sfx('powerup')
-          attacker.defenseBuff = 3 // 3 seconds of defense buff
+          attacker.defenseBuff = 2 // 2 seconds of defense buff
           break
         case 'heal':
           sfx('spray')
