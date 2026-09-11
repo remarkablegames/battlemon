@@ -1,5 +1,11 @@
 import { ITEM, SCENE, STAT } from '../constants'
-import { addButton, addCard, addSoundToggle } from '../gameobjects'
+import {
+  addButton,
+  addCard,
+  addItemCard,
+  addSoundToggle,
+  ITEM_ROW_HEIGHT,
+} from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
 import { gainXp, monsterHeightMultiplier, playMusic, sfx } from '../utils'
@@ -283,7 +289,7 @@ scene(SCENE.SHOP, () => {
 
     const groupedArray = Array.from(groupedItems.values())
     const panelWidth = 440
-    const panelHeight = 120 + Math.max(1, groupedArray.length) * 60
+    const panelHeight = 120 + Math.max(1, groupedArray.length) * ITEM_ROW_HEIGHT
     const panelX = (width() - panelWidth) / 2
     const panelY = (height() - panelHeight) / 2
 
@@ -309,33 +315,18 @@ scene(SCENE.SHOP, () => {
       ])
     } else {
       const listStartY = panelY + 70
-      const rowHeight = 60
 
       groupedArray.forEach(({ item, count }, index) => {
-        const rowY = listStartY + index * rowHeight
+        const rowY = listStartY + index * ITEM_ROW_HEIGHT - 10
 
-        overlay.add([
-          text(item.label, { size: 20 }),
-          pos(panelX + 30, rowY),
-          anchor('left'),
-          color(WHITE),
-        ])
-
-        overlay.add([
-          text(item.description, { size: 20 }),
-          pos(panelX + 30, rowY + 25),
-          anchor('left'),
-          color(200, 200, 200),
-        ])
-
-        if (count > 0) {
-          overlay.add([
-            text(`x${String(count)}`, { size: 20 }),
-            pos(panelX + panelWidth - 30, rowY),
-            anchor('right'),
-            color(255, 220, 80),
-          ])
-        }
+        addItemCard({
+          parent: overlay,
+          x: panelX + 20,
+          y: rowY,
+          width: panelWidth - 40,
+          item,
+          count,
+        })
       })
     }
 

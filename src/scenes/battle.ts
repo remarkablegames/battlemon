@@ -2,9 +2,11 @@ import { ITEM, MOVE, SCENE, STAT, TYPE } from '../constants'
 import {
   addBattleBackground,
   addHud,
+  addItemCard,
   addMonster,
   addSoundToggle,
   addTouchControls,
+  ITEM_ROW_HEIGHT,
   updateHud,
 } from '../gameobjects'
 import { runState } from '../state'
@@ -525,9 +527,8 @@ scene(SCENE.BATTLE, () => {
 
     // panel
     const panelWidth = 400
-    const rowHeight = 72
     const panelHeight = Math.min(
-      110 + Math.max(1, groupedArray.length) * rowHeight,
+      110 + Math.max(1, groupedArray.length) * ITEM_ROW_HEIGHT,
       height() - 40,
     )
     const panelX = (width() - panelWidth) / 2
@@ -548,56 +549,26 @@ scene(SCENE.BATTLE, () => {
 
     // list items
     groupedArray.forEach(({ item, count }, index) => {
-      const itemY = panelY + 60 + index * rowHeight
+      const itemY = panelY + index * ITEM_ROW_HEIGHT + 55
 
-      const itemButton = overlay.add([
-        rect(panelWidth - 40, 60, { radius: 8 }),
-        pos(panelX + 20, itemY),
-        color(50, 50, 80),
-        area(),
-      ])
-
-      overlay.add([
-        text(item.label, { size: 20 }),
-        pos(panelX + 40, itemY + 18),
-        anchor('left'),
-        color(WHITE),
-      ])
-
-      overlay.add([
-        text(item.description, { size: 20 }),
-        pos(panelX + 40, itemY + 46),
-        anchor('left'),
-        color(200, 200, 200),
-      ])
-
-      overlay.add([
-        text(`x${String(count)}`, { size: 20 }),
-        pos(panelX + panelWidth - 30, itemY + 18),
-        anchor('right'),
-        color(255, 220, 80),
-      ])
-
-      itemButton.onHover(() => {
-        setCursor('pointer')
-        itemButton.color = rgb(70, 70, 100)
-      })
-
-      itemButton.onHoverEnd(() => {
-        setCursor('default')
-        itemButton.color = rgb(50, 50, 80)
-      })
-
-      itemButton.onClick(() => {
-        const inventoryIndex = runState.inventory.findIndex(
-          ({ id }) => id === item.id,
-        )
-        if (inventoryIndex >= 0) {
-          useItem(item, inventoryIndex)
-        }
-        sfx('close')
-        destroy(overlay)
-        itemsOverlay = null
+      addItemCard({
+        parent: overlay,
+        x: panelX + 20,
+        y: itemY,
+        width: panelWidth - 40,
+        item,
+        count,
+        onClick: () => {
+          const inventoryIndex = runState.inventory.findIndex(
+            ({ id }) => id === item.id,
+          )
+          if (inventoryIndex >= 0) {
+            useItem(item, inventoryIndex)
+          }
+          sfx('close')
+          destroy(overlay)
+          itemsOverlay = null
+        },
       })
     })
 
