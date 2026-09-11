@@ -387,7 +387,10 @@ scene(SCENE.SHOP, () => {
       subtitle: 'Tap a monster to sell',
       rowRightText: (monster) => `${String(monster.level * 10)} coins`,
       onSelect: (monster) => {
-        if (playerTeam.length <= 1) return
+        if (playerTeam.length <= 1) {
+          sfx('cancel')
+          return
+        }
         const index = playerTeam.findIndex(({ id }) => id === monster.id)
         if (index === -1) return
         playerTeam.splice(index, 1)
