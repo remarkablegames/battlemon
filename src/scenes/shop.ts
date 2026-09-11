@@ -392,6 +392,7 @@ scene(SCENE.SHOP, () => {
         if (index === -1) return
         playerTeam.splice(index, 1)
         runState.coins += monster.level * 10
+        sfx('money')
         refreshCoins()
       },
     })
