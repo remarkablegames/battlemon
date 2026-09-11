@@ -117,7 +117,7 @@ scene(SCENE.WAVE_START, () => {
     // monster stats
     add([
       text(
-        `ATK ${String(monster.baseStats.attack)} • DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
+        `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
         { size: 20 },
       ),
       pos(x - 100, y + 6),
@@ -126,7 +126,7 @@ scene(SCENE.WAVE_START, () => {
     ])
 
     // monster health
-    addMiniHpBar(x - 100, y + 22, 200, 8, monster)
+    addMiniHpBar(x - 100, y + 22, 200, 10, monster, true)
 
     const orderLabel = createOrderLabel(x + 200, y)
     orderLabels.push(orderLabel)

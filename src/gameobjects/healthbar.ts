@@ -1,4 +1,4 @@
-import type { ColorComp, GameObj, RectComp } from 'kaplay'
+import type { ColorComp, GameObj, RectComp, TextComp } from 'kaplay'
 
 import { FONT } from '../constants'
 import type { Monster } from '../types'
@@ -85,6 +85,7 @@ export function addMiniHpBar(
   width: number,
   height: number,
   monster: Monster,
+  showHpText = false,
   parent?: GameObj,
 ) {
   const host = parent ?? add([pos()])
@@ -101,8 +102,23 @@ export function addMiniHpBar(
     color(0, 200, 0),
   ])
 
+  let hpLabel: GameObj<TextComp> | null = null
+  if (showHpText) {
+    hpLabel = host.add([
+      text(`${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`, {
+        size: 20,
+        font: FONT.SECONDARY,
+      }),
+      pos(x + width + 8, y - 6),
+      color(WHITE),
+    ])
+  }
+
   fill.onUpdate(() => {
     setHpFill(fill, monster.currentHp, monster.maxHp, width)
+    if (hpLabel) {
+      hpLabel.text = `${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`
+    }
   })
 }
 

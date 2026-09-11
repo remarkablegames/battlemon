@@ -1,4 +1,4 @@
-import { ITEM, SCENE, STAT } from '../constants'
+import { ITEM, SCENE, STAT, TYPE } from '../constants'
 import {
   addButton,
   addCard,
@@ -177,16 +177,14 @@ scene(SCENE.SHOP, () => {
         text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
         pos(90, 22),
         anchor('left'),
-        color(WHITE),
+        color(rgb(TYPE.TYPE_COLORS[monster.type])),
       ])
 
       // monster stats
       row.add([
         text(
-          `ATK ${String(monster.baseStats.attack)} • DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
-          {
-            size: 20,
-          },
+          `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
+          { size: 20 },
         ),
         pos(90, 46),
         anchor('left'),
@@ -194,7 +192,7 @@ scene(SCENE.SHOP, () => {
       ])
 
       // monster health
-      addMiniHpBar(90, 62, 200, 8, monster, row)
+      addMiniHpBar(90, 62, 200, 10, monster, true, row)
 
       // monster sell price
       if (options.rowRightText) {
