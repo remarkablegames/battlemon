@@ -1,4 +1,4 @@
-import { sfx } from '../utils'
+import { gateHover, sfx } from '../utils'
 
 interface CardOptions {
   x: number
@@ -23,6 +23,8 @@ export function addCard({
     anchor('center'),
     scale(1),
   ])
+
+  gateHover(card)
 
   card.onHover(() => {
     if (card.is('disabled')) return

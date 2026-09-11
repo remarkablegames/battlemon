@@ -2,6 +2,7 @@ import { PERSONALITY, SCENE, STAT, TYPE } from '../constants'
 import { addCard, addEnemyPreview, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import {
+  initHoverGate,
   monsterHeight,
   playMusic,
   randomMonsterPool,
@@ -9,6 +10,7 @@ import {
 } from '../utils'
 
 scene(SCENE.STARTER, () => {
+  initHoverGate()
   const starters = randomMonsterPool(3, 1)
   playMusic('journey')
   addSoundToggle()

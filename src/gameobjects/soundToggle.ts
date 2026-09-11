@@ -1,5 +1,5 @@
 import { ICON } from '../constants'
-import { getAudioMuted, sfx, toggleMuted } from '../utils'
+import { gateHover, getAudioMuted, sfx, toggleMuted } from '../utils'
 
 const ICON_HEIGHT = 44
 
@@ -16,6 +16,8 @@ export function addSoundToggle() {
     z(100),
     scale(1),
   ])
+
+  gateHover(toggle)
 
   toggle.onHover(() => {
     setCursor('pointer')

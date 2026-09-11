@@ -1,6 +1,7 @@
 export * from './audio'
 export * from './enemyWave'
 export * from './monster'
+export * from './pointer'
 export * from './querystring'
 export * from './spriteAnim'
 export * from './spriteSize'

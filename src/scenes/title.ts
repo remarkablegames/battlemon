@@ -1,10 +1,12 @@
 import { SCENE } from '../constants'
 import { addButton, addSoundToggle } from '../gameobjects'
 import { loadBestWave, resetRunState } from '../state'
+import { initHoverGate } from '../utils'
 
 scene(SCENE.TITLE, () => {
   resetRunState()
   loadBestWave()
+  initHoverGate()
   addSoundToggle()
 
   add([

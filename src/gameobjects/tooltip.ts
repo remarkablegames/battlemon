@@ -1,6 +1,6 @@
 import { ICON, MOVE, TYPE } from '../constants'
 import type { Monster, MoveKind } from '../types'
-import { sfx } from '../utils'
+import { gateHover, sfx } from '../utils'
 
 const ICON_HEIGHT = 22
 const BUBBLE_WIDTH = 340
@@ -37,6 +37,8 @@ export function addTooltip(x: number, y: number, monster: Monster) {
   function hideBubble() {
     if (bubble) destroy(bubble)
   }
+
+  gateHover(icon)
 
   icon.onHover(() => {
     setCursor('pointer')

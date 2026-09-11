@@ -14,6 +14,8 @@ import type { ItemDef, Monster } from '../types'
 import {
   fullHealTeam,
   gainXp,
+  gateHover,
+  initHoverGate,
   isTeamDefeated,
   playDeathAnimation,
   playMusic,
@@ -23,6 +25,7 @@ import {
 } from '../utils'
 
 scene(SCENE.BATTLE, () => {
+  initHoverGate()
   playMusic('battle')
   addBattleBackground()
   addSoundToggle()
@@ -607,6 +610,8 @@ scene(SCENE.BATTLE, () => {
       anchor('center'),
       color(WHITE),
     ])
+
+    gateHover(closeButton)
 
     closeButton.onHover(() => {
       setCursor('pointer')

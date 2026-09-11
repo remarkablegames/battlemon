@@ -1,9 +1,15 @@
 import { SCENE, STAT } from '../constants'
 import { addButton, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
-import { monsterHeightMultiplier, playMusic, sfx } from '../utils'
+import {
+  initHoverGate,
+  monsterHeightMultiplier,
+  playMusic,
+  sfx,
+} from '../utils'
 
 scene(SCENE.POST_BATTLE, () => {
+  initHoverGate()
   const { playerTeam, battleXpGains, battleCoinReward, defeatedEnemies } =
     runState
   playMusic('rest')

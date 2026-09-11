@@ -8,7 +8,14 @@ import {
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { gainXp, monsterHeightMultiplier, playMusic, sfx } from '../utils'
+import {
+  gainXp,
+  gateHover,
+  initHoverGate,
+  monsterHeightMultiplier,
+  playMusic,
+  sfx,
+} from '../utils'
 
 interface TeamOverlayOptions {
   title: string
@@ -18,6 +25,7 @@ interface TeamOverlayOptions {
 }
 
 scene(SCENE.SHOP, () => {
+  initHoverGate()
   const { playerTeam, coins } = runState
   playMusic('rest')
   addSoundToggle()
@@ -207,6 +215,8 @@ scene(SCENE.SHOP, () => {
       if (options.onSelect) {
         const onSelect = options.onSelect
 
+        gateHover(row)
+
         row.onHover(() => {
           setCursor('pointer')
           row.color = rgb(70, 70, 100)
@@ -238,6 +248,8 @@ scene(SCENE.SHOP, () => {
       anchor('center'),
       color(WHITE),
     ])
+
+    gateHover(cancelButton)
 
     cancelButton.onHover(() => {
       setCursor('pointer')
@@ -344,6 +356,8 @@ scene(SCENE.SHOP, () => {
       anchor('center'),
       color(WHITE),
     ])
+
+    gateHover(cancelButton)
 
     cancelButton.onHover(() => {
       setCursor('pointer')

@@ -1,9 +1,10 @@
 import { SCENE } from '../constants'
 import { addButton, addSoundToggle } from '../gameobjects'
 import { runState, saveBestWave } from '../state'
-import { playMusic } from '../utils'
+import { initHoverGate, playMusic } from '../utils'
 
 scene(SCENE.GAME_OVER, () => {
+  initHoverGate()
   const { wave, bestWave } = runState
   saveBestWave(wave)
   playMusic('title')

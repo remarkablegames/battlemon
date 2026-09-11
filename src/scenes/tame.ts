@@ -2,9 +2,10 @@ import { SCENE, STAT, TYPE } from '../constants'
 import { addButton, addCard, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
-import { monsterHeight, playMusic } from '../utils'
+import { initHoverGate, monsterHeight, playMusic } from '../utils'
 
 scene(SCENE.TAME, () => {
+  initHoverGate()
   const { defeatedEnemies, playerTeam } = runState
   playMusic('rest')
   addSoundToggle()

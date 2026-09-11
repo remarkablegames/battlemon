@@ -1,7 +1,7 @@
 import type { ColorComp, GameObj, RectComp } from 'kaplay'
 
 import type { SoundEvent } from '../types'
-import { sfx } from '../utils'
+import { gateHover, sfx } from '../utils'
 
 interface ButtonOptions {
   x: number
@@ -77,6 +77,8 @@ export function addButton({
     },
   ])
 
+  gateHover(button)
+
   button.onHover(() => {
     if (button.disabled) {
       setCursor('not-allowed')
@@ -109,6 +111,7 @@ export function addButton({
       sfx(sound)
     }
     return onClick(() => {
+      // stop the leftover tap from registering as a stray click on the next scene's overlapping button (click-through)
       wait(0, handler)
     })
   }

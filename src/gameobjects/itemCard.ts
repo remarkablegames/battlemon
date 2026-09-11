@@ -1,6 +1,7 @@
 import type { GameObj } from 'kaplay'
 
 import type { ItemDef } from '../types'
+import { gateHover } from '../utils'
 
 export const ITEM_ROW_HEIGHT = 72
 const CARD_HEIGHT = 60
@@ -54,6 +55,8 @@ export function addItemCard({
   ])
 
   if (onClick) {
+    gateHover(card)
+
     card.onHover(() => {
       setCursor('pointer')
       card.color = rgb(70, 70, 100)

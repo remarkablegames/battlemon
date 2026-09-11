@@ -1,6 +1,6 @@
 import { STAT } from '../constants'
 import type { Monster } from '../types'
-import { monsterHeightMultiplier } from '../utils'
+import { gateHover, monsterHeightMultiplier } from '../utils'
 
 const BENCH_SLOT_SIZE = 72
 const BENCH_SLOT_GAP = 12
@@ -136,6 +136,8 @@ export function addBench(
       })
 
       if (monster.isAlive) {
+        gateHover(fill)
+
         fill.onHover(() => {
           setCursor('pointer')
         })

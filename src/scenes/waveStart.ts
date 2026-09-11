@@ -7,9 +7,15 @@ import {
   addTooltip,
 } from '../gameobjects'
 import { runState } from '../state'
-import { monsterHeightMultiplier, playMusic, spawnWave } from '../utils'
+import {
+  initHoverGate,
+  monsterHeightMultiplier,
+  playMusic,
+  spawnWave,
+} from '../utils'
 
 scene(SCENE.WAVE_START, () => {
+  initHoverGate()
   const { playerTeam, wave } = runState
   playMusic('journey')
   addSoundToggle()
