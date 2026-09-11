@@ -4,6 +4,7 @@ import {
   addCard,
   addEnemyPreview,
   addSoundToggle,
+  addTooltip,
 } from '../gameobjects'
 import { runState } from '../state'
 import { monsterHeightMultiplier, playMusic, spawnWave } from '../utils'
@@ -117,6 +118,8 @@ scene(SCENE.WAVE_START, () => {
 
     const orderLabel = createOrderLabel(x + 200, y)
     orderLabels.push(orderLabel)
+
+    addTooltip(x + 225, y - 28, monster)
 
     card.onClick(() => {
       const selIdx = selected.indexOf(i)

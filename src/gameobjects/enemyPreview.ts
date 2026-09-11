@@ -1,6 +1,7 @@
 import { STAT, TYPE } from '../constants'
 import type { Monster } from '../types'
 import { monsterHeightMultiplier } from '../utils'
+import { addTooltip } from './tooltip'
 
 interface EnemyPreviewOptions {
   label?: string
@@ -59,5 +60,7 @@ export function addEnemyPreview(
       anchor('left'),
       color(180, 180, 180),
     ])
+
+    addTooltip(center().x + enemyX + 60, y + 8, enemy)
   })
 }

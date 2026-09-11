@@ -1,4 +1,4 @@
-export const SOUND = {
-  ON: 'sounds-o',
-  MUTED: 'sounds',
-} as const
+export const SOUND_ON = 'sounds-o'
+export const SOUND_MUTED = 'sounds'
+
+export const QUESTION = 'question_mark'

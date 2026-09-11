@@ -1,11 +1,11 @@
 import { ICON } from '../constants'
-import { getAudioMuted, sfx, toggleMuted } from '../utils/audio'
+import { getAudioMuted, sfx, toggleMuted } from '../utils'
 
 const ICON_HEIGHT = 44
 
 export function addSoundToggle() {
   const iconId = (muted: boolean): string =>
-    muted ? ICON.SOUND.MUTED : ICON.SOUND.ON
+    muted ? ICON.SOUND_MUTED : ICON.SOUND_ON
 
   const toggle = add([
     pos(width() - 45, 45),
