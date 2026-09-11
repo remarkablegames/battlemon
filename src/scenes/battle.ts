@@ -1,4 +1,4 @@
-import { MOVE, SCENE, STAT, TYPE } from '../constants'
+import { ITEM, MOVE, SCENE, STAT, TYPE } from '../constants'
 import {
   addBattleBackground,
   addHud,
@@ -168,8 +168,25 @@ scene(SCENE.BATTLE, () => {
     const isBasic = power === MOVE.BASIC_ATTACK.power
     const isCrit = isBasic && Number(rand()) < STAT.CRIT_CHANCE
     const critMult = isCrit ? STAT.CRIT_MULTIPLIER : 1
-    const baseDamage = attacker.baseStats.attack * power * critMult
-    const defense = defender.baseStats.defense * (1 + defender.defenseBuff)
+
+    let attackMult = 1
+    const enrageMult = ITEM.effectFor('temp_boost_enrage')?.attackMult
+    const hasteDamageMult = ITEM.effectFor('temp_boost_haste')?.damageMult
+    const enemyDebuffMult = ITEM.effectFor(
+      'temp_debuff_enemy_attack',
+    )?.enemyAttackMult
+    if (attacker.attackBuff > 0 && enrageMult) attackMult *= enrageMult
+    if (attacker.damageDebuff > 0 && hasteDamageMult)
+      attackMult *= hasteDamageMult
+    if (attacker.enemyAttackDebuff > 0 && enemyDebuffMult) {
+      attackMult *= enemyDebuffMult
+    }
+
+    const ironSkinMult = ITEM.effectFor('temp_boost_iron_skin')?.defenseMult
+    const defense =
+      defender.baseStats.defense *
+      (defender.defenseBuff > 0 && ironSkinMult ? ironSkinMult : 1)
+    const baseDamage = attacker.baseStats.attack * attackMult * power * critMult
     const damage = Math.max(1, Math.round((baseDamage * typeMult) / defense))
     defender.currentHp = Math.max(0, defender.currentHp - damage)
 
@@ -301,8 +318,12 @@ scene(SCENE.BATTLE, () => {
     if (!attacker.isAlive || !defender.isAlive) return
 
     // reduce cooldowns
+    const hasteSpeed = ITEM.effectFor('temp_boost_haste')?.speedMult ?? 1
+    const ironSkinSpeed = ITEM.effectFor('temp_boost_iron_skin')?.speedMult ?? 1
     const speedMult =
-      1 + attacker.baseStats.speed / 50 - (attacker.speedDebuff > 0 ? 0.3 : 0)
+      (1 + attacker.baseStats.speed / 50) *
+      (attacker.speedBuff > 0 ? hasteSpeed : 1) *
+      (attacker.speedDebuff > 0 ? ironSkinSpeed : 1)
     if (attacker.basicCooldown > 0) {
       attacker.basicCooldown = Math.max(
         0,
@@ -609,6 +630,35 @@ scene(SCENE.BATTLE, () => {
         fullHealTeam(battleTeam)
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
+      case 'temp_boost_enrage':
+        sfx('powerup')
+        if (player && item.effect) {
+          player.attackBuff = item.effect.duration
+        }
+        break
+      case 'temp_boost_iron_skin':
+        sfx('powerup')
+        if (player && item.effect) {
+          player.defenseBuff = item.effect.duration
+          player.speedDebuff = item.effect.duration
+        }
+        break
+      case 'temp_boost_haste':
+        sfx('powerup')
+        if (player && item.effect) {
+          player.speedBuff = item.effect.duration
+          player.damageDebuff = item.effect.duration
+        }
+        break
+      case 'temp_debuff_enemy_attack':
+        sfx('powerup')
+        if (item.effect) {
+          const enemy = getActiveEnemy()
+          if (enemy) {
+            enemy.enemyAttackDebuff = item.effect.duration
+          }
+        }
+        break
     }
     runState.inventory.splice(index, 1)
   }
@@ -634,6 +684,22 @@ scene(SCENE.BATTLE, () => {
         playerTeam[i].currentHp = Math.min(
           playerTeam[i].maxHp,
           playerTeam[i].currentHp + STAT.BENCH_REGEN_RATE * dt(),
+        )
+      }
+    }
+
+    // decay temporary boost timers and apply enrage self-damage
+    const enrageEffect = ITEM.effectFor('temp_boost_enrage')
+    const allMonsters = [...battleTeam, ...enemyTeam]
+    for (const monster of allMonsters) {
+      monster.attackBuff = Math.max(0, monster.attackBuff - dt())
+      monster.speedBuff = Math.max(0, monster.speedBuff - dt())
+      monster.damageDebuff = Math.max(0, monster.damageDebuff - dt())
+      monster.enemyAttackDebuff = Math.max(0, monster.enemyAttackDebuff - dt())
+      if (monster.attackBuff > 0 && enrageEffect?.selfDamagePerSec) {
+        monster.currentHp = Math.max(
+          1,
+          monster.currentHp - enrageEffect.selfDamagePerSec * dt(),
         )
       }
     }

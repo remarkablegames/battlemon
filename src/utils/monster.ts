@@ -49,6 +49,10 @@ export function createMonster(
     specialCooldown: 0,
     defenseBuff: 0,
     speedDebuff: 0,
+    attackBuff: 0,
+    speedBuff: 0,
+    damageDebuff: 0,
+    enemyAttackDebuff: 0,
     isAlive: true,
   }
 }

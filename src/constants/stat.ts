@@ -22,7 +22,7 @@ export const ANIM_SPEED = 0.7
 export const BASIC_ATTACK_COOLDOWN = 1 // seconds
 export const SPECIAL_COOLDOWN = 4 // seconds
 export const SWAP_COOLDOWN = 3 // seconds
-export const BENCH_REGEN_RATE = 5 // hp per second while benched
+export const BENCH_REGEN_RATE = 1.5 // hp per second while benched
 
 // base stats for a level-1 monster
 export const BASE_STATS = {

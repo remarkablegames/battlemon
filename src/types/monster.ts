@@ -28,6 +28,10 @@ export interface Monster {
   specialCooldown: number
   defenseBuff: number
   speedDebuff: number
+  attackBuff: number
+  speedBuff: number
+  damageDebuff: number
+  enemyAttackDebuff: number
   isAlive: boolean
 }
 

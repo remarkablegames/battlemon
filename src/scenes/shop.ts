@@ -1,4 +1,4 @@
-import { SCENE, STAT } from '../constants'
+import { ITEM, SCENE, STAT } from '../constants'
 import { addButton, addCard, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
@@ -10,65 +10,6 @@ interface TeamOverlayOptions {
   onSelect?: (monster: Monster) => void
   rowRightText?: (monster: Monster) => string
 }
-
-const SHOP_ITEMS: ItemDef[] = [
-  {
-    id: 'boost_attack',
-    kind: 'stat_boost_attack',
-    label: 'Power Surge',
-    description: '+20% Attack',
-    price: 30,
-  },
-  {
-    id: 'boost_defense',
-    kind: 'stat_boost_defense',
-    label: 'Iron Skin',
-    description: '+20% Defense',
-    price: 30,
-  },
-  {
-    id: 'boost_hp',
-    kind: 'stat_boost_hp',
-    label: 'Vitality',
-    description: '+30% Max HP',
-    price: 30,
-  },
-  {
-    id: 'boost_speed',
-    kind: 'stat_boost_speed',
-    label: 'Haste',
-    description: '+20% Speed',
-    price: 30,
-  },
-  {
-    id: 'full_heal',
-    kind: 'full_heal',
-    label: 'Full Restore',
-    description: 'Heal entire team',
-    price: 20,
-  },
-  {
-    id: 'heal_potion',
-    kind: 'heal_potion',
-    label: 'Heal Potion',
-    description: 'Full heal in battle',
-    price: 15,
-  },
-  {
-    id: 'revive',
-    kind: 'revive',
-    label: 'Revive',
-    description: 'Revive at 50% HP',
-    price: 25,
-  },
-  {
-    id: 'level_up',
-    kind: 'level_up',
-    label: 'Level Up',
-    description: '+1 Level',
-    price: 50,
-  },
-]
 
 scene(SCENE.SHOP, () => {
   const { playerTeam, coins } = runState
@@ -95,7 +36,7 @@ scene(SCENE.SHOP, () => {
 
   const cards: ReturnType<typeof addCard>[] = []
 
-  SHOP_ITEMS.forEach((item, index) => {
+  ITEM.ITEM_DEFS.forEach((item, index) => {
     const y = 160 + index * 80
 
     const card = addCard({
@@ -143,13 +84,7 @@ scene(SCENE.SHOP, () => {
     })
   })
 
-  const NEEDS_SELECTION = new Set([
-    'stat_boost_attack',
-    'stat_boost_defense',
-    'stat_boost_hp',
-    'stat_boost_speed',
-    'level_up',
-  ])
+  const NEEDS_SELECTION = new Set<ItemDef['kind']>(['level_up'])
 
   let selectOverlay: ReturnType<typeof addTeamOverlay> | null = null
 
@@ -480,23 +415,13 @@ scene(SCENE.SHOP, () => {
     const monster = target ?? playerTeam[runState.activePlayerIndex]
 
     switch (item.kind) {
-      case 'stat_boost_attack':
-        monster.baseStats.attack = Math.round(monster.baseStats.attack * 1.2)
-        break
-      case 'stat_boost_defense':
-        monster.baseStats.defense = Math.round(monster.baseStats.defense * 1.2)
-        break
-      case 'stat_boost_hp':
-        monster.baseStats.hp = Math.round(monster.baseStats.hp * 1.3)
-        monster.maxHp = monster.baseStats.hp
-        monster.currentHp = monster.maxHp
-        break
-      case 'stat_boost_speed':
-        monster.baseStats.speed = Math.round(monster.baseStats.speed * 1.2)
-        break
       case 'full_heal':
       case 'heal_potion':
       case 'revive':
+      case 'temp_boost_enrage':
+      case 'temp_boost_iron_skin':
+      case 'temp_boost_haste':
+      case 'temp_debuff_enemy_attack':
         runState.inventory.push(item)
         break
       case 'level_up':
