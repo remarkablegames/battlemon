@@ -11,6 +11,7 @@ kaplay({
   height: 960,
   letterbox: true,
   stretch: true,
+  pixelDensity: Math.min(window.devicePixelRatio || 1, 2),
   background: [20, 24, 36],
   plugins: [styledTextPlugin],
 })
