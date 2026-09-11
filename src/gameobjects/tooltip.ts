@@ -3,8 +3,8 @@ import type { Monster, MoveKind } from '../types'
 import { sfx } from '../utils'
 
 const ICON_HEIGHT = 22
-const BUBBLE_WIDTH = 310
-const BUBBLE_HEIGHT = 100
+const BUBBLE_WIDTH = 340
+const BUBBLE_HEIGHT = 120
 const BUBBLE_GAP = 10
 const BUBBLE_PAD = 14
 
