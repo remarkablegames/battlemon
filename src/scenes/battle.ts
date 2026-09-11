@@ -508,11 +508,30 @@ scene(SCENE.BATTLE, () => {
     // dim background
     overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
 
+    const items = runState.inventory
+
+    // group items by id
+    const groupedItems = new Map<string, { item: ItemDef; count: number }>()
+    for (const item of items) {
+      const existing = groupedItems.get(item.id)
+      if (existing) {
+        existing.count++
+      } else {
+        groupedItems.set(item.id, { item, count: 1 })
+      }
+    }
+
+    const groupedArray = Array.from(groupedItems.values())
+
     // panel
     const panelWidth = 400
-    const panelHeight = 400
+    const rowHeight = 72
+    const panelHeight = Math.min(
+      110 + Math.max(1, groupedArray.length) * rowHeight,
+      height() - 40,
+    )
     const panelX = (width() - panelWidth) / 2
-    const panelY = (height() - panelHeight) / 2
+    const panelY = 150
 
     overlay.add([
       rect(panelWidth, panelHeight, { radius: 16 }),
@@ -528,11 +547,11 @@ scene(SCENE.BATTLE, () => {
     ])
 
     // list items
-    runState.inventory.forEach((item, index) => {
-      const itemY = panelY + 70 + index * 60
+    groupedArray.forEach(({ item, count }, index) => {
+      const itemY = panelY + 60 + index * rowHeight
 
       const itemButton = overlay.add([
-        rect(panelWidth - 40, 50, { radius: 8 }),
+        rect(panelWidth - 40, 60, { radius: 8 }),
         pos(panelX + 20, itemY),
         color(50, 50, 80),
         area(),
@@ -540,16 +559,23 @@ scene(SCENE.BATTLE, () => {
 
       overlay.add([
         text(item.label, { size: 20 }),
-        pos(panelX + 40, itemY + 25),
+        pos(panelX + 40, itemY + 18),
         anchor('left'),
         color(WHITE),
       ])
 
       overlay.add([
         text(item.description, { size: 20 }),
-        pos(panelX + 200, itemY + 25),
+        pos(panelX + 40, itemY + 46),
         anchor('left'),
         color(200, 200, 200),
+      ])
+
+      overlay.add([
+        text(`x${String(count)}`, { size: 20 }),
+        pos(panelX + panelWidth - 30, itemY + 18),
+        anchor('right'),
+        color(255, 220, 80),
       ])
 
       itemButton.onHover(() => {
@@ -563,14 +589,18 @@ scene(SCENE.BATTLE, () => {
       })
 
       itemButton.onClick(() => {
-        useItem(item, index)
+        const inventoryIndex = runState.inventory.findIndex(
+          ({ id }) => id === item.id,
+        )
+        if (inventoryIndex >= 0) {
+          useItem(item, inventoryIndex)
+        }
         sfx('close')
         destroy(overlay)
         itemsOverlay = null
       })
     })
 
-    // close button
     const closeButton = overlay.add([
       rect(100, 40, { radius: 8 }),
       pos(width() / 2, panelY + panelHeight - 30),
@@ -710,7 +740,6 @@ scene(SCENE.BATTLE, () => {
       tryAutoAttack(enemy, player)
     }
 
-    // update HUD
     updateHud(hud, player, enemy, wave)
 
     checkWaveEnd()
