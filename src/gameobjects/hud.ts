@@ -1,7 +1,7 @@
 import { FONT } from '../constants'
 import type { Monster } from '../types'
 import { addBench, type Bench } from './bench'
-import { addHpBox, HP_BOX_WIDTH, type HpBox, updateHpBox } from './hpBox'
+import { addHpBox, HP_BOX_WIDTH, type HpBox, updateHpBox } from './healthbar'
 
 function addNameText(x: number, y: number) {
   return add([
