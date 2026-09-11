@@ -1,10 +1,5 @@
 import type { SpriteAnims } from 'kaplay'
 
-export const SOUND_ICONS = {
-  ON: { id: 'sounds-o', file: 'sprites/ui/sounds-o.png' },
-  MUTED: { id: 'sounds', file: 'sprites/ui/sounds.png' },
-} as const
-
 export interface SpriteConfig {
   id: string
   file: string

@@ -1,5 +1,6 @@
 export * as AUDIO from './audio'
 export * as FONT from './font'
+export * as ICON from './icon'
 export * as ITEM from './item'
 export * as MOVE from './move'
 export * as PERSONALITY from './personality'

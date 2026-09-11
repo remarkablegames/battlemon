@@ -1,11 +1,11 @@
-import { SPRITE } from '../constants'
+import { ICON } from '../constants'
 import { getAudioMuted, sfx, toggleMuted } from '../utils/audio'
 
 const ICON_HEIGHT = 44
 
 export function addSoundToggle() {
   const iconId = (muted: boolean): string =>
-    muted ? SPRITE.SOUND_ICONS.MUTED.id : SPRITE.SOUND_ICONS.ON.id
+    muted ? ICON.SOUND.MUTED : ICON.SOUND.ON
 
   const toggle = add([
     pos(width() - 45, 45),
