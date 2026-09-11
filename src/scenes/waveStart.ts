@@ -1,4 +1,4 @@
-import { SCENE, STAT, TYPE } from '../constants'
+import { FONT, SCENE, STAT, TYPE } from '../constants'
 import {
   addButton,
   addCard,
@@ -14,6 +14,10 @@ import {
   playMusic,
   spawnWave,
 } from '../utils'
+
+const CARD_SPACING = 108
+const CARD_START_Y = 268
+const CARD_CONTENT_OFFSET_X = -20
 
 scene(SCENE.WAVE_START, () => {
   initHoverGate()
@@ -33,7 +37,7 @@ scene(SCENE.WAVE_START, () => {
   const selected: number[] = []
 
   add([
-    text(`Wave ${String(wave)}`, { size: 28 }),
+    text(`Wave ${String(wave)}`, { size: 32 }),
     pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
@@ -41,7 +45,7 @@ scene(SCENE.WAVE_START, () => {
 
   const subtitle = add([
     text(`Select up to ${String(STAT.BATTLE_TEAM_SIZE)} monsters`, {
-      size: 20,
+      size: 22,
     }),
     pos(center().x, 95),
     anchor('center'),
@@ -54,14 +58,11 @@ scene(SCENE.WAVE_START, () => {
 
   addEnemyPreview(runState.enemyTeam, { label: 'Enemies', y: 175 })
 
-  const cardSpacing = 95
-  const startY = 280
-
   const cards: ReturnType<typeof addCard>[] = []
-  const borders: ReturnType<typeof createBorder>[] = []
-  const orderLabels: ReturnType<typeof createOrderLabel>[] = []
+  const borders: ReturnType<typeof addBorder>[] = []
+  const orderLabels: ReturnType<typeof addOrderLabel>[] = []
 
-  function createBorder(x: number, y: number) {
+  function addBorder(x: number, y: number) {
     return add([
       rect(488, 98, { radius: 14, fill: false }),
       pos(x, y),
@@ -71,20 +72,20 @@ scene(SCENE.WAVE_START, () => {
     ])
   }
 
-  function createOrderLabel(x: number, y: number) {
+  function addOrderLabel(x: number, y: number) {
     return add([
-      text('', { size: 28 }),
+      text('', { size: 46, font: FONT.SECONDARY }),
       pos(x, y),
       anchor('center'),
-      color(100, 255, 100),
+      color(WHITE),
     ])
   }
 
   aliveIndices.forEach(({ monster, i }, displayIdx) => {
     const x = center().x
-    const y = startY + displayIdx * cardSpacing
+    const y = CARD_START_Y + displayIdx * CARD_SPACING
 
-    const border = createBorder(x, y)
+    const border = addBorder(x, y)
     borders.push(border)
 
     const card = addCard({
@@ -101,15 +102,15 @@ scene(SCENE.WAVE_START, () => {
         height: 64 * monsterHeightMultiplier(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
-      pos(x - 160, y),
+      pos(x - 160 + CARD_CONTENT_OFFSET_X, y),
       anchor('center'),
     ])
     monsterSprite.play('idle')
 
     // monster name
     add([
-      text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
-      pos(x - 100, y - 18),
+      text(`${monster.name} Lv${String(monster.level)}`, { size: 22 }),
+      pos(x - 100 + CARD_CONTENT_OFFSET_X, y - 18),
       anchor('left'),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
@@ -120,14 +121,14 @@ scene(SCENE.WAVE_START, () => {
         `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
         { size: 20 },
       ),
-      pos(x - 100, y + 6),
+      pos(x - 100 + CARD_CONTENT_OFFSET_X, y + 6),
       anchor('left'),
       color(180, 180, 180),
     ])
 
     // monster health
     addMiniHpBar({
-      x: x - 100,
+      x: x - 100 + CARD_CONTENT_OFFSET_X,
       y: y + 22,
       width: 200,
       height: 10,
@@ -135,10 +136,10 @@ scene(SCENE.WAVE_START, () => {
       showHpText: true,
     })
 
-    const orderLabel = createOrderLabel(x + 200, y)
+    const orderLabel = addOrderLabel(x + 200 + CARD_CONTENT_OFFSET_X, y)
     orderLabels.push(orderLabel)
 
-    addTooltip(x + 225, y - 28, monster)
+    addTooltip(x + 235 + CARD_CONTENT_OFFSET_X, y, monster)
 
     card.onClick(() => {
       const selIdx = selected.indexOf(i)
