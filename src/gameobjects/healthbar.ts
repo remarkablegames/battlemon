@@ -79,15 +79,25 @@ export function updateHpBox(hpBox: HpBox, currentHp: number, maxHp: number) {
   hpBox.hpText.text = `${String(Math.ceil(currentHp))} / ${String(maxHp)}`
 }
 
-export function addMiniHpBar(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  monster: Monster,
+interface MiniHpBarOptions {
+  x: number
+  y: number
+  width: number
+  height: number
+  monster: Monster
+  showHpText?: boolean
+  parent?: GameObj
+}
+
+export function addMiniHpBar({
+  x,
+  y,
+  width,
+  height,
+  monster,
   showHpText = false,
-  parent?: GameObj,
-) {
+  parent,
+}: MiniHpBarOptions) {
   const host = parent ?? add([pos()])
 
   host.add([

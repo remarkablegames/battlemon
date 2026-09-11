@@ -192,7 +192,15 @@ scene(SCENE.SHOP, () => {
       ])
 
       // monster health
-      addMiniHpBar(90, 62, 200, 10, monster, true, row)
+      addMiniHpBar({
+        x: 90,
+        y: 62,
+        width: 200,
+        height: 10,
+        monster,
+        showHpText: true,
+        parent: row,
+      })
 
       // monster sell price
       if (options.rowRightText) {

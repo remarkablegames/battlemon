@@ -126,7 +126,14 @@ scene(SCENE.WAVE_START, () => {
     ])
 
     // monster health
-    addMiniHpBar(x - 100, y + 22, 200, 10, monster, true)
+    addMiniHpBar({
+      x: x - 100,
+      y: y + 22,
+      width: 200,
+      height: 10,
+      monster,
+      showHpText: true,
+    })
 
     const orderLabel = createOrderLabel(x + 200, y)
     orderLabels.push(orderLabel)
