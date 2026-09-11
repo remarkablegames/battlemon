@@ -103,11 +103,15 @@ export function addButton({
     setCursor('default')
   })
 
-  button.onClick(() => {
+  const onClick = button.onClick.bind(button)
+  button.onClick = (handler) => {
     if (!button.disabled) {
       sfx(sound)
     }
-  })
+    return onClick(() => {
+      wait(0, handler)
+    })
+  }
 
   button.add([text(label, { size: labelSize }), anchor('center'), color(WHITE)])
 
