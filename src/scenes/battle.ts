@@ -95,13 +95,14 @@ scene(SCENE.BATTLE, () => {
   function spawnHitParticles(
     origin: { x: number; y: number },
     typeMult: number,
+    type: Monster['type'],
   ): void {
     const count = typeMult > 1 ? 8 : 4
     for (let i = 0; i < count; i++) {
       add([
         rect(6, 6),
         pos(origin.x, origin.y),
-        color(255, 220, 100),
+        color(rgb(TYPE.TYPE_COLORS[type])),
         anchor('center'),
         lifespan(0.4),
         scale(1),
@@ -242,7 +243,7 @@ scene(SCENE.BATTLE, () => {
       wait(0.1, () => {
         playerSprite.color = WHITE
       })
-      spawnHitParticles(playerSprite.pos, typeMult)
+      spawnHitParticles(playerSprite.pos, typeMult, attacker.type)
       spawnDamageNumber(
         playerSprite.pos.x,
         playerSprite.pos.y - 40,
@@ -257,7 +258,7 @@ scene(SCENE.BATTLE, () => {
           enemySprite.color = WHITE
         }
       })
-      spawnHitParticles(enemySprite.pos, typeMult)
+      spawnHitParticles(enemySprite.pos, typeMult, attacker.type)
       spawnDamageNumber(
         enemySprite.pos.x,
         enemySprite.pos.y - 40,
