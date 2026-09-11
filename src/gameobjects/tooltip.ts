@@ -104,8 +104,13 @@ function addBubble(x: number, y: number, monster: Monster) {
     color(rgb(TYPE.TYPE_COLORS[monster.type])),
   ])
 
+  const powerSuffix =
+    special.kind === 'nuke' || special.kind === 'debuff'
+      ? ` (Power ${String(special.power)})`
+      : ''
+
   bubble.add([
-    text(special.description, {
+    text(`${special.description}${powerSuffix}`, {
       size: 20,
       width: BUBBLE_WIDTH - BUBBLE_PAD * 2,
     }),

@@ -328,7 +328,7 @@ scene(SCENE.BATTLE, () => {
           sfx('spray')
           attacker.currentHp = Math.min(
             attacker.maxHp,
-            attacker.currentHp + special.power,
+            attacker.currentHp + attacker.maxHp * special.power,
           )
           break
       }
