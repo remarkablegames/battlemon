@@ -3,7 +3,7 @@ import { applyQuerystringOverrides } from '../utils'
 
 scene(SCENE.PRELOAD, () => {
   const fonts = Object.values(FONT).map((font) =>
-    loadFont(font, `fonts/${FONT.SECONDARY}.ttf`),
+    loadFont(font, `fonts/${font}.ttf`),
   )
 
   for (const sprite of SPRITE.SPRITES) {
