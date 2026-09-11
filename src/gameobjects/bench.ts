@@ -1,6 +1,7 @@
 import { STAT } from '../constants'
 import type { Monster } from '../types'
 import { gateHover, monsterHeightMultiplier } from '../utils'
+import { setHpFill } from './hpBox'
 
 const BENCH_SLOT_SIZE = 72
 const BENCH_SLOT_GAP = 12
@@ -119,14 +120,7 @@ export function addBench(
       ])
 
       hpFill.onUpdate(() => {
-        const ratio = Math.max(0, monster.currentHp / monster.maxHp)
-        hpFill.width = BENCH_HP_BAR_WIDTH * ratio
-        hpFill.color =
-          ratio <= 0.25
-            ? rgb(255, 50, 50)
-            : ratio <= 0.5
-              ? rgb(255, 200, 0)
-              : rgb(0, 200, 0)
+        setHpFill(hpFill, monster.currentHp, monster.maxHp, BENCH_HP_BAR_WIDTH)
       })
 
       fill.onUpdate(() => {

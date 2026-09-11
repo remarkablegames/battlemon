@@ -3,6 +3,7 @@ import {
   addButton,
   addCard,
   addItemCard,
+  addMiniHpBar,
   addSoundToggle,
   ITEM_ROW_HEIGHT,
 } from '../gameobjects'
@@ -171,42 +172,35 @@ scene(SCENE.SHOP, () => {
       ])
       monsterSprite.play('idle')
 
+      // monster name
       row.add([
-        text(monster.name, { size: 20 }),
-        pos(90, 20),
+        text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
+        pos(90, 22),
         anchor('left'),
         color(WHITE),
       ])
 
-      // Line 1: Level, HP, ATK
+      // monster stats
       row.add([
         text(
-          `Lv${String(monster.level)} • HP ${String(monster.maxHp)} • ATK ${String(monster.baseStats.attack)}`,
+          `ATK ${String(monster.baseStats.attack)} • DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
           {
             size: 20,
           },
         ),
-        pos(90, 48),
+        pos(90, 46),
         anchor('left'),
         color(180, 180, 180),
       ])
 
-      // Line 2: DEF, SPD
-      row.add([
-        text(
-          `DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
-          { size: 20 },
-        ),
-        pos(90, 70),
-        anchor('left'),
-        color(180, 180, 180),
-      ])
+      // monster health
+      addMiniHpBar(90, 62, 200, 8, monster, row)
 
-      // sell price
+      // monster sell price
       if (options.rowRightText) {
         row.add([
           text(options.rowRightText(monster), { size: 20 }),
-          pos(panelWidth - 60, 20),
+          pos(panelWidth - 60, 22),
           anchor('right'),
           color(255, 220, 80),
         ])

@@ -1,9 +1,30 @@
+import type { ColorComp, GameObj, RectComp } from 'kaplay'
+
 import { FONT } from '../constants'
+import type { Monster } from '../types'
 
 export const HP_BOX_WIDTH = 240
 const HP_BOX_HEIGHT = 56
 export const HP_BAR_WIDTH = 216
 const HP_BAR_HEIGHT = 12
+
+type HpFill = GameObj<RectComp & ColorComp>
+
+export function setHpFill(
+  fill: HpFill,
+  currentHp: number,
+  maxHp: number,
+  fullWidth: number,
+) {
+  const ratio = maxHp > 0 ? Math.max(0, Math.min(1, currentHp / maxHp)) : 0
+  fill.width = fullWidth * ratio
+  fill.color =
+    ratio <= 0.25
+      ? rgb(255, 50, 50)
+      : ratio <= 0.5
+        ? rgb(255, 200, 0)
+        : rgb(0, 200, 0)
+}
 
 export function addHpBox(x: number, y: number) {
   const box = add([pos(x, y), fixed()])
@@ -36,7 +57,7 @@ export function addHpBox(x: number, y: number) {
   ])
 
   // bar fill
-  const fill = box.add([
+  const fill: HpFill = box.add([
     rect(HP_BAR_WIDTH, HP_BAR_HEIGHT, { radius: 4 }),
     pos(12, 32),
     color(0, 200, 0),
@@ -51,6 +72,38 @@ export function addHpBox(x: number, y: number) {
   ])
 
   return { box, fill, hpText }
+}
+
+export function updateHpBox(hpBox: HpBox, currentHp: number, maxHp: number) {
+  setHpFill(hpBox.fill, currentHp, maxHp, HP_BAR_WIDTH)
+  hpBox.hpText.text = `${String(Math.ceil(currentHp))} / ${String(maxHp)}`
+}
+
+export function addMiniHpBar(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  monster: Monster,
+  parent?: GameObj,
+) {
+  const host = parent ?? add([pos()])
+
+  host.add([
+    rect(width, height, { radius: height / 4 }),
+    pos(x, y),
+    color(120, 120, 120),
+  ])
+
+  const fill = host.add([
+    rect(width, height, { radius: height / 4 }),
+    pos(x, y),
+    color(0, 200, 0),
+  ])
+
+  fill.onUpdate(() => {
+    setHpFill(fill, monster.currentHp, monster.maxHp, width)
+  })
 }
 
 export type HpBox = ReturnType<typeof addHpBox>

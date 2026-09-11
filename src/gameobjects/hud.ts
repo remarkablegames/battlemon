@@ -1,7 +1,7 @@
 import { FONT } from '../constants'
 import type { Monster } from '../types'
 import { addBench, type Bench } from './bench'
-import { addHpBox, HP_BAR_WIDTH, HP_BOX_WIDTH, type HpBox } from './hpBox'
+import { addHpBox, HP_BOX_WIDTH, type HpBox, updateHpBox } from './hpBox'
 
 function addNameText(x: number, y: number) {
   return add([
@@ -87,33 +87,13 @@ export function updateHud(
   wave: number,
 ): void {
   if (player) {
-    const hpRatio = player.currentHp / player.maxHp
-    hud.playerHp.fill.width = Math.max(0, HP_BAR_WIDTH * hpRatio)
-    hud.playerHp.hpText.text = `${String(Math.ceil(player.currentHp))} / ${String(player.maxHp)}`
+    updateHpBox(hud.playerHp, player.currentHp, player.maxHp)
     hud.playerNameText.text = `${player.name} Lv${String(player.level)}`
-
-    if (hpRatio <= 0.25) {
-      hud.playerHp.fill.color = rgb(255, 50, 50)
-    } else if (hpRatio <= 0.5) {
-      hud.playerHp.fill.color = rgb(255, 200, 0)
-    } else {
-      hud.playerHp.fill.color = rgb(0, 200, 0)
-    }
   }
 
   if (enemy) {
-    const hpRatio = enemy.currentHp / enemy.maxHp
-    hud.enemyHp.fill.width = Math.max(0, HP_BAR_WIDTH * hpRatio)
-    hud.enemyHp.hpText.text = `${String(Math.ceil(enemy.currentHp))} / ${String(enemy.maxHp)}`
+    updateHpBox(hud.enemyHp, enemy.currentHp, enemy.maxHp)
     hud.enemyNameText.text = `${enemy.name} Lv${String(enemy.level)}`
-
-    if (hpRatio <= 0.25) {
-      hud.enemyHp.fill.color = rgb(255, 50, 50)
-    } else if (hpRatio <= 0.5) {
-      hud.enemyHp.fill.color = rgb(255, 200, 0)
-    } else {
-      hud.enemyHp.fill.color = rgb(0, 200, 0)
-    }
   }
 
   hud.waveText.text = `Wave ${String(wave)}`

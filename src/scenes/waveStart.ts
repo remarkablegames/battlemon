@@ -3,6 +3,7 @@ import {
   addButton,
   addCard,
   addEnemyPreview,
+  addMiniHpBar,
   addSoundToggle,
   addTooltip,
 } from '../gameobjects'
@@ -105,22 +106,27 @@ scene(SCENE.WAVE_START, () => {
     ])
     monsterSprite.play('idle')
 
+    // monster name
     add([
-      text(monster.name, { size: 20 }),
-      pos(x - 100, y - 20),
+      text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
+      pos(x - 100, y - 18),
       anchor('left'),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
+    // monster stats
     add([
       text(
-        `${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}  HP ${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`,
+        `ATK ${String(monster.baseStats.attack)} • DEF ${String(monster.baseStats.defense)} • SPD ${String(monster.baseStats.speed)}`,
         { size: 20 },
       ),
-      pos(x - 100, y + 10),
+      pos(x - 100, y + 6),
       anchor('left'),
       color(180, 180, 180),
     ])
+
+    // monster health
+    addMiniHpBar(x - 100, y + 22, 200, 8, monster)
 
     const orderLabel = createOrderLabel(x + 200, y)
     orderLabels.push(orderLabel)
