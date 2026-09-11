@@ -25,7 +25,7 @@ export const SOUND: Record<SoundEvent, string> = {
   start: 'sounds/ui/start.mp3',
   continue: 'sounds/ui/continue.mp3',
   levelUp: 'sounds/ui/level_up.mp3',
-  purchase: 'sounds/ui/kaching.mp3',
+  money: 'sounds/ui/kaching.mp3',
   hit: 'sounds/battle/hit.mp3',
   woosh: 'sounds/battle/woosh.mp3',
   splash: 'sounds/battle/splash.mp3',

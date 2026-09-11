@@ -82,7 +82,7 @@ scene(SCENE.SHOP, () => {
         openMonsterSelect(item)
       } else {
         runState.coins -= item.price
-        sfx('purchase')
+        sfx('money')
         applyPurchase(item)
         refreshCoins()
         showPurchaseFeedback(item, y)
@@ -371,7 +371,7 @@ scene(SCENE.SHOP, () => {
         subtitle: 'Select a monster',
         onSelect: (monster) => {
           runState.coins -= item.price
-          sfx('purchase')
+          sfx('money')
           applyPurchase(item, monster)
           refreshCoins()
           showPurchaseFeedback(item, center().y)
