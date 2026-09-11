@@ -161,6 +161,26 @@ scene(SCENE.BATTLE, () => {
     }
   }
 
+  function spawnMoveText(x: number, y: number, name: string): void {
+    const moveLabel = add([
+      styledText(name, {
+        size: 24,
+        fill: rgb(255, 220, 100),
+        outline: { color: BLACK, width: 2 },
+      }),
+      pos(x, y),
+      anchor('center'),
+      fixed(),
+      lifespan(1.0),
+      opacity(1),
+    ])
+
+    moveLabel.onUpdate(() => {
+      moveLabel.pos.y -= 40 * dt()
+      moveLabel.opacity = Math.max(0, moveLabel.opacity - dt())
+    })
+  }
+
   function dealDamage(
     attacker: Monster,
     defender: Monster,
@@ -282,6 +302,15 @@ scene(SCENE.BATTLE, () => {
 
     if (isSpecial) {
       const special = MOVE.SPECIAL_MOVES[attacker.type]
+      const attackerPos =
+        attacker === getActivePlayer()
+          ? playerSprites[activePlayerIdx]?.pos
+          : enemySprite?.pos
+
+      if (attackerPos) {
+        spawnMoveText(attackerPos.x, attackerPos.y, special.name)
+      }
+
       switch (special.kind) {
         case 'nuke':
         case 'debuff':

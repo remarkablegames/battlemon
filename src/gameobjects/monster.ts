@@ -6,13 +6,19 @@ const COOLDOWN_BAR_WIDTH = 60
 const COOLDOWN_BAR_HEIGHT = 4
 
 const BUFF_DISPLAY: {
-  key: 'attackBuff' | 'speedBuff' | 'enemyAttackDebuff' | 'defenseBuff'
+  key:
+    | 'attackBuff'
+    | 'speedBuff'
+    | 'enemyAttackDebuff'
+    | 'defenseBuff'
+    | 'speedDebuff'
   label: string
 }[] = [
   { key: 'attackBuff', label: 'ENRAGE' },
   { key: 'speedBuff', label: 'HASTE' },
   { key: 'enemyAttackDebuff', label: 'WEAKENED' },
   { key: 'defenseBuff', label: 'IRON SKIN' },
+  { key: 'speedDebuff', label: 'SLOWED' },
 ]
 
 export function addMonster({
