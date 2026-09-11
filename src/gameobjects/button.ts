@@ -109,9 +109,8 @@ export function addButton({
 
   button.onClick = (callback) => {
     return originalOnClick(() => {
-      if (!button.disabled) {
-        sfx(sound)
-      }
+      if (button.disabled) return
+      sfx(sound)
       // stop the leftover tap from registering as a stray click on the next scene's overlapping button (click-through)
       wait(0, callback)
     })
