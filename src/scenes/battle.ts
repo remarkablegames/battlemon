@@ -326,16 +326,10 @@ scene(SCENE.BATTLE, () => {
           break
         case 'heal':
           sfx('spray')
-          for (const monster of attacker === getActivePlayer()
-            ? battleTeam
-            : enemyTeam) {
-            if (monster.isAlive) {
-              monster.currentHp = Math.min(
-                monster.maxHp,
-                monster.currentHp + special.power,
-              )
-            }
-          }
+          attacker.currentHp = Math.min(
+            attacker.maxHp,
+            attacker.currentHp + special.power,
+          )
           break
       }
       attacker.specialCooldown = special.cooldown
@@ -378,10 +372,7 @@ scene(SCENE.BATTLE, () => {
     if (attacker.specialCooldown <= 0) {
       const special = MOVE.SPECIAL_MOVES[attacker.type]
       if (special.kind === 'heal') {
-        const team = attacker === getActivePlayer() ? battleTeam : enemyTeam
-        const needsHeal = team.some(
-          (monster) => monster.isAlive && monster.currentHp < monster.maxHp,
-        )
+        const needsHeal = attacker.currentHp < attacker.maxHp
         if (needsHeal) {
           executeMove(attacker, defender, true)
         } else if (attacker.basicCooldown <= 0) {

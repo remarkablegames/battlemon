@@ -57,7 +57,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     kind: 'heal',
     power: 10,
     cooldown: 7,
-    description: 'Heals the team.',
+    description: 'Heals the monster.',
   },
 }
 
