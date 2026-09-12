@@ -128,6 +128,7 @@ scene(SCENE.TAME, () => {
     label: 'Tame',
     isFixed: true,
     disabled: true,
+    sound: 'start',
   })
 
   tameButton.onClick(() => {
@@ -175,6 +176,7 @@ scene(SCENE.TAME, () => {
     color: [80, 80, 80],
     label: 'Skip',
     isFixed: true,
+    sound: 'cancel',
   })
 
   skipButton.onClick(() => {
