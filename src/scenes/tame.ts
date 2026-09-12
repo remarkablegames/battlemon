@@ -4,6 +4,12 @@ import { runState } from '../state'
 import type { Monster } from '../types'
 import { initHoverGate, monsterHeight, playMusic } from '../utils'
 
+const CARD_WIDTH = 480
+const CARD_HEIGHT = 120
+const CARD_TEXT_X = 60
+const CARD_TEXT_START_Y = -26
+const CARD_TEXT_ROW_GAP = 30
+
 scene(SCENE.TAME, () => {
   initHoverGate()
   const { defeatedEnemies, playerTeam } = runState
@@ -30,7 +36,7 @@ scene(SCENE.TAME, () => {
 
   function createCardBorder(x: number, y: number) {
     return add([
-      rect(488, 148, { radius: 14, fill: false }),
+      rect(CARD_WIDTH, CARD_HEIGHT, { radius: 14, fill: false }),
       pos(x, y),
       anchor('center'),
       outline(0, rgb(100, 200, 100)),
@@ -50,8 +56,8 @@ scene(SCENE.TAME, () => {
     const card = addCard({
       x,
       y,
-      width: 480,
-      height: 140,
+      width: CARD_WIDTH,
+      height: CARD_HEIGHT,
       color: [40, 40, 60],
     })
     cards.push(card)
@@ -61,18 +67,15 @@ scene(SCENE.TAME, () => {
         height: monsterHeight(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
-      pos(x - 120, y),
+      pos(x - 160, y),
       anchor('center'),
     ])
     monsterSprite.play('idle')
 
-    add([text(monster.name, { size: 24 }), pos(x + 40, y - 40), color(WHITE)])
-
     add([
-      text(`${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}`, {
-        size: 24,
-      }),
-      pos(x + 40, y - 15),
+      text(`${monster.name} Lv${String(monster.level)}`, { size: 26 }),
+      pos(x - CARD_TEXT_X, y + CARD_TEXT_START_Y),
+      anchor('left'),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
@@ -81,7 +84,8 @@ scene(SCENE.TAME, () => {
         `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
         { size: 24 },
       ),
-      pos(x + 40, y + 10),
+      pos(x - CARD_TEXT_X, y + CARD_TEXT_START_Y + CARD_TEXT_ROW_GAP),
+      anchor('left'),
       color(180, 180, 180),
     ])
 
@@ -90,7 +94,8 @@ scene(SCENE.TAME, () => {
         `DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
         { size: 24 },
       ),
-      pos(x + 40, y + 35),
+      pos(x - CARD_TEXT_X, y + CARD_TEXT_START_Y + CARD_TEXT_ROW_GAP * 2 - 4),
+      anchor('left'),
       color(180, 180, 180),
     ])
 
@@ -107,7 +112,7 @@ scene(SCENE.TAME, () => {
   })
 
   const tameButton = addButton({
-    x: center().x - 100,
+    x: center().x - 90,
     y: height() - 80,
     width: 160,
     height: 56,
@@ -141,7 +146,7 @@ scene(SCENE.TAME, () => {
   })
 
   const skipButton = addButton({
-    x: center().x + 100,
+    x: center().x + 90,
     y: height() - 80,
     width: 160,
     height: 56,
