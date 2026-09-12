@@ -6,16 +6,16 @@ scene(SCENE.PRELOAD, () => {
     loadFont(font, `fonts/${font}.ttf`),
   )
 
+  Object.values(ICON).forEach((icon) => {
+    loadSprite(icon, `icons/${icon}.png`)
+  })
+
   for (const sprite of SPRITE.SPRITES) {
     loadSprite(sprite.id, sprite.file, {
       sliceX: sprite.sliceX,
       sliceY: sprite.sliceY,
       anims: sprite.anims,
     })
-  }
-
-  for (const icon of Object.values(ICON)) {
-    loadSprite(icon, `icons/${icon}.png`)
   }
 
   for (const sound of Object.values(AUDIO.SOUND)) {

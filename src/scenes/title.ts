@@ -1,4 +1,4 @@
-import { SCENE } from '../constants'
+import { ICON, SCENE } from '../constants'
 import { addButton, addSoundToggle } from '../gameobjects'
 import { loadBestWave, resetRunState } from '../state'
 import { initHoverGate } from '../utils'
@@ -9,16 +9,18 @@ scene(SCENE.TITLE, () => {
   initHoverGate()
   addSoundToggle()
 
+  add([sprite(ICON.LOGO), pos(center().add(0, -180)), anchor('center')])
+
   add([
     text('BATTLEMON', { size: 42 }),
-    pos(center().add(0, -80)),
+    pos(center().add(0, -65)),
     anchor('center'),
     color(255, 200, 50),
   ])
 
   add([
     text('Tame. Battle. Evolve.', { size: 24 }),
-    pos(center().add(0, -30)),
+    pos(center().add(0, -20)),
     anchor('center'),
     color(200, 200, 200),
   ])
