@@ -635,67 +635,79 @@ scene(SCENE.BATTLE, () => {
 
   function useItem(item: ItemDef, index: number): void {
     const player = getActivePlayer()
+    let used = false
+
     switch (item.kind) {
       case 'heal_potion':
-        sfx('heal')
         if (player) {
           player.currentHp = player.maxHp
+          sfx('heal')
           addToast({ message: `Healed ${player.name}!`, y: 160 })
+          used = true
         }
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       case 'revive': {
-        sfx('heal')
         const fainted = battleTeam.find(({ isAlive }) => !isAlive)
         if (fainted) {
           fainted.isAlive = true
           fainted.currentHp = Math.floor(fainted.maxHp * 0.5)
+          sfx('heal')
           addToast({ message: `Revived ${fainted.name}!`, y: 160 })
+          used = true
         }
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       }
       case 'full_heal':
-        sfx('heal')
         fullHealTeam(battleTeam)
+        sfx('heal')
         addToast({ message: 'Healed entire team!', y: 160 })
+        used = true
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       case 'temp_boost_enrage':
-        sfx('powerup')
         if (player && item.effect) {
           player.attackBuff = item.effect.duration
+          sfx('powerup')
+          addToast({ message: `${item.label}!`, y: 160 })
+          used = true
         }
-        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_boost_iron_skin':
-        sfx('powerup')
         if (player && item.effect) {
           player.defenseBuff = item.effect.duration
           player.speedDebuff = item.effect.duration
+          sfx('powerup')
+          addToast({ message: `${item.label}!`, y: 160 })
+          used = true
         }
-        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_boost_haste':
-        sfx('powerup')
         if (player && item.effect) {
           player.speedBuff = item.effect.duration
           player.damageDebuff = item.effect.duration
+          sfx('powerup')
+          addToast({ message: `${item.label}!`, y: 160 })
+          used = true
         }
-        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_debuff_enemy_attack':
-        sfx('debuff')
         if (item.effect) {
           const enemy = getActiveEnemy()
           if (enemy) {
             enemy.enemyAttackDebuff = item.effect.duration
+            sfx('debuff')
+            addToast({ message: `${item.label}!`, y: 160 })
+            used = true
           }
         }
-        addToast({ message: `${item.label}!`, y: 160 })
         break
     }
-    runState.inventory.splice(index, 1)
+
+    if (used) {
+      runState.inventory.splice(index, 1)
+    }
   }
 
   // main battle loop
