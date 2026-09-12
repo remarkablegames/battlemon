@@ -61,7 +61,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
   },
 }
 
-// extra learnable moves for upgrade choices
+// extra moves monsters learn as they level up
 export const LEARNABLE_MOVES: MoveDef[] = [
   {
     id: 'power_slam',

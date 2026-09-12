@@ -6,7 +6,6 @@ import './tame'
 import './shop'
 import './starter'
 import './title'
-import './upgrade'
 import './waveStart'
 
 import { SCENE } from '../constants'
