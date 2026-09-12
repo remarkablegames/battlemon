@@ -1,4 +1,5 @@
 import type { BoosterEffect, ItemDef, ItemKind } from '../types'
+import { BATTLE } from './scene'
 
 export const ITEM_DEFS: ItemDef[] = [
   {
@@ -44,7 +45,12 @@ export const ITEM_DEFS: ItemDef[] = [
     id: 'heal_potion',
     kind: 'heal_potion',
     label: 'Heal Potion',
-    description: 'Full heal in battle',
+    get description() {
+      if (getSceneName() === BATTLE) {
+        return 'Full heal current monster'
+      }
+      return 'Full heal one monster'
+    },
     price: 5,
   },
   {
