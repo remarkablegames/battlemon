@@ -61,6 +61,6 @@ export function addEnemyPreview(
       color(180, 180, 180),
     ])
 
-    addTooltip(center().x + enemyX + 60, y + 10, enemy)
+    addTooltip({ x: center().x + enemyX + 60, y: y + 10, monster: enemy })
   })
 }

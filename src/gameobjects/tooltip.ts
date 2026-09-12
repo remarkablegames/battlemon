@@ -15,7 +15,15 @@ const KIND_LABELS: Partial<Record<MoveKind, string>> = {
   debuff: 'Debuff',
 }
 
-export function addTooltip(x: number, y: number, monster: Monster) {
+export function addTooltip({
+  x,
+  y,
+  monster,
+}: {
+  x: number
+  y: number
+  monster: Monster
+}) {
   const icon = add([
     sprite(ICON.QUESTION, { height: ICON_HEIGHT }),
     pos(x, y),

@@ -139,7 +139,11 @@ scene(SCENE.WAVE_START, () => {
     const orderLabel = addOrderLabel(x + 200 + CARD_CONTENT_OFFSET_X, y)
     orderLabels.push(orderLabel)
 
-    const tooltipIcon = addTooltip(x + 235 + CARD_CONTENT_OFFSET_X, y, monster)
+    const tooltipIcon = addTooltip({
+      x: x + 235 + CARD_CONTENT_OFFSET_X,
+      y,
+      monster,
+    })
 
     card.onClick(() => {
       if (tooltipIcon.hasPoint(mousePos())) return
