@@ -17,6 +17,7 @@ export function addItemCard({
   width,
   item,
   count,
+  hint,
   onClick,
 }: {
   parent: GameObj
@@ -25,6 +26,7 @@ export function addItemCard({
   width: number
   item: ItemDef
   count: number
+  hint?: string
   onClick?: () => void
 }) {
   const card = parent.add([
@@ -54,6 +56,15 @@ export function addItemCard({
     anchor('right'),
     color(255, 220, 80),
   ])
+
+  if (hint) {
+    card.add([
+      text(hint, { size: 22, font: FONT.SECONDARY }),
+      pos(width - PAD_X, DESCRIPTION_Y),
+      anchor('right'),
+      color(100, 200, 100),
+    ])
+  }
 
   if (onClick) {
     gateHover(card)

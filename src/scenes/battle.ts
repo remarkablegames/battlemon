@@ -5,6 +5,7 @@ import {
   addItemCard,
   addMonster,
   addSoundToggle,
+  addToast,
   addTouchControls,
   ITEM_ROW_HEIGHT,
   updateHud,
@@ -639,6 +640,7 @@ scene(SCENE.BATTLE, () => {
         sfx('heal')
         if (player) {
           player.currentHp = player.maxHp
+          addToast({ message: `Healed ${player.name}!`, y: 160 })
         }
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
@@ -648,6 +650,7 @@ scene(SCENE.BATTLE, () => {
         if (fainted) {
           fainted.isAlive = true
           fainted.currentHp = Math.floor(fainted.maxHp * 0.5)
+          addToast({ message: `Revived ${fainted.name}!`, y: 160 })
         }
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
@@ -655,6 +658,7 @@ scene(SCENE.BATTLE, () => {
       case 'full_heal':
         sfx('heal')
         fullHealTeam(battleTeam)
+        addToast({ message: 'Healed entire team!', y: 160 })
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
       case 'temp_boost_enrage':
@@ -662,6 +666,7 @@ scene(SCENE.BATTLE, () => {
         if (player && item.effect) {
           player.attackBuff = item.effect.duration
         }
+        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_boost_iron_skin':
         sfx('powerup')
@@ -669,6 +674,7 @@ scene(SCENE.BATTLE, () => {
           player.defenseBuff = item.effect.duration
           player.speedDebuff = item.effect.duration
         }
+        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_boost_haste':
         sfx('powerup')
@@ -676,6 +682,7 @@ scene(SCENE.BATTLE, () => {
           player.speedBuff = item.effect.duration
           player.damageDebuff = item.effect.duration
         }
+        addToast({ message: `${item.label}!`, y: 160 })
         break
       case 'temp_debuff_enemy_attack':
         sfx('debuff')
@@ -685,6 +692,7 @@ scene(SCENE.BATTLE, () => {
             enemy.enemyAttackDebuff = item.effect.duration
           }
         }
+        addToast({ message: `${item.label}!`, y: 160 })
         break
     }
     runState.inventory.splice(index, 1)

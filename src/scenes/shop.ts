@@ -6,11 +6,19 @@ import {
   addItemCard,
   addSoundToggle,
   addTeamOverlay,
+  addToast,
   ITEM_ROW_HEIGHT,
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import { gainXp, gateHover, initHoverGate, playMusic, sfx } from '../utils'
+import {
+  fullHealTeam,
+  gainXp,
+  gateHover,
+  initHoverGate,
+  playMusic,
+  sfx,
+} from '../utils'
 
 scene(SCENE.SHOP, () => {
   initHoverGate()
@@ -81,7 +89,7 @@ scene(SCENE.SHOP, () => {
         sfx('money')
         applyPurchase(item)
         refreshCoins()
-        showPurchaseFeedback(item, y)
+        addToast({ message: `Purchased ${item.label}!`, y })
       }
     })
   })
@@ -90,8 +98,11 @@ scene(SCENE.SHOP, () => {
 
   let selectOverlay: ReturnType<typeof showTeamOverlay> | null = null
 
-  function showTeamOverlay(options: TeamOverlayOptions) {
-    const overlay = addTeamOverlay(playerTeam, {
+  function showTeamOverlay(
+    options: TeamOverlayOptions,
+    monsters: Monster[] = playerTeam,
+  ) {
+    const overlay = addTeamOverlay(monsters, {
       ...options,
       onSelect: (monster) => {
         options.onSelect?.(monster)
@@ -146,7 +157,10 @@ scene(SCENE.SHOP, () => {
 
     const groupedArray = Array.from(groupedItems.values())
     const panelWidth = 440
-    const panelHeight = 120 + Math.max(1, groupedArray.length) * ITEM_ROW_HEIGHT
+    const panelHeight = Math.min(
+      120 + Math.max(1, groupedArray.length) * ITEM_ROW_HEIGHT,
+      height() - 80,
+    )
     const panelX = (width() - panelWidth) / 2
     const panelY = (height() - panelHeight) / 2
 
@@ -176,6 +190,8 @@ scene(SCENE.SHOP, () => {
       groupedArray.forEach(({ item, count }, index) => {
         const rowY = listStartY + index * ITEM_ROW_HEIGHT - 10
 
+        const useItem = buildItemAction(item)
+
         addItemCard({
           parent: overlay,
           x: panelX + 20,
@@ -183,8 +199,80 @@ scene(SCENE.SHOP, () => {
           width: panelWidth - 40,
           item,
           count,
+          hint: useItem ? 'Use' : undefined,
+          onClick: useItem,
         })
       })
+    }
+
+    function buildItemAction(item: ItemDef): (() => void) | undefined {
+      const needsHealing = (monster: Monster) =>
+        monster.isAlive && monster.currentHp < monster.maxHp
+
+      switch (item.kind) {
+        case 'full_heal': {
+          const anythingToHeal = playerTeam.some(
+            (monster) => !monster.isAlive || needsHealing(monster),
+          )
+          if (!anythingToHeal) return undefined
+          return () => {
+            close()
+            fullHealTeam(playerTeam)
+            sfx('heal')
+            consumeInventoryItem(item.id)
+            addToast({ message: 'Healed entire team!' })
+          }
+        }
+        case 'heal_potion': {
+          const targets = playerTeam.filter(needsHealing)
+          if (targets.length === 0) return undefined
+          return () => {
+            close()
+            // add delay to prevent the tap from landing on the new overlay
+            wait(0, () => {
+              showTeamOverlay(
+                {
+                  title: item.label,
+                  subtitle: 'Select a monster to heal',
+                  onSelect: (monster) => {
+                    monster.currentHp = monster.maxHp
+                    sfx('heal')
+                    consumeInventoryItem(item.id)
+                    addToast({ message: `Healed ${monster.name}!` })
+                  },
+                },
+                targets,
+              )
+            })
+          }
+        }
+        case 'revive': {
+          const targets = playerTeam.filter((monster) => !monster.isAlive)
+          if (targets.length === 0) return undefined
+          return () => {
+            close()
+            // add delay to prevent the tap from landing on the new overlay
+            wait(0, () => {
+              showTeamOverlay(
+                {
+                  title: item.label,
+                  subtitle: 'Select a fainted monster to revive',
+                  onSelect: (monster) => {
+                    monster.isAlive = true
+                    monster.currentHp = Math.floor(monster.maxHp * 0.5)
+                    sfx('heal')
+                    consumeInventoryItem(item.id)
+                    addToast({ message: `Revived ${monster.name}!` })
+                  },
+                },
+                targets,
+              )
+            })
+          }
+        }
+        default:
+          return undefined
+      }
     }
 
     const cancelButton = overlay.add([
@@ -233,7 +321,7 @@ scene(SCENE.SHOP, () => {
           sfx('money')
           applyPurchase(item, monster)
           refreshCoins()
-          showPurchaseFeedback(item, center().y)
+          addToast({ message: `Purchased ${item.label}!` })
         },
       })
     })
@@ -265,6 +353,15 @@ scene(SCENE.SHOP, () => {
     addItemsOverlay()
   }
 
+  function consumeInventoryItem(id: string): void {
+    const index = runState.inventory.findIndex(
+      ({ id: itemId }) => itemId === id,
+    )
+    if (index >= 0) {
+      runState.inventory.splice(index, 1)
+    }
+  }
+
   function applyPurchase(item: ItemDef, target?: Monster) {
     const monster = target ?? playerTeam[runState.activePlayerIndex]
 
@@ -283,39 +380,6 @@ scene(SCENE.SHOP, () => {
         sfx('levelUp')
         break
     }
-  }
-
-  function showPurchaseFeedback(item: ItemDef, cardY: number) {
-    const feedbackText = add([
-      text(`Purchased ${item.label}!`, { size: 24 }),
-      pos(center().x, cardY),
-      anchor('center'),
-      color(100, 255, 100),
-      opacity(1),
-      z(200),
-    ])
-
-    tween(
-      feedbackText.pos.y,
-      feedbackText.pos.y - 30,
-      1.0,
-      (y) => {
-        feedbackText.pos.y = y
-      },
-      easings.easeOutQuad,
-    )
-
-    tween(
-      1,
-      0,
-      1.0,
-      (opacity) => {
-        feedbackText.opacity = opacity
-      },
-      easings.easeOutQuad,
-    ).onEnd(() => {
-      destroy(feedbackText)
-    })
   }
 
   // bottom bar: Team, Items, Continue
