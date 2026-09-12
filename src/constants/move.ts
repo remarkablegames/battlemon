@@ -56,7 +56,7 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Healing Gust',
     kind: 'heal',
     power: 0.1,
-    cooldown: 6,
+    cooldown: 7,
     description: "Heals 10% of the monster's max HP.",
   },
 }
