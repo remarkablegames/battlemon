@@ -1,4 +1,4 @@
-import { PERSONALITY, SCENE, STAT, TYPE } from '../constants'
+import { MOVE, SCENE, STAT, TYPE } from '../constants'
 import { addCard, addEnemyPreview, addSoundToggle } from '../gameobjects'
 import { runState } from '../state'
 import {
@@ -8,6 +8,9 @@ import {
   randomMonsterPool,
   spawnWave,
 } from '../utils'
+
+const CARD_MONSTER_OFFSET_X = -140
+const CARD_TEXT_OFFSET_X = -30
 
 scene(SCENE.STARTER, () => {
   initHoverGate()
@@ -19,7 +22,7 @@ scene(SCENE.STARTER, () => {
   runState.enemyTeam = spawnWave(1)
 
   add([
-    text('Choose your starter!', { size: 24 }),
+    text('Choose your starter!', { size: 28 }),
     pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
@@ -47,48 +50,41 @@ scene(SCENE.STARTER, () => {
         height: monsterHeight(monster.spriteId),
         animSpeed: STAT.ANIM_SPEED,
       }),
-      pos(x - 120, y),
+      pos(x + CARD_MONSTER_OFFSET_X, y),
       anchor('center'),
     ])
     monsterSprite.play('idle')
 
-    // name and type
-    add([text(monster.name, { size: 20 }), pos(x + 40, y - 50), color(WHITE)])
-
+    // monster name
     add([
-      text(`Type: ${TYPE.TYPE_LABELS[monster.type]}`, { size: 20 }),
-      pos(x + 40, y - 25),
+      text(monster.name, { size: 26 }),
+      pos(x + CARD_TEXT_OFFSET_X, y - 50),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
-    add([
-      text(`Nature: ${PERSONALITY.PERSONALITY_LABELS[monster.personality]}`, {
-        size: 20,
-      }),
-      pos(x + 40, y),
-      color(200, 200, 200),
-    ])
-
+    // monster stats
     add([
       text(
-        `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
-        {
-          size: 20,
-        },
+        `HP ${String(monster.maxHp)} | ATK ${String(monster.baseStats.attack)}`,
+        { size: 22 },
       ),
-      pos(x + 40, y + 25),
+      pos(x + CARD_TEXT_OFFSET_X, y - 20),
       color(180, 180, 180),
     ])
 
     add([
       text(
-        `DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
-        {
-          size: 20,
-        },
+        `DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
+        { size: 22 },
       ),
-      pos(x + 40, y + 50),
+      pos(x + CARD_TEXT_OFFSET_X, y + 5),
       color(180, 180, 180),
+    ])
+
+    add([
+      text(`Special: ${MOVE.SPECIAL_MOVES[monster.type].name}`, { size: 22 }),
+      pos(x + CARD_TEXT_OFFSET_X, y + 30),
+      color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])
 
     card.onClick(() => {

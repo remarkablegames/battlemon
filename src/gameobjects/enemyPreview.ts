@@ -19,7 +19,7 @@ export function addEnemyPreview(
   const root = add([pos(center().x, y)])
 
   root.add([
-    text(label, { size: 20 }),
+    text(label, { size: 22 }),
     pos(0, -50),
     anchor('center'),
     color(255, 100, 100),
