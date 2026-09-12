@@ -1,29 +1,16 @@
-import { ITEM, SCENE, STAT, TYPE } from '../constants'
+import { ITEM, SCENE } from '../constants'
+import type { TeamOverlayOptions } from '../gameobjects'
 import {
   addButton,
   addCard,
   addItemCard,
-  addMiniHpBar,
   addSoundToggle,
+  addTeamOverlay,
   ITEM_ROW_HEIGHT,
 } from '../gameobjects'
 import { runState } from '../state'
 import type { ItemDef, Monster } from '../types'
-import {
-  gainXp,
-  gateHover,
-  initHoverGate,
-  monsterHeightMultiplier,
-  playMusic,
-  sfx,
-} from '../utils'
-
-interface TeamOverlayOptions {
-  title: string
-  subtitle?: string
-  onSelect?: (monster: Monster) => void
-  rowRightText?: (monster: Monster) => string
-}
+import { gainXp, gateHover, initHoverGate, playMusic, sfx } from '../utils'
 
 scene(SCENE.SHOP, () => {
   initHoverGate()
@@ -101,174 +88,30 @@ scene(SCENE.SHOP, () => {
 
   const NEEDS_SELECTION = new Set<ItemDef['kind']>(['level_up'])
 
-  let selectOverlay: ReturnType<typeof addTeamOverlay> | null = null
+  let selectOverlay: ReturnType<typeof showTeamOverlay> | null = null
 
-  function addTeamOverlay(options: TeamOverlayOptions) {
-    const overlay = add([pos(), fixed(), z(100)])
-    selectOverlay = overlay
+  function showTeamOverlay(options: TeamOverlayOptions) {
+    const overlay = addTeamOverlay(playerTeam, {
+      ...options,
+      onSelect: (monster) => {
+        options.onSelect?.(monster)
+        overlay.close()
+      },
+    })
+
+    selectOverlay = overlay.root
     cards.forEach((card) => {
       card.tag('disabled')
     })
 
-    function close() {
+    overlay.root.onDestroy(() => {
       cards.forEach((card) => {
         card.untag('disabled')
       })
-      destroy(overlay)
       selectOverlay = null
-    }
-
-    overlay.add([rect(width(), height()), pos(), color(BLACK), opacity(0.7)])
-
-    const panelWidth = 440
-    const panelHeight = 170 + playerTeam.length * 100
-    const panelX = (width() - panelWidth) / 2
-    const panelY = (height() - panelHeight) / 2
-
-    overlay.add([
-      rect(panelWidth, panelHeight, { radius: 16 }),
-      pos(panelX, panelY),
-      color(30, 30, 50),
-    ])
-
-    overlay.add([
-      text(options.title, { size: 24 }),
-      pos(width() / 2, panelY + 30),
-      anchor('center'),
-      color(255, 220, 100),
-    ])
-
-    if (options.subtitle) {
-      overlay.add([
-        text(options.subtitle, { size: 24 }),
-        pos(width() / 2, panelY + 60),
-        anchor('center'),
-        color(200, 200, 200),
-      ])
-    }
-
-    const listStartY = panelY + 95
-    const rowHeight = 100
-
-    playerTeam.forEach((monster, index) => {
-      const rowY = listStartY + index * rowHeight
-      const rowMonsterX = 30
-      const rowTextX = 70
-
-      const row = overlay.add([
-        rect(panelWidth - 40, 90, { radius: 10 }),
-        pos(panelX + 20, rowY),
-        color(50, 50, 80),
-        area(),
-      ])
-
-      const monsterSprite = row.add([
-        sprite(monster.spriteId, {
-          height:
-            STAT.MONSTER_ICON_HEIGHT *
-            monsterHeightMultiplier(monster.spriteId),
-          animSpeed: STAT.ANIM_SPEED,
-        }),
-        pos(rowMonsterX, 45),
-        anchor('center'),
-      ])
-      monsterSprite.play('idle')
-
-      // monster name
-      row.add([
-        text(`${monster.name} Lv${String(monster.level)}`, { size: 22 }),
-        pos(rowTextX, 22),
-        anchor('left'),
-        color(rgb(TYPE.TYPE_COLORS[monster.type])),
-      ])
-
-      // monster stats
-      row.add([
-        text(
-          `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
-          { size: 20 },
-        ),
-        pos(rowTextX, 46),
-        anchor('left'),
-        color(180, 180, 180),
-      ])
-
-      // monster health
-      addMiniHpBar({
-        x: rowTextX,
-        y: 62,
-        width: 200,
-        height: 10,
-        monster,
-        showHpText: true,
-        parent: row,
-      })
-
-      // monster sell price
-      if (options.rowRightText) {
-        row.add([
-          text(options.rowRightText(monster), { size: 22 }),
-          pos(panelWidth - 50, 22),
-          anchor('right'),
-          color(255, 220, 80),
-        ])
-      }
-
-      if (options.onSelect) {
-        const onSelect = options.onSelect
-
-        gateHover(row)
-
-        row.onHover(() => {
-          setCursor('pointer')
-          row.color = rgb(70, 70, 100)
-        })
-
-        row.onHoverEnd(() => {
-          setCursor('default')
-          row.color = rgb(50, 50, 80)
-        })
-
-        row.onClick(() => {
-          onSelect(monster)
-          close()
-        })
-      }
     })
 
-    const cancelButton = overlay.add([
-      rect(120, 44, { radius: 8 }),
-      pos(width() / 2, panelY + panelHeight - 35),
-      anchor('center'),
-      color(80, 80, 80),
-      area(),
-    ])
-
-    overlay.add([
-      text('Cancel', { size: 24 }),
-      pos(width() / 2, panelY + panelHeight - 35),
-      anchor('center'),
-      color(WHITE),
-    ])
-
-    gateHover(cancelButton)
-
-    cancelButton.onHover(() => {
-      setCursor('pointer')
-      cancelButton.color = rgb(100, 100, 100)
-    })
-
-    cancelButton.onHoverEnd(() => {
-      setCursor('default')
-      cancelButton.color = rgb(80, 80, 80)
-    })
-
-    cancelButton.onClick(() => {
-      sfx('cancel')
-      close()
-    })
-
-    return overlay
+    return overlay.root
   }
 
   function addItemsOverlay() {
@@ -382,7 +225,7 @@ scene(SCENE.SHOP, () => {
   function openMonsterSelect(item: ItemDef) {
     // add delay to prevent monster from being clicked immediately
     wait(0, () => {
-      addTeamOverlay({
+      showTeamOverlay({
         title: item.label,
         subtitle: 'Select a monster',
         onSelect: (monster) => {
@@ -398,7 +241,7 @@ scene(SCENE.SHOP, () => {
 
   function openTeamView() {
     if (selectOverlay) return
-    addTeamOverlay({
+    showTeamOverlay({
       title: 'Your Team',
       subtitle: 'Tap a monster to sell',
       rowRightText: (monster) => `${String(monster.level * 10)} coins`,

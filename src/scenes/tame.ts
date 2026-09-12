@@ -1,8 +1,13 @@
 import { SCENE, STAT, TYPE } from '../constants'
-import { addButton, addCard, addSoundToggle } from '../gameobjects'
+import {
+  addButton,
+  addCard,
+  addSoundToggle,
+  addTeamOverlay,
+} from '../gameobjects'
 import { runState } from '../state'
 import type { Monster } from '../types'
-import { initHoverGate, monsterHeight, playMusic } from '../utils'
+import { initHoverGate, monsterHeight, playMusic, sfx } from '../utils'
 
 const CARD_WIDTH = 480
 const CARD_HEIGHT = 120
@@ -31,6 +36,8 @@ scene(SCENE.TAME, () => {
   ])
 
   let selected: Monster | null = null
+
+  let discardOverlay: ReturnType<typeof showDiscardOverlay> | null = null
 
   const cardBorders: ReturnType<typeof createCardBorder>[] = []
 
@@ -100,6 +107,7 @@ scene(SCENE.TAME, () => {
     ])
 
     card.onClick(() => {
+      if (discardOverlay) return
       selected = monster
       for (let j = 0; j < cards.length; j++) {
         cards[j].color = rgb(40, 40, 60)
@@ -124,6 +132,7 @@ scene(SCENE.TAME, () => {
 
   tameButton.onClick(() => {
     if (!selected) return
+    if (discardOverlay) return
     if (playerTeam.length < STAT.MAX_TEAM_SIZE) {
       // revive tamed monster at full HP
       selected.isAlive = true
@@ -131,19 +140,32 @@ scene(SCENE.TAME, () => {
       playerTeam.push(selected)
       go(SCENE.SHOP)
     } else {
-      // team full — replace first benched monster
-      const activeIdx = runState.activePlayerIndex
-      const benchIdx = playerTeam.findIndex(
-        (_monster, index) => index !== activeIdx,
-      )
-      if (benchIdx >= 0) {
-        selected.isAlive = true
-        selected.currentHp = selected.maxHp
-        playerTeam[benchIdx] = selected
-        go(SCENE.SHOP)
-      }
+      // team full — let the player pick which monster to discard
+      selected.isAlive = true
+      selected.currentHp = selected.maxHp
+      showDiscardOverlay(selected)
     }
   })
+
+  function showDiscardOverlay(tamed: Monster) {
+    const overlay = addTeamOverlay(playerTeam, {
+      title: 'Discard for Tame',
+      subtitle: "Team's full. Tap a monster to discard",
+      onSelect: (monster) => {
+        sfx('continue')
+        playerTeam.splice(playerTeam.indexOf(monster), 1, tamed)
+        go(SCENE.SHOP)
+      },
+    })
+
+    discardOverlay = overlay.root
+
+    overlay.root.onDestroy(() => {
+      discardOverlay = null
+    })
+
+    return overlay.root
+  }
 
   const skipButton = addButton({
     x: center().x + 90,
