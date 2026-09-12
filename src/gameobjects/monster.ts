@@ -52,7 +52,7 @@ export function addMonster({
   // cooldown bar track
   monsterSprite.add([
     rect(COOLDOWN_BAR_WIDTH, COOLDOWN_BAR_HEIGHT, { radius: 2 }),
-    pos(0, 40),
+    pos(0, 52),
     anchor('center'),
     color(80, 80, 80),
   ])
@@ -60,7 +60,7 @@ export function addMonster({
   // cooldown bar fill
   const fill = monsterSprite.add([
     rect(0, COOLDOWN_BAR_HEIGHT, { radius: 2 }),
-    pos(-COOLDOWN_BAR_WIDTH / 2, 40),
+    pos(-COOLDOWN_BAR_WIDTH / 2, 52),
     anchor('left'),
     color(rgb(TYPE.TYPE_COLORS[monster.type])),
   ])
