@@ -3,9 +3,9 @@ import type { ColorComp, GameObj, RectComp, TextComp } from 'kaplay'
 import { FONT } from '../constants'
 import type { Monster } from '../types'
 
-export const HP_BOX_WIDTH = 240
+export const HP_BOX_WIDTH = 300
 const HP_BOX_HEIGHT = 56
-export const HP_BAR_WIDTH = 216
+export const HP_BAR_WIDTH = HP_BOX_WIDTH - 24
 const HP_BAR_HEIGHT = 12
 
 type HpFill = GameObj<RectComp & ColorComp>
@@ -44,7 +44,7 @@ export function addHpBox(x: number, y: number) {
 
   // HP label
   box.add([
-    text('HP', { size: 20, font: FONT.SECONDARY }),
+    text('HP', { size: 24, font: FONT.SECONDARY }),
     pos(12, 6),
     color(255, 50, 50),
   ])
@@ -65,7 +65,7 @@ export function addHpBox(x: number, y: number) {
 
   // current/max hp
   const hpText = box.add([
-    text('100/100', { size: 20, font: FONT.SECONDARY }),
+    text('100/100', { size: 24, font: FONT.SECONDARY }),
     pos(HP_BOX_WIDTH - 15, 16),
     anchor('right'),
     color(BLACK),
@@ -116,7 +116,7 @@ export function addMiniHpBar({
   if (showHpText) {
     hpLabel = host.add([
       text(`${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`, {
-        size: 20,
+        size: 22,
         font: FONT.SECONDARY,
       }),
       pos(x + width + 8, y - 6),

@@ -124,7 +124,7 @@ scene(SCENE.BATTLE, () => {
   ): void {
     const num = add([
       styledText(String(damage), {
-        size: isCrit ? 28 : 20,
+        size: isCrit ? 28 : 24,
         fill: isCrit
           ? rgb(255, 80, 80)
           : typeMult > 1
@@ -147,7 +147,7 @@ scene(SCENE.BATTLE, () => {
     if (typeMult !== 1) {
       const effText = add([
         styledText(typeMult > 1 ? 'Super effective!' : 'Not effective', {
-          size: 20,
+          size: 24,
           fill: typeMult > 1 ? rgb(255, 220, 80) : rgb(160, 160, 160),
           outline: { color: BLACK, width: 2 },
         }),
@@ -605,7 +605,7 @@ scene(SCENE.BATTLE, () => {
     ])
 
     overlay.add([
-      text('Close', { size: 20 }),
+      text('Close', { size: 24 }),
       pos(width() / 2, panelY + panelHeight - 30),
       anchor('center'),
       color(WHITE),

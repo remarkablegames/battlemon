@@ -22,7 +22,7 @@ scene(SCENE.STARTER, () => {
   runState.enemyTeam = spawnWave(1)
 
   add([
-    text('Choose your starter!', { size: 28 }),
+    text('Choose your starter!', { size: 32 }),
     pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
@@ -82,7 +82,7 @@ scene(SCENE.STARTER, () => {
     ])
 
     add([
-      text(`Special: ${MOVE.SPECIAL_MOVES[monster.type].name}`, { size: 22 }),
+      text(`Special: ${MOVE.SPECIAL_MOVES[monster.type].name}`, { size: 24 }),
       pos(x + CARD_TEXT_OFFSET_X, y + 30),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
     ])

@@ -11,14 +11,14 @@ scene(SCENE.TAME, () => {
   addSoundToggle()
 
   add([
-    text('Tame', { size: 28 }),
+    text('Tame', { size: 36 }),
     pos(center().x, 80),
     anchor('center'),
     color(255, 220, 100),
   ])
 
   add([
-    text('Select 1 defeated enemy', { size: 20 }),
+    text('Select 1 defeated enemy', { size: 26 }),
     pos(center().x, 120),
     anchor('center'),
     color(200, 200, 200),
@@ -66,11 +66,11 @@ scene(SCENE.TAME, () => {
     ])
     monsterSprite.play('idle')
 
-    add([text(monster.name, { size: 20 }), pos(x + 40, y - 40), color(WHITE)])
+    add([text(monster.name, { size: 24 }), pos(x + 40, y - 40), color(WHITE)])
 
     add([
       text(`${TYPE.TYPE_LABELS[monster.type]} Lv${String(monster.level)}`, {
-        size: 20,
+        size: 24,
       }),
       pos(x + 40, y - 15),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
@@ -79,7 +79,7 @@ scene(SCENE.TAME, () => {
     add([
       text(
         `HP ${String(monster.maxHp)}  ATK ${String(monster.baseStats.attack)}`,
-        { size: 20 },
+        { size: 24 },
       ),
       pos(x + 40, y + 10),
       color(180, 180, 180),
@@ -88,7 +88,7 @@ scene(SCENE.TAME, () => {
     add([
       text(
         `DEF ${String(monster.baseStats.defense)}  SPD ${String(monster.baseStats.speed)}`,
-        { size: 20 },
+        { size: 24 },
       ),
       pos(x + 40, y + 35),
       color(180, 180, 180),

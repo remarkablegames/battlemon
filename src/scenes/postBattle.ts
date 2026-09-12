@@ -16,7 +16,7 @@ scene(SCENE.POST_BATTLE, () => {
   addSoundToggle()
 
   add([
-    text('Battle Complete!', { size: 28 }),
+    text('Battle Complete!', { size: 36 }),
     pos(center().x, 80),
     anchor('center'),
     color(255, 220, 100),
@@ -25,7 +25,7 @@ scene(SCENE.POST_BATTLE, () => {
   // coin reward
   const coinY = 120
   add([
-    text(`+${String(battleCoinReward)} coins`, { size: 24 }),
+    text(`+${String(battleCoinReward)} coins`, { size: 26 }),
     pos(center().x, coinY),
     anchor('center'),
     color(255, 220, 80),
@@ -63,7 +63,7 @@ scene(SCENE.POST_BATTLE, () => {
 
     // name and level
     add([
-      text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
+      text(`${monster.name} Lv${String(monster.level)}`, { size: 24 }),
       pos(center().x - 140, rowY - 10),
       anchor('left'),
       color(WHITE),
@@ -71,7 +71,7 @@ scene(SCENE.POST_BATTLE, () => {
 
     // XP text
     add([
-      text(`+${String(xpGained)} XP`, { size: 18 }),
+      text(`+${String(xpGained)} XP`, { size: 22 }),
       pos(center().x - 140, rowY + 15),
       anchor('left'),
       color(180, 180, 180),
@@ -137,7 +137,7 @@ scene(SCENE.POST_BATTLE, () => {
     const leveledUp = monster.level > oldLevel
     if (leveledUp) {
       add([
-        text('LEVEL UP!', { size: 20 }),
+        text('LEVEL UP!', { size: 24 }),
         pos(center().x + 170, rowY - 10),
         anchor('center'),
         color(255, 220, 80),

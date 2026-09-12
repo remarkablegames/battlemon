@@ -19,7 +19,7 @@ export function addEnemyPreview(
   const root = add([pos(center().x, y)])
 
   root.add([
-    text(label, { size: 22 }),
+    text(label, { size: 24 }),
     pos(0, -50),
     anchor('center'),
     color(255, 100, 100),
@@ -48,19 +48,19 @@ export function addEnemyPreview(
     monsterSprite.play('idle')
 
     slot.add([
-      text(TYPE.TYPE_LABELS[enemy.type], { size: 20 }),
-      pos(-20, -12),
+      text(TYPE.TYPE_LABELS[enemy.type], { size: 24 }),
+      pos(-20, -10),
       anchor('left'),
       color(rgb(TYPE.TYPE_COLORS[enemy.type])),
     ])
 
     slot.add([
-      text(`Lv${String(enemy.level)}`, { size: 20 }),
-      pos(-20, 10),
+      text(`Lv${String(enemy.level)}`, { size: 24 }),
+      pos(-20, 12),
       anchor('left'),
       color(180, 180, 180),
     ])
 
-    addTooltip(center().x + enemyX + 60, y + 8, enemy)
+    addTooltip(center().x + enemyX + 60, y + 10, enemy)
   })
 }

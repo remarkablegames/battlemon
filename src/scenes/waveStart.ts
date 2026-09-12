@@ -37,7 +37,7 @@ scene(SCENE.WAVE_START, () => {
   const selected: number[] = []
 
   add([
-    text(`Wave ${String(wave)}`, { size: 32 }),
+    text(`Wave ${String(wave)}`, { size: 36 }),
     pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
@@ -109,7 +109,7 @@ scene(SCENE.WAVE_START, () => {
 
     // monster name
     add([
-      text(`${monster.name} Lv${String(monster.level)}`, { size: 22 }),
+      text(`${monster.name} Lv${String(monster.level)}`, { size: 24 }),
       pos(x - 100 + CARD_CONTENT_OFFSET_X, y - 18),
       anchor('left'),
       color(rgb(TYPE.TYPE_COLORS[monster.type])),
@@ -119,7 +119,7 @@ scene(SCENE.WAVE_START, () => {
     add([
       text(
         `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
-        { size: 20 },
+        { size: 22 },
       ),
       pos(x - 100 + CARD_CONTENT_OFFSET_X, y + 6),
       anchor('left'),

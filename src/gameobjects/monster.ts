@@ -68,7 +68,7 @@ export function addMonster({
   // active buff cooldown indicator
   const buffText = monsterSprite.add([
     styledText('', {
-      size: 20,
+      size: 24,
       fill: rgb(255, 220, 100),
     }),
     pos(0, -64),

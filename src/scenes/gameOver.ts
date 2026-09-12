@@ -11,21 +11,21 @@ scene(SCENE.GAME_OVER, () => {
   addSoundToggle()
 
   add([
-    text('Defeated!', { size: 36 }),
+    text('Defeated!', { size: 42 }),
     pos(center().add(0, -120)),
     anchor('center'),
     color(255, 80, 80),
   ])
 
   add([
-    text(`You reached wave ${String(wave)}`, { size: 20 }),
+    text(`You reached wave ${String(wave)}`, { size: 28 }),
     pos(center().add(0, -50)),
     anchor('center'),
     color(WHITE),
   ])
 
   add([
-    text(`Best: Wave ${String(bestWave)}`, { size: 20 }),
+    text(`Best: Wave ${String(bestWave)}`, { size: 28 }),
     pos(center().add(0, -15)),
     anchor('center'),
     color(200, 200, 100),

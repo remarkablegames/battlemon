@@ -5,8 +5,8 @@ import { addHpBox, HP_BOX_WIDTH, type HpBox, updateHpBox } from './healthbar'
 
 function addNameText(x: number, y: number) {
   return add([
-    styledText('Player', {
-      size: 20,
+    styledText('Monster', {
+      size: 26,
       fill: WHITE,
       outline: { color: BLACK, width: 2 },
     }),
@@ -18,7 +18,7 @@ function addNameText(x: number, y: number) {
 function addWaveText() {
   return add([
     styledText('Wave 1', {
-      size: 42,
+      size: 44,
       font: FONT.SECONDARY,
       fill: WHITE,
       outline: { color: BLACK, width: 2 },
@@ -49,11 +49,11 @@ export function addHud(
 ): HudElements {
   // player HP (above player sprite)
   const playerHp = addHpBox(50, 460)
-  const playerNameText = addNameText(58, 435)
+  const playerNameText = addNameText(58, 431)
 
   // enemy HP (above enemy sprite)
   const enemyHp = addHpBox(width() - 50 - HP_BOX_WIDTH, 125)
-  const enemyNameText = addNameText(width() - 50 - HP_BOX_WIDTH + 8, 100)
+  const enemyNameText = addNameText(width() - 50 - HP_BOX_WIDTH + 8, 96)
 
   // wave counter (top-center)
   const waveText = addWaveText()

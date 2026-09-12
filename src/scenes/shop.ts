@@ -32,14 +32,14 @@ scene(SCENE.SHOP, () => {
   addSoundToggle()
 
   add([
-    text('Shop', { size: 28 }),
+    text('Shop', { size: 36 }),
     pos(center().x, 60),
     anchor('center'),
     color(255, 220, 100),
   ])
 
   const coinLabel = add([
-    text(`${String(coins)} coins`, { size: 20 }),
+    text(`${String(coins)} coins`, { size: 26 }),
     pos(center().x, 95),
     anchor('center'),
     color(255, 220, 80),
@@ -64,21 +64,21 @@ scene(SCENE.SHOP, () => {
     cards.push(card)
 
     add([
-      text(item.label, { size: 20 }),
+      text(item.label, { size: 24 }),
       pos(56, y - 14),
       anchor('left'),
       color(WHITE),
     ])
 
     add([
-      text(item.description, { size: 20 }),
+      text(item.description, { size: 22 }),
       pos(56, y + 14),
       anchor('left'),
       color(200, 200, 200),
     ])
 
     add([
-      text(`${String(item.price)} coins`, { size: 20 }),
+      text(`${String(item.price)} coins`, { size: 24 }),
       pos(width() - 56, y),
       anchor('right'),
       color(255, 220, 80),
@@ -140,7 +140,7 @@ scene(SCENE.SHOP, () => {
 
     if (options.subtitle) {
       overlay.add([
-        text(options.subtitle, { size: 20 }),
+        text(options.subtitle, { size: 24 }),
         pos(width() / 2, panelY + 60),
         anchor('center'),
         color(200, 200, 200),
@@ -152,6 +152,8 @@ scene(SCENE.SHOP, () => {
 
     playerTeam.forEach((monster, index) => {
       const rowY = listStartY + index * rowHeight
+      const rowMonsterX = 30
+      const rowTextX = 70
 
       const row = overlay.add([
         rect(panelWidth - 40, 90, { radius: 10 }),
@@ -167,15 +169,15 @@ scene(SCENE.SHOP, () => {
             monsterHeightMultiplier(monster.spriteId),
           animSpeed: STAT.ANIM_SPEED,
         }),
-        pos(40, 45),
+        pos(rowMonsterX, 45),
         anchor('center'),
       ])
       monsterSprite.play('idle')
 
       // monster name
       row.add([
-        text(`${monster.name} Lv${String(monster.level)}`, { size: 20 }),
-        pos(90, 22),
+        text(`${monster.name} Lv${String(monster.level)}`, { size: 22 }),
+        pos(rowTextX, 22),
         anchor('left'),
         color(rgb(TYPE.TYPE_COLORS[monster.type])),
       ])
@@ -186,14 +188,14 @@ scene(SCENE.SHOP, () => {
           `ATK ${String(monster.baseStats.attack)} | DEF ${String(monster.baseStats.defense)} | SPD ${String(monster.baseStats.speed)}`,
           { size: 20 },
         ),
-        pos(90, 46),
+        pos(rowTextX, 46),
         anchor('left'),
         color(180, 180, 180),
       ])
 
       // monster health
       addMiniHpBar({
-        x: 90,
+        x: rowTextX,
         y: 62,
         width: 200,
         height: 10,
@@ -205,8 +207,8 @@ scene(SCENE.SHOP, () => {
       // monster sell price
       if (options.rowRightText) {
         row.add([
-          text(options.rowRightText(monster), { size: 20 }),
-          pos(panelWidth - 60, 22),
+          text(options.rowRightText(monster), { size: 22 }),
+          pos(panelWidth - 50, 22),
           anchor('right'),
           color(255, 220, 80),
         ])
@@ -243,7 +245,7 @@ scene(SCENE.SHOP, () => {
     ])
 
     overlay.add([
-      text('Cancel', { size: 20 }),
+      text('Cancel', { size: 24 }),
       pos(width() / 2, panelY + panelHeight - 35),
       anchor('center'),
       color(WHITE),
@@ -312,7 +314,7 @@ scene(SCENE.SHOP, () => {
     ])
 
     overlay.add([
-      text('Items', { size: 24 }),
+      text('Items', { size: 28 }),
       pos(width() / 2, panelY + 30),
       anchor('center'),
       color(255, 220, 100),
@@ -320,7 +322,7 @@ scene(SCENE.SHOP, () => {
 
     if (groupedArray.length === 0) {
       overlay.add([
-        text('No items', { size: 20 }),
+        text('No items', { size: 24 }),
         pos(width() / 2, panelY + 80),
         anchor('center'),
         color(200, 200, 200),
@@ -351,7 +353,7 @@ scene(SCENE.SHOP, () => {
     ])
 
     overlay.add([
-      text('Cancel', { size: 20 }),
+      text('Cancel', { size: 24 }),
       pos(width() / 2, panelY + panelHeight - 35),
       anchor('center'),
       color(WHITE),
@@ -442,7 +444,7 @@ scene(SCENE.SHOP, () => {
 
   function showPurchaseFeedback(item: ItemDef, cardY: number) {
     const feedbackText = add([
-      text(`Purchased ${item.label}!`, { size: 20 }),
+      text(`Purchased ${item.label}!`, { size: 24 }),
       pos(center().x, cardY),
       anchor('center'),
       color(100, 255, 100),

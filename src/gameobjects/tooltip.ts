@@ -3,7 +3,7 @@ import type { Monster, MoveKind } from '../types'
 import { gateHover, sfx } from '../utils'
 
 const ICON_HEIGHT = 22
-const BUBBLE_WIDTH = 340
+const BUBBLE_WIDTH = 350
 const BUBBLE_HEIGHT = 120
 const BUBBLE_GAP = 10
 const BUBBLE_PAD = 14
@@ -90,7 +90,7 @@ function addBubble(x: number, y: number, monster: Monster) {
   ])
 
   bubble.add([
-    text(`Special: ${special.name}`, { size: 22 }),
+    text(`Special: ${special.name}`, { size: 24 }),
     pos(BUBBLE_PAD, BUBBLE_PAD + 8),
     anchor('left'),
     color(255, 220, 100),
@@ -98,8 +98,8 @@ function addBubble(x: number, y: number, monster: Monster) {
 
   bubble.add([
     text(
-      `${TYPE.TYPE_LABELS[monster.type]} • ${kindLabel} • Cooldown ${String(special.cooldown)}s`,
-      { size: 20 },
+      `${TYPE.TYPE_LABELS[monster.type]}. ${kindLabel}. Cooldown ${String(special.cooldown)}s`,
+      { size: 22 },
     ),
     pos(BUBBLE_PAD, BUBBLE_PAD + 38),
     anchor('left'),
@@ -113,7 +113,7 @@ function addBubble(x: number, y: number, monster: Monster) {
 
   bubble.add([
     text(`${special.description}${powerSuffix}`, {
-      size: 20,
+      size: 22,
       width: BUBBLE_WIDTH - BUBBLE_PAD * 2,
     }),
     pos(BUBBLE_PAD, BUBBLE_PAD + 54),

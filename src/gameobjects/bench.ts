@@ -37,7 +37,7 @@ export function addBench(
 
     root.add([
       styledText('Bench', {
-        size: 20,
+        size: 24,
         fill: WHITE,
         outline: { color: BLACK, width: 2 },
       }),
