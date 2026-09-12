@@ -20,3 +20,7 @@ export type SoundEvent =
   | 'heal'
   | 'powerup'
   | 'punch'
+  | 'fire'
+  | 'earth'
+  | 'zap'
+  | 'debuff'

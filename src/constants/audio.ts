@@ -1,9 +1,16 @@
-import type { MusicTrack, SoundEvent } from '../types'
+import type { MonsterType, MusicTrack, SoundEvent } from '../types'
 
 export const SFX_VOL = 0.6
 export const MUSIC_VOL = 0.25
 export const AUDIO_STORAGE_KEY = 'org.remarkablegames.battlemon.audio'
 export const FADE_DURATION = 1.5
+
+export const SPECIAL_MOVE_SOUNDS: Partial<Record<MonsterType, SoundEvent>> = {
+  fire: 'fire',
+  water: 'bubbles',
+  plant: 'bushes',
+  electric: 'zap',
+}
 
 export const SOUND_VOL: Partial<Record<SoundEvent, number>> = {
   levelUp: 0.3,
@@ -36,4 +43,8 @@ export const SOUND: Record<SoundEvent, string> = {
   heal: 'sounds/battle/heal.mp3',
   powerup: 'sounds/battle/powerup.mp3',
   punch: 'sounds/battle/punch.mp3',
+  fire: 'sounds/battle/fire.mp3',
+  earth: 'sounds/battle/earth.mp3',
+  zap: 'sounds/battle/zap.mp3',
+  debuff: 'sounds/battle/debuff.mp3',
 }

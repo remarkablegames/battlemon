@@ -1,4 +1,4 @@
-import { ITEM, MOVE, SCENE, STAT, TYPE } from '../constants'
+import { AUDIO, ITEM, MOVE, SCENE, STAT, TYPE } from '../constants'
 import {
   addBattleBackground,
   addHud,
@@ -318,14 +318,14 @@ scene(SCENE.BATTLE, () => {
       switch (special.kind) {
         case 'nuke':
         case 'debuff':
-          sfx(attacker.type === 'water' ? 'bubbles' : 'woosh')
+          sfx(AUDIO.SPECIAL_MOVE_SOUNDS[attacker.type] ?? 'woosh')
           dealDamage(attacker, defender, special.power)
           if (special.kind === 'debuff') {
             defender.speedDebuff = 2 // 2 seconds of slow
           }
           break
         case 'buff':
-          sfx('powerup')
+          sfx(attacker.type === 'earth' ? 'earth' : 'powerup')
           attacker.defenseBuff = 2 // 2 seconds of defense buff
           break
         case 'heal':
@@ -678,7 +678,7 @@ scene(SCENE.BATTLE, () => {
         }
         break
       case 'temp_debuff_enemy_attack':
-        sfx('powerup')
+        sfx('debuff')
         if (item.effect) {
           const enemy = getActiveEnemy()
           if (enemy) {
