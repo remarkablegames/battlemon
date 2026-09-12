@@ -5,6 +5,7 @@ import {
   addItemCard,
   addMonster,
   addSoundToggle,
+  addTeamOverlay,
   addToast,
   addTouchControls,
   ITEM_ROW_HEIGHT,
@@ -521,6 +522,7 @@ scene(SCENE.BATTLE, () => {
 
   // items button - opens inventory overlay
   let itemsOverlay: ReturnType<typeof createItemsOverlay> | null = null
+  let reviveSelect: ReturnType<typeof addTeamOverlay> | null = null
 
   controls.itemsButton.onClick(() => {
     if (itemsOverlay) return
@@ -528,6 +530,34 @@ scene(SCENE.BATTLE, () => {
     sfx('open')
     itemsOverlay = createItemsOverlay()
   })
+
+  function openReviveSelect(item: ItemDef, inventoryIndex: number) {
+    const fainted = battleTeam.filter(({ isAlive }) => !isAlive)
+    if (fainted.length === 0) {
+      // nothing to revive, do not consume the item
+      return
+    }
+    // add delay to prevent the tap from landing on the new overlay
+    wait(0, () => {
+      const selector = addTeamOverlay(fainted, {
+        title: item.label,
+        subtitle: 'Select a fainted monster to revive',
+        onSelect: (monster) => {
+          monster.isAlive = true
+          monster.currentHp = Math.floor(monster.maxHp * 0.5)
+          sfx('heal')
+          addToast({ message: `Revived ${monster.name}!`, y: 160 })
+          runState.inventory.splice(inventoryIndex, 1)
+          updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
+          selector.close()
+        },
+      })
+      reviveSelect = selector
+      selector.root.onDestroy(() => {
+        reviveSelect = null
+      })
+    })
+  }
 
   function createItemsOverlay() {
     const overlay = add([pos(), fixed(), z(100)])
@@ -557,7 +587,7 @@ scene(SCENE.BATTLE, () => {
       height() - 40,
     )
     const panelX = (width() - panelWidth) / 2
-    const panelY = 150
+    const panelY = (height() - panelHeight) / 2
 
     overlay.add([
       rect(panelWidth, panelHeight, { radius: 16 }),
@@ -587,12 +617,15 @@ scene(SCENE.BATTLE, () => {
           const inventoryIndex = runState.inventory.findIndex(
             ({ id }) => id === item.id,
           )
-          if (inventoryIndex >= 0) {
-            useItem(item, inventoryIndex)
-          }
+          if (inventoryIndex < 0) return
           sfx('close')
           destroy(overlay)
           itemsOverlay = null
+          if (item.kind === 'revive') {
+            openReviveSelect(item, inventoryIndex)
+          } else {
+            useItem(item, inventoryIndex)
+          }
         },
       })
     })
@@ -647,18 +680,6 @@ scene(SCENE.BATTLE, () => {
         }
         updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
         break
-      case 'revive': {
-        const fainted = battleTeam.find(({ isAlive }) => !isAlive)
-        if (fainted) {
-          fainted.isAlive = true
-          fainted.currentHp = Math.floor(fainted.maxHp * 0.5)
-          sfx('heal')
-          addToast({ message: `Revived ${fainted.name}!`, y: 160 })
-          used = true
-        }
-        updateHud(hud, getActivePlayer(), getActiveEnemy(), runState.wave)
-        break
-      }
       case 'full_heal':
         fullHealTeam(battleTeam)
         sfx('heal')
@@ -713,7 +734,7 @@ scene(SCENE.BATTLE, () => {
   // main battle loop
   onUpdate(() => {
     if (battleOver) return
-    if (itemsOverlay) return
+    if (itemsOverlay || reviveSelect) return
 
     const player = getActivePlayer()
     const enemy = getActiveEnemy()
