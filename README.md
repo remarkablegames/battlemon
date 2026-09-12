@@ -64,12 +64,6 @@ Install the dependencies:
 npm install
 ```
 
-Update the files:
-
-- [ ] `public/app-icon.png`
-- [ ] `public/favicon.png`
-- [ ] `public/manifest.webmanifest`
-
 ## Environment Variables
 
 Update the environment variables:
