@@ -38,7 +38,6 @@ scene(SCENE.GAME_OVER, () => {
     height: 50,
     color: [60, 180, 80],
     label: 'Restart',
-    labelSize: 20,
     sound: 'continue',
   })
 

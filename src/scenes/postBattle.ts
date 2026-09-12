@@ -147,7 +147,6 @@ scene(SCENE.POST_BATTLE, () => {
     startY += 100
   })
 
-  // continue button
   const continueButton = addButton({
     x: center().x,
     y: height() - 80,
@@ -155,7 +154,6 @@ scene(SCENE.POST_BATTLE, () => {
     height: 56,
     color: [60, 180, 80],
     label: 'Continue',
-    labelSize: 20,
     isFixed: true,
     sound: 'continue',
   })

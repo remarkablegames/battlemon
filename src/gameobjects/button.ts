@@ -46,7 +46,7 @@ export function addButton({
   height,
   color: [r, g, b],
   label,
-  labelSize = 18,
+  labelSize = 24,
   isFixed = false,
   disabled = false,
   sound = 'click',

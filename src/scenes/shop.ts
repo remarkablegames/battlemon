@@ -481,7 +481,6 @@ scene(SCENE.SHOP, () => {
     height: 56,
     color: [200, 160, 60],
     label: 'Team',
-    labelSize: 20,
     isFixed: true,
   })
 
@@ -496,7 +495,6 @@ scene(SCENE.SHOP, () => {
     height: 56,
     color: [80, 80, 120],
     label: 'Items',
-    labelSize: 20,
     isFixed: true,
   })
 
@@ -511,7 +509,6 @@ scene(SCENE.SHOP, () => {
     height: 56,
     color: [60, 180, 80],
     label: 'Continue',
-    labelSize: 20,
     isFixed: true,
     sound: 'continue',
   })

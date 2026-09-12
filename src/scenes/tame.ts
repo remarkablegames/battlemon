@@ -147,7 +147,6 @@ scene(SCENE.TAME, () => {
     height: 56,
     color: [80, 80, 80],
     label: 'Skip',
-    labelSize: 20,
     isFixed: true,
   })
 

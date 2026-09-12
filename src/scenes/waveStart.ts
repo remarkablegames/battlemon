@@ -179,7 +179,6 @@ scene(SCENE.WAVE_START, () => {
     height: 56,
     color: [60, 180, 80],
     label: 'Start Battle',
-    labelSize: 20,
     isFixed: true,
     disabled: true,
     sound: 'start',

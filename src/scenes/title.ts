@@ -10,14 +10,14 @@ scene(SCENE.TITLE, () => {
   addSoundToggle()
 
   add([
-    text('Battlemon', { size: 36 }),
+    text('BATTLEMON', { size: 42 }),
     pos(center().add(0, -80)),
     anchor('center'),
     color(255, 200, 50),
   ])
 
   add([
-    text('Tame. Battle. Evolve.', { size: 20 }),
+    text('Tame. Battle. Evolve.', { size: 24 }),
     pos(center().add(0, -30)),
     anchor('center'),
     color(200, 200, 200),
@@ -30,7 +30,6 @@ scene(SCENE.TITLE, () => {
     height: 50,
     color: [60, 180, 80],
     label: 'Start',
-    labelSize: 20,
     sound: 'start',
   })
 
