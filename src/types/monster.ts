@@ -1,4 +1,3 @@
-import type { MoveDef } from './move'
 import type { Personality } from './personality'
 import type { MonsterType } from './type'
 
@@ -17,7 +16,6 @@ export interface Monster {
   spriteId: string
   level: number
   baseStats: MonsterStats
-  moves: MoveDef[]
   // progression
   xp: number
   xpToNextLevel: number

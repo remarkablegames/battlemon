@@ -1,4 +1,4 @@
-import { MOVE, PERSONALITY, STAT, TYPE } from '../constants'
+import { PERSONALITY, STAT, TYPE } from '../constants'
 import type { Monster, MonsterStats, MonsterType, Personality } from '../types'
 
 let monsterIdCounter = 0
@@ -40,7 +40,6 @@ export function createMonster(
     spriteId,
     level,
     baseStats,
-    moves: [],
     xp: 0,
     xpToNextLevel: STAT.xpForLevel(level + 1),
     currentHp: baseStats.hp,
@@ -107,24 +106,4 @@ function levelUp(monster: Monster): void {
 
   // update XP requirement for next level
   monster.xpToNextLevel = STAT.xpForLevel(monster.level + 1)
-
-  // learn new move at specific levels
-  const moveLearningLevels: Record<number, typeof MOVE.LEARNABLE_MOVES> = {
-    3: MOVE.LEARNABLE_MOVES,
-    5: MOVE.LEARNABLE_MOVES,
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!moveLearningLevels[monster.level]) {
-    return
-  }
-
-  const availableMoves = moveLearningLevels[monster.level].filter(
-    (move) => !monster.moves.some(({ id }) => id === move.id),
-  )
-
-  if (availableMoves.length > 0) {
-    const newMove = choose(availableMoves)
-    monster.moves.push(newMove)
-  }
 }

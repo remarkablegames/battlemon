@@ -7,4 +7,6 @@ export interface MoveDef {
   power: number
   cooldown: number
   description: string
+  // heal-only: percent-of-max-HP shrinks by 1/(1 + diminish*(level-1))
+  diminish?: number
 }

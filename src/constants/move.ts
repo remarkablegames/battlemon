@@ -56,43 +56,8 @@ export const SPECIAL_MOVES: Record<MonsterType, MoveDef> = {
     name: 'Healing Gust',
     kind: 'heal',
     power: 0.1,
+    diminish: 0.042,
     cooldown: 7,
-    description: "Heals 10% of the monster's max HP.",
+    description: "Heals a fraction of the monster's health.",
   },
 }
-
-// extra moves monsters learn as they level up
-export const LEARNABLE_MOVES: MoveDef[] = [
-  {
-    id: 'power_slam',
-    name: 'Power Slam',
-    kind: 'nuke',
-    power: 3,
-    cooldown: 8,
-    description: 'A devastating slam attack.',
-  },
-  {
-    id: 'quick_strike',
-    name: 'Quick Strike',
-    kind: 'nuke',
-    power: 1.5,
-    cooldown: 3,
-    description: 'A fast light attack.',
-  },
-  {
-    id: 'shield_up',
-    name: 'Shield Up',
-    kind: 'buff',
-    power: 2,
-    cooldown: 8,
-    description: 'Greatly boosts defense.',
-  },
-  {
-    id: 'team_mend',
-    name: 'Team Mend',
-    kind: 'heal',
-    power: 5,
-    cooldown: 8,
-    description: 'Heals the whole team.',
-  },
-]

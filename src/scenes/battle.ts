@@ -330,13 +330,17 @@ scene(SCENE.BATTLE, () => {
           sfx(attacker.type === 'earth' ? 'earth' : 'powerup')
           attacker.defenseBuff = 2 // 2 seconds of defense buff
           break
-        case 'heal':
+        case 'heal': {
           sfx('spray')
+          const fraction =
+            special.power / (1 + (special.diminish ?? 0) * (attacker.level - 1))
+          const heal = Math.round(attacker.maxHp * fraction)
           attacker.currentHp = Math.min(
             attacker.maxHp,
-            attacker.currentHp + attacker.maxHp * special.power,
+            attacker.currentHp + heal,
           )
           break
+        }
       }
       attacker.specialCooldown = special.cooldown
     } else {
