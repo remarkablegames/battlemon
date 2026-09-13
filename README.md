@@ -11,6 +11,8 @@
 
 Play in your browser:
 
+- [itch.io](https://remarkablegames.itch.io/battlemon)
+- [Wavedash](https://wavedash.com/games/battlemon)
 - [remarkablegames](https://remarkablegames.org/battlemon/)
 
 ## Features
