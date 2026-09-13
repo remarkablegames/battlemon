@@ -124,7 +124,7 @@ Your game can be uploaded to your server, [itch.io](https://itch.io/), etc.
 
 ## Testing
 
-For testing, you can use querystring parameters to jump directly to specific scenes and override game state:
+For testing, use querystring parameters to jump directly to specific scenes and override game state:
 
 - `?scene=shop` — jump directly to the shop scene
 - `?scene=shop&coins=100` — shop with 100 coins
