@@ -95,33 +95,34 @@ scene(SCENE.SHOP, () => {
 
   const NEEDS_SELECTION = new Set<ItemDef['kind']>(['xp_up'])
 
-  let selectOverlay: ReturnType<typeof showTeamOverlay> | null = null
+  let selectOverlay: ReturnType<typeof addTeamOverlay>['root'] | null = null
 
   function showTeamOverlay(
     options: TeamOverlayOptions,
     monsters: Monster[] = playerTeam,
   ) {
-    const overlay = addTeamOverlay(monsters, {
-      ...options,
-      onSelect: (monster) => {
-        options.onSelect?.(monster)
-        overlay.close()
-      },
-    })
-
-    selectOverlay = overlay.root
-    cards.forEach((card) => {
-      card.tag('disabled')
-    })
-
-    overlay.root.onDestroy(() => {
-      cards.forEach((card) => {
-        card.untag('disabled')
+    // add delay to prevent the triggering tap from landing on the new overlay
+    wait(0, () => {
+      const overlay = addTeamOverlay(monsters, {
+        ...options,
+        onSelect: (monster) => {
+          options.onSelect?.(monster)
+          overlay.close()
+        },
       })
-      selectOverlay = null
-    })
 
-    return overlay.root
+      selectOverlay = overlay.root
+      cards.forEach((card) => {
+        card.tag('disabled')
+      })
+
+      overlay.root.onDestroy(() => {
+        cards.forEach((card) => {
+          card.untag('disabled')
+        })
+        selectOverlay = null
+      })
+    })
   }
 
   function addItemsOverlay() {
@@ -227,22 +228,19 @@ scene(SCENE.SHOP, () => {
           if (targets.length === 0) return undefined
           return () => {
             close()
-            // add delay to prevent the tap from landing on the new overlay
-            wait(0, () => {
-              showTeamOverlay(
-                {
-                  title: item.label,
-                  subtitle: 'Select a monster to heal',
-                  onSelect: (monster) => {
-                    monster.currentHp = monster.maxHp
-                    sfx('heal')
-                    consumeInventoryItem(item.id)
-                    addToast({ message: `Healed ${monster.name}!` })
-                  },
+            showTeamOverlay(
+              {
+                title: item.label,
+                subtitle: 'Select a monster to heal',
+                onSelect: (monster) => {
+                  monster.currentHp = monster.maxHp
+                  sfx('heal')
+                  consumeInventoryItem(item.id)
+                  addToast({ message: `Healed ${monster.name}!` })
                 },
-                targets,
-              )
-            })
+              },
+              targets,
+            )
           }
         }
         case 'revive': {
@@ -250,23 +248,20 @@ scene(SCENE.SHOP, () => {
           if (targets.length === 0) return undefined
           return () => {
             close()
-            // add delay to prevent the tap from landing on the new overlay
-            wait(0, () => {
-              showTeamOverlay(
-                {
-                  title: item.label,
-                  subtitle: 'Select a fainted monster to revive',
-                  onSelect: (monster) => {
-                    monster.isAlive = true
-                    monster.currentHp = Math.floor(monster.maxHp * 0.5)
-                    sfx('heal')
-                    consumeInventoryItem(item.id)
-                    addToast({ message: `Revived ${monster.name}!` })
-                  },
+            showTeamOverlay(
+              {
+                title: item.label,
+                subtitle: 'Select a fainted monster to revive',
+                onSelect: (monster) => {
+                  monster.isAlive = true
+                  monster.currentHp = Math.floor(monster.maxHp * 0.5)
+                  sfx('heal')
+                  consumeInventoryItem(item.id)
+                  addToast({ message: `Revived ${monster.name}!` })
                 },
-                targets,
-              )
-            })
+              },
+              targets,
+            )
           }
         }
         default:
@@ -310,20 +305,17 @@ scene(SCENE.SHOP, () => {
   }
 
   function openMonsterSelect(item: ItemDef) {
-    // add delay to prevent monster from being clicked immediately
-    wait(0, () => {
-      showTeamOverlay({
-        title: item.label,
-        subtitle: 'Select a monster',
-        showXpBar: true,
-        onSelect: (monster) => {
-          runState.coins -= item.price
-          sfx('money')
-          applyPurchase(item, monster)
-          refreshCoins()
-          addToast({ message: `Purchased ${item.label}!` })
-        },
-      })
+    showTeamOverlay({
+      title: item.label,
+      subtitle: 'Select a monster to boost XP',
+      showXpBar: true,
+      onSelect: (monster) => {
+        runState.coins -= item.price
+        sfx('money')
+        applyPurchase(item, monster)
+        refreshCoins()
+        addToast({ message: `Purchased ${item.label}!` })
+      },
     })
   }
 
