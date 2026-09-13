@@ -131,7 +131,3 @@ For testing, use querystring parameters to jump directly to specific scenes and 
 - `?scene=waveStart&wave=5` — wave start at wave 5
 - `?team=3` — generate a random team of 3 monsters (1-6 supported)
 - `?team=3&scene=battle&wave=5` — battle with 3 random monsters at wave 5
-
-## License
-
-[MIT](LICENSE)
