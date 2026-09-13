@@ -49,7 +49,7 @@ export const ITEM_DEFS: ItemDef[] = [
       if (getSceneName() === BATTLE) {
         return 'Full heal current monster'
       }
-      return 'Full heal one monster'
+      return 'Full heal 1 monster'
     },
     price: 5,
   },
@@ -61,10 +61,10 @@ export const ITEM_DEFS: ItemDef[] = [
     price: 10,
   },
   {
-    id: 'level_up',
-    kind: 'level_up',
-    label: 'Level Up',
-    description: '+1 Level',
+    id: 'xp_up',
+    kind: 'xp_up',
+    label: '+100 XP',
+    description: 'Grants 100 XP to 1 monster',
     price: 15,
   },
 ]

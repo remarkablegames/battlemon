@@ -52,6 +52,7 @@ export const CRIT_MULTIPLIER = 1.5
 // XP curve
 export const XP_BASE = 100 // XP needed for level 1→2
 export const XP_MULTIPLIER = 1.5 // exponential growth factor
+export const XP_ITEM_AMOUNT = 100 // XP granted by the shop +100 XP item
 
 export function xpForLevel(level: number): number {
   if (level <= 1) return 0

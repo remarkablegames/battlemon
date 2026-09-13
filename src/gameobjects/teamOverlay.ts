@@ -4,6 +4,7 @@ import { STAT, TYPE } from '../constants'
 import type { Monster } from '../types'
 import { gateHover, monsterHeightMultiplier, sfx } from '../utils'
 import { addMiniHpBar } from './healthbar'
+import { addMiniBar } from './minibar'
 
 export interface TeamOverlayOptions {
   title: string
@@ -11,6 +12,7 @@ export interface TeamOverlayOptions {
   onSelect?: (monster: Monster) => void
   rowRightText?: (monster: Monster) => string
   showHpBar?: boolean
+  showXpBar?: boolean
 }
 
 export interface TeamOverlay {
@@ -20,9 +22,15 @@ export interface TeamOverlay {
 
 export function addTeamOverlay(
   team: Monster[],
-  options: TeamOverlayOptions,
+  {
+    title,
+    subtitle,
+    onSelect,
+    rowRightText,
+    showHpBar = true,
+    showXpBar = false,
+  }: TeamOverlayOptions,
 ): TeamOverlay {
-  const { title, subtitle, onSelect, rowRightText, showHpBar = true } = options
   const overlay = add([pos(), fixed(), z(100)])
 
   function close() {
@@ -102,8 +110,21 @@ export function addTeamOverlay(
       color(180, 180, 180),
     ])
 
-    // monster health
-    if (showHpBar) {
+    // monster xp or health
+    if (showXpBar) {
+      addMiniBar({
+        x: 90,
+        y: 62,
+        width: 200,
+        height: 10,
+        parent: row,
+        trackColor: rgb(60, 60, 80),
+        fillColor: rgb(100, 200, 100),
+        getRatio: () => monster.xp / monster.xpToNextLevel,
+        getLabel: () =>
+          `${String(monster.xp)}/${String(monster.xpToNextLevel)}`,
+      })
+    } else if (showHpBar) {
       addMiniHpBar({
         x: 90,
         y: 62,

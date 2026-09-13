@@ -1,7 +1,8 @@
-import type { ColorComp, GameObj, RectComp, TextComp } from 'kaplay'
+import type { Color, ColorComp, GameObj, RectComp } from 'kaplay'
 
 import { FONT } from '../constants'
 import type { Monster } from '../types'
+import { addMiniBar } from './minibar'
 
 export const HP_BOX_WIDTH = 300
 const HP_BOX_HEIGHT = 56
@@ -9,6 +10,14 @@ export const HP_BAR_WIDTH = HP_BOX_WIDTH - 24
 const HP_BAR_HEIGHT = 12
 
 type HpFill = GameObj<RectComp & ColorComp>
+
+function hpFillColor(ratio: number): Color {
+  return ratio <= 0.25
+    ? rgb(255, 50, 50)
+    : ratio <= 0.5
+      ? rgb(255, 200, 0)
+      : rgb(0, 200, 0)
+}
 
 export function setHpFill(
   fill: HpFill,
@@ -18,12 +27,7 @@ export function setHpFill(
 ) {
   const ratio = maxHp > 0 ? Math.max(0, Math.min(1, currentHp / maxHp)) : 0
   fill.width = fullWidth * ratio
-  fill.color =
-    ratio <= 0.25
-      ? rgb(255, 50, 50)
-      : ratio <= 0.5
-        ? rgb(255, 200, 0)
-        : rgb(0, 200, 0)
+  fill.color = hpFillColor(ratio)
 }
 
 export function addHpBox(x: number, y: number) {
@@ -98,37 +102,19 @@ export function addMiniHpBar({
   showHpText = false,
   parent,
 }: MiniHpBarOptions) {
-  const host = parent ?? add([pos()])
-
-  host.add([
-    rect(width, height, { radius: height / 4 }),
-    pos(x, y),
-    color(120, 120, 120),
-  ])
-
-  const fill = host.add([
-    rect(width, height, { radius: height / 4 }),
-    pos(x, y),
-    color(0, 200, 0),
-  ])
-
-  let hpLabel: GameObj<TextComp> | null = null
-  if (showHpText) {
-    hpLabel = host.add([
-      text(`${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`, {
-        size: 22,
-        font: FONT.SECONDARY,
-      }),
-      pos(x + width + 8, y - 6),
-      color(WHITE),
-    ])
-  }
-
-  fill.onUpdate(() => {
-    setHpFill(fill, monster.currentHp, monster.maxHp, width)
-    if (hpLabel) {
-      hpLabel.text = `${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`
-    }
+  addMiniBar({
+    x,
+    y,
+    width,
+    height,
+    parent,
+    trackColor: rgb(120, 120, 120),
+    fillColor: rgb(0, 200, 0),
+    getRatio: () => monster.currentHp / monster.maxHp,
+    getFillColor: hpFillColor,
+    getLabel: showHpText
+      ? () => `${String(Math.ceil(monster.currentHp))}/${String(monster.maxHp)}`
+      : undefined,
   })
 }
 

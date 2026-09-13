@@ -3,7 +3,7 @@ export type ItemKind =
   | 'revive'
   | 'full_heal'
   | 'single_heal'
-  | 'level_up'
+  | 'xp_up'
   | 'temp_boost_enrage'
   | 'temp_boost_iron_skin'
   | 'temp_boost_haste'

@@ -1,4 +1,4 @@
-import { ITEM, SCENE } from '../constants'
+import { ITEM, SCENE, STAT } from '../constants'
 import type { TeamOverlayOptions } from '../gameobjects'
 import {
   addButton,
@@ -94,7 +94,7 @@ scene(SCENE.SHOP, () => {
     })
   })
 
-  const NEEDS_SELECTION = new Set<ItemDef['kind']>(['level_up'])
+  const NEEDS_SELECTION = new Set<ItemDef['kind']>(['xp_up'])
 
   let selectOverlay: ReturnType<typeof showTeamOverlay> | null = null
 
@@ -316,6 +316,7 @@ scene(SCENE.SHOP, () => {
       showTeamOverlay({
         title: item.label,
         subtitle: 'Select a monster',
+        showXpBar: true,
         onSelect: (monster) => {
           runState.coins -= item.price
           sfx('money')
@@ -375,10 +376,12 @@ scene(SCENE.SHOP, () => {
       case 'temp_debuff_enemy_attack':
         runState.inventory.push(item)
         break
-      case 'level_up':
-        gainXp(monster, monster.xpToNextLevel)
-        sfx('levelUp')
+      case 'xp_up': {
+        const oldLevel = monster.level
+        gainXp(monster, STAT.XP_ITEM_AMOUNT)
+        sfx(monster.level > oldLevel ? 'levelUp' : 'powerup')
         break
+      }
     }
   }
 
