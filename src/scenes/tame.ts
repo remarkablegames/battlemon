@@ -55,7 +55,7 @@ scene(SCENE.TAME, () => {
 
   defeatedEnemies.forEach((monster, index) => {
     const x = center().x
-    const y = 220 + index * 180
+    const y = 220 + index * 130
 
     const border = createCardBorder(x, y)
     cardBorders.push(border)
