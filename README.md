@@ -15,6 +15,12 @@ Play in your browser:
 - [Wavedash](https://wavedash.com/games/battlemon)
 - [remarkablegames](https://remarkablegames.org/battlemon/)
 
+Or download for desktop:
+
+- [Windows](https://github.com/remarkablegames/battle-monster/releases/latest/download/windows.zip)
+- [macOS](https://github.com/remarkablegames/battle-monster/releases/latest/download/macos.zip)
+- [Linux](https://github.com/remarkablegames/battle-monster/releases/latest/download/linux.zip)
+
 ## Features
 
 - 🎮 **Starter choice** — pick 1 out of 3 monsters and preview your enemies before the battle
