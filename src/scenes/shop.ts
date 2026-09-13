@@ -1,5 +1,4 @@
 import { ITEM, SCENE, STAT } from '../constants'
-import type { TeamOverlayOptions } from '../gameobjects'
 import {
   addButton,
   addCard,
@@ -10,7 +9,7 @@ import {
   ITEM_ROW_HEIGHT,
 } from '../gameobjects'
 import { runState } from '../state'
-import type { ItemDef, Monster } from '../types'
+import type { ItemDef, Monster, TeamOverlayOptions } from '../types'
 import {
   fullHealTeam,
   gainXp,

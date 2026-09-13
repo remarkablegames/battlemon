@@ -1,24 +1,8 @@
-import type { GameObj } from 'kaplay'
-
 import { STAT, TYPE } from '../constants'
-import type { Monster } from '../types'
+import type { Monster, TeamOverlayOptions } from '../types'
 import { gateHover, monsterHeightMultiplier, sfx } from '../utils'
 import { addMiniHpBar } from './healthbar'
 import { addMiniBar } from './minibar'
-
-export interface TeamOverlayOptions {
-  title: string
-  subtitle?: string
-  onSelect?: (monster: Monster) => void
-  rowRightText?: (monster: Monster) => string
-  showHpBar?: boolean
-  showXpBar?: boolean
-}
-
-export interface TeamOverlay {
-  root: GameObj
-  close: () => void
-}
 
 export function addTeamOverlay(
   team: Monster[],
@@ -30,7 +14,7 @@ export function addTeamOverlay(
     showHpBar = true,
     showXpBar = false,
   }: TeamOverlayOptions,
-): TeamOverlay {
+) {
   const overlay = add([pos(), fixed(), z(100)])
 
   function close() {
