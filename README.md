@@ -27,11 +27,11 @@ Read the [blog post](https://remarkablegames.org/posts/battlemon/).
 
 - 🎮 **Starter choice** — pick 1 out of 3 monsters and preview your enemies before the battle
 - ⚔️ **Real-time autobattler** — monsters automatically attack and activate special abilities; swap between monsters and use items mid-fight
-- 🧬 **6 monster types** (Fire, Water, Plant, Electric, Earth, Air) with a rock-paper-scissors type-effectiveness chart (1.5× strong, 0.5× weak) and crit attacks (15% chance, 1.5× damage)
-- 🎭 **6 personalities** (Brave, Timid, Sturdy, Swift, Calm, Fierce) that bias a monster's stats, making every monster unique
+- 🧬 **6 monster types** (_Fire_, _Water_, _Plant_, _Electric_, _Earth_, _Air_) with a rock-paper-scissors type-effectiveness chart (1.5× strong, 0.5× weak) and crit attacks (15% chance, 1.5× damage)
+- 🎭 **6 personalities** (_Brave_, _Timid_, _Sturdy_, _Swift_, _Calm_, _Fierce_) that bias a monster's stats, making every monster unique
 - 🏋️ **Leveling & XP** — monsters earn XP for participating in battle; on level up, the monster fully heals and increases its stats
 - 🪤 **Taming** — after each victory, tame 1 defeated enemy
-- 🛒 **Shop** — spend coins on potions, full restores, battle boosters (Enrage, Iron Skin, Haste, Enemy Debuff), and level-ups; sell monsters for coins
+- 🛒 **Shop** — spend coins on potions, full restores, battle boosters (_Enrage_, _Iron Skin_, _Haste_, _Enemy Debuff_), and +100 XP boosts; sell monsters for coins
 - 🌊 **Endless waves** — permadeath runs with rising difficulty as waves grow
 
 ## Credits
