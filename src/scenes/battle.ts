@@ -466,7 +466,7 @@ scene(SCENE.BATTLE, () => {
         (sum, enemy) => sum + enemy.level * STAT.XP_BASE,
         0,
       )
-      runState.battleCoinReward = enemyTeam.length * 10 + wave * 5
+      runState.battleCoinReward = 15
 
       // distribute XP to participating monsters
       const participantCount = participatingMonsterIds.size
