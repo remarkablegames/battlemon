@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0](https://github.com/remarkablegames/battlemon/compare/v1.0.0...v1.1.0) (2026-09-15)
+
+
+### Features
+
+* **battle:** rebalance Healing Gust with diminishing heal curve ([4e2187c](https://github.com/remarkablegames/battlemon/commit/4e2187c3455f4f4ab985b22c5c85d3c44fc42b76))
+* **battle:** set battle coin reward to 15 coins ([bdb9b19](https://github.com/remarkablegames/battlemon/commit/bdb9b192646d7c81d367d32bce02267edc47bd9b))
+* **shop:** replace level-up item with +100 XP boost ([97f7c1a](https://github.com/remarkablegames/battlemon/commit/97f7c1a534a54d53a85dc7fd091527e5a9a8200e))
+
 ## 1.0.0 (2026-09-13)
 
 
