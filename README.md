@@ -25,22 +25,22 @@ Read the [blog post](https://remarkablegames.org/posts/battlemon/).
 
 ## How to Play
 
-- **Fight** — monsters auto-attack and fire special moves on their own. Your job is to manage the battle.
-- **Swap** — tap a monster on the bench to swap the active monster with a 3-second cooldown. Benched monsters regenerate HP during battle.
-- **Items** — buy potions, full restores, revives, and temporary battle boosters to use mid-fight. Purchase XP boosters to level up your monster.
-- **Tame** — after each victory, tame 1 defeated enemy to add to your team.
-- **Level Up** — monsters earn XP for participating in battle. On level-up, the monster fully heals and increases its stats.
+- **Fight**: monsters auto-attack and fire special moves on their own. Your job is to manage the battle.
+- **Swap**: tap a monster on the bench to swap the active monster with a 3-second cooldown. Benched monsters regenerate HP during battle.
+- **Items**: buy potions, full restores, revives, and temporary battle boosters to use mid-fight. Purchase XP boosters to level up your monster.
+- **Tame**: after each victory, tame 1 defeated enemy to add to your team.
+- **Level Up**: monsters earn XP for participating in battle. On level-up, the monster fully heals and increases its stats.
 
 ## Features
 
-- 🎮 **Starter choice** — pick 1 out of 3 monsters and preview your enemies before the battle.
-- ⚔️ **Real-time autobattler** — monsters automatically attack and activate special abilities; swap between monsters and use items mid-fight.
+- 🎮 **Starter choice**: pick 1 out of 3 monsters and preview your enemies before the battle.
+- ⚔️ **Real-time autobattler**: monsters automatically attack and activate special abilities; swap between monsters and use items mid-fight.
 - 🧬 **6 monster types** (_Fire_, _Water_, _Plant_, _Electric_, _Earth_, _Air_) with a rock-paper-scissors type-effectiveness chart (1.5× strong, 0.5× weak) and crit attacks (15% chance, 1.5× damage).
 - 🎭 **6 personalities** (_Brave_, _Timid_, _Sturdy_, _Swift_, _Calm_, _Fierce_) that bias a monster's stats, making every monster unique.
-- 🏋️ **Leveling & XP** — monsters earn XP for participating in battle; on level up, the monster fully heals and increases its stat.
-- 🪤 **Taming** — after each victory, tame 1 defeated enemy.
-- 🛒 **Shop** — spend coins on potions, full restores, revives, battle boosters (_Enrage_, _Iron Skin_, _Haste_, _Enemy Debuff_), and +100 XP boosts; sell monsters for coins.
-- 🌊 **Endless waves** — permadeath runs with rising difficulty as waves grow.
+- 🏋️ **Leveling & XP**: monsters earn XP for participating in battle; on level up, the monster fully heals and increases its stat.
+- 🪤 **Taming**: after each victory, tame 1 defeated enemy.
+- 🛒 **Shop**: spend coins on potions, full restores, revives, battle boosters (_Enrage_, _Iron Skin_, _Haste_, _Enemy Debuff_), and +100 XP boosts; sell monsters for coins.
+- 🌊 **Endless waves**: permadeath runs with rising difficulty as waves grow.
 
 ## Credits
 
