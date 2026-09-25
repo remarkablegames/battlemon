@@ -1,6 +1,6 @@
 {
   "name": "battlemon",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Mark <mark@remarkablemark.org>",
   "scripts": {
     "build": "npm run clean && vite build",
