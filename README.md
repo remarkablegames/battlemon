@@ -17,9 +17,9 @@ Play in your browser:
 
 Or download for desktop:
 
-- [Windows](https://github.com/remarkablegames/battle-monster/releases/latest/download/windows.zip)
-- [macOS](https://github.com/remarkablegames/battle-monster/releases/latest/download/macos.zip)
-- [Linux](https://github.com/remarkablegames/battle-monster/releases/latest/download/linux.zip)
+- [Windows](https://github.com/remarkablegames/battlemon/releases/latest/download/windows.zip)
+- [macOS](https://github.com/remarkablegames/battlemon/releases/latest/download/macos.zip)
+- [Linux](https://github.com/remarkablegames/battlemon/releases/latest/download/linux.zip)
 
 Read the [blog post](https://remarkablegames.org/posts/battlemon/).
 
