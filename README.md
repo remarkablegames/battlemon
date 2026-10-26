@@ -11,8 +11,8 @@
 
 Play in your browser:
 
-- [itch.io](https://remarkablegames.itch.io/battlemon)
 - [Wavedash](https://wavedash.com/games/battlemon)
+- [itch.io](https://remarkablegames.itch.io/battlemon)
 - [remarkablegames](https://remarkablegames.org/battlemon/)
 
 Or download for desktop:
@@ -81,16 +81,6 @@ Install the dependencies:
 ```sh
 npm install
 ```
-
-## Environment Variables
-
-Update the environment variables:
-
-```sh
-cp .env .env.local
-```
-
-Update the **Secrets** in the repository **Settings**.
 
 ## Available Scripts
 

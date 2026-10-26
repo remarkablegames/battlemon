@@ -1,3 +1,4 @@
+import 'kaplay/global'
 import 'kaplay-plugin-text/global'
 
 import kaplay from 'kaplay'
